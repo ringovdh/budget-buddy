@@ -1,0 +1,88 @@
+.modal-header{
+  height: 100px;
+  color: #fff;
+  background: #7d97a5;
+  font-size: 14px;
+  line-height: 33px;
+  padding: 25px 15px;
+  border-radius: 0;
+}
+
+.modal-header-left {
+  float: left;
+  width: 75%;
+  padding-top: 25px;
+}
+
+.modal-header-left h3 {
+  margin-top: 0;
+}
+
+.modal-header-right {
+  float: left;
+  width: 25%;
+  padding-top: 5px;
+  font-size: 66px;
+  color: #ddd;
+  line-height: 100px;
+  text-align: right;
+}
+
+.modal-body .panel-body {
+  padding: 25px 25px 30px 25px;
+  background-color: #f5f7f8;
+  text-align: left;
+}
+.modal-body .panel-body .form-control {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 30px;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group .form-label {
+  margin-bottom: 5px;
+}
+
+.form-group .form-label-checkbox {
+  margin-bottom: 5px;
+  margin-left: 10px;
+}
+
+.modal-budget-footer {
+  height: 100px;
+  color: #fff;
+  background: #7d97a5;
+  font-size: 14px;
+  padding: 50px 10px 10px 20px;
+}
+
+.modal-budget-footer .btn{
+  color: #7d97a6;
+  background-color: #9ae9db;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 15px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 10px;
+  transition: all 0.3s ease 0s;
+  float: right;
+}
+
+.overview-card {
+  border-left: 8px solid #7d97a5;
+  background-color: #f1f4f5;
+  margin: 5px;
+}

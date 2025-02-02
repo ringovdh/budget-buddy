@@ -1,0 +1,44 @@
+<div class="graph-panel-heading">
+  <div class="row">
+    <div class="card-title text-center">
+      <h3>Grafieken</h3>
+    </div>
+  </div>
+</div>
+
+<div class="panel-body">
+  <div class="row">
+    <div class="col-6">
+      <div class="chart-container">
+        <div class="chart-panel-heading">
+          <div class="card-title text-center">
+            <h3>Totaal besteed bedrag per jaar</h3>
+          </div>
+        </div>
+        <canvas id="barChartAmountPerYear">{{ amountPerYearBarChart }}</canvas>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="chart-container">
+        <div class="chart-panel-heading">
+          <div class="card-title text-center">
+            <h3>Aantal transacties per jaar</h3>
+          </div>
+        </div>
+        <canvas id="barChartTxPerYear">{{ txPerYearBarChart }}</canvas>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="chart-container">
+        <div class="chart-panel-heading">
+          <div class="card-title text-center">
+            <h3>Totaal besteed bedrag per maand</h3>
+          </div>
+        </div>
+        <canvas id="lineChartBudgetPerCategory">{{ budgetPerCategorylineChart }}</canvas>
+      </div>
+    </div>
+  </div>
+</div>

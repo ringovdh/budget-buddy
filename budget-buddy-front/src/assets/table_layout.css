@@ -1,0 +1,54 @@
+.customTable {
+  width: 100%;
+}
+
+.customTable thead tr th{
+  color: #f5f7f8;
+  background: #303e45;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px;
+  border-bottom: none;
+}
+
+.customTable tbody tr td{
+  color: #555;
+  background: #f5f7f8;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 13px;
+  vertical-align: middle;
+}
+.customTable tbody tr:nth-child(odd) td {
+  background: #86959d;
+}
+
+.customTable ul > li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+#pagination {
+  color: #f5f7f8;
+  background: #7d97a5;
+  font-size: 15px;
+  line-height: 33px;
+  padding: 25px 15px;
+  border-radius: 0 0 8px 8px;
+}
+
+.pagination /deep/ .ngx-pagination .current {
+  padding: 0.1875rem 0.625rem;
+  background: #7d97a5;
+  color: #555 !important;
+  cursor: default;
+}
+
+.pagination /deep/ .ngx-pagination a:hover {
+  padding: 0.1875rem 0.625rem;
+  background: #7d97a5;
+  color: #555 !important;
+  cursor: default;
+}

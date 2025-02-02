@@ -1,0 +1,35 @@
+<div class="resume-container">
+  <div class="customPanel">
+    <div class="panel-heading">
+      <div class="card-title text-center" style="display: flex">
+        <div class="col-8">
+          <h3>Projecten</h3>
+        </div>
+        <div class="col-4 card-title-totaal-projecten">
+          <h3>(totaal: {{ totalProjects | number:'1.2-2':'be-BE' }} €)</h3>
+          </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="no-projects-container"
+           *ngIf="projectsData.length === 0">
+        <p>Er zijn geen projecten gerealiseerd.</p>
+      </div>
+      <div class="card project-data-card" *ngFor="let projectData of projectsData">
+        <div class="project-data-card-header">
+          <div class="project-data-card-header-title">{{ projectData.project.projectname }}</div>
+        </div>
+        <div class="project-data-card-body">
+          <div class="col-2 project-icon">
+            <i class="fa {{projectData.project.icon}}" ></i>
+          </div>
+          <div class="col-10">
+            <div class="project-resume-amount-item">Totaal:
+              <span class="badge project-resume-badge badge-pill">{{ projectData.total | number:'1.2-2':'be-BE' }} €</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

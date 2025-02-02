@@ -1,0 +1,74 @@
+<form [formGroup]="editProjectForm" (ngSubmit)="submit()">
+
+  <div class="modal-header">
+    <div class="modal-header-left">
+      <h3>Project bewerken</h3>
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="projectname">Projectnaam:</label>
+      <input
+        formControlName="projectname"
+        id="projectname"
+        type="text"
+        class="form-control">
+      <div *ngIf="f['projectname'].touched && f['projectname'].invalid" class="alert alert-danger">
+        <div *ngIf="f['projectname'].errors && f['projectname'].errors['required']">Project naam is verplicht.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="projectname">Omschrijving:</label>
+      <input
+        formControlName="description"
+        id="description"
+        type="text"
+        class="form-control">
+      <div *ngIf="f['description'].touched && f['description'].invalid" class="alert alert-danger">
+        <div *ngIf="f['description'].errors && f['description'].errors['required']">Omschrijving is verplicht.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="startdate">Startdatum project:</label>
+      <input
+        formControlName="startdate"
+        id="startdate"
+        type="date"
+        data-date-format="dd/mm/yyyy"
+        class="form-control">
+      <div *ngIf="f['startdate'].touched && f['startdate'].invalid" class="alert alert-danger">
+        <div *ngIf="f['startdate'].errors && f['startdate'].errors['required']">Startdatum is verplicht.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="enddate">Einddatum project:</label>
+      <input
+        formControlName="enddate"
+        id="enddate"
+        type="date"
+        data-date-format="dd/mm/yyyy"
+        class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="icon">Icoon:</label>
+      <input
+        formControlName="icon"
+        id="icon"
+        type="text"
+        class="form-control">
+      <div *ngIf="f['icon'].touched && f['icon'].invalid" class="alert alert-danger">
+        <div *ngIf="f['icon'].errors && f['icon'].errors['required']">Icoon is verplicht.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-budget-footer">
+    <button class="btn btn-sm btn-primary" type="submit" [disabled]="!editProjectForm.valid">
+      <i class="fa fa-plus-circle"></i> Bewaar project
+    </button>
+    <button class="btn btn-sm btn-primary" type="button" (click)="close()">
+      <i class="fa fa-times-circle"></i> Annuleren
+    </button>
+  </div>
+</form>

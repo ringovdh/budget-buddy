@@ -1,0 +1,11 @@
+<div class="form-group" role="group" [formGroup]="searchYearForm">
+  <select
+    class="form-select"
+    formControlName="year"
+    id="year">
+    <option value="" disabled selected>kies een jaar</option>
+    <option value="" selected>Alle jaren</option>
+    <option *ngFor="let year of years"
+            [ngValue]="year.value">{{ year.year }}</option>
+  </select>
+</div>

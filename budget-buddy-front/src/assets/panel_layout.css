@@ -1,0 +1,60 @@
+.customPanel {
+  border: solid 2px #7d97a5;
+  border-radius: 12px;
+  margin: 10px;
+}
+
+.customPanel .panel-heading {
+  background: #7d97a5;
+  color: #f5f7f8;
+  padding: 6px;
+  border-radius: 8px 8px 0 0;
+}
+
+.customPanel .panel-heading h3 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.customPanel .btn {
+  color: #7d97a6;
+  background-color: #9ae9db;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 15px;
+  border: none;
+  border-radius: 10px;
+  transition: all 0.3s ease 0s;
+}
+
+.panecustomPanellBudget .panel-heading .card-button {
+  float: right;
+}
+
+.customPanel .panel-heading .btn:hover {
+  box-shadow: 0 0 10px #3a4b53;
+}
+
+.customPanel .panel-body {
+  padding: 0;
+  border-radius: 0 0 8px 8px;
+}
+
+.errorPanel {
+  padding: 5px 10px 0 10px;
+}
+
+.custom-child-panel {
+  border: solid 1px #303e45;
+  border-radius: 6px;
+  margin: 5px;
+}
+
+.custom-child-panel .panel-heading {
+  background: #303e45;
+  color: #f5f7f8;
+  padding: 6px;
+  border-radius: 4px 4px 0 0;
+  height: 45px;
+  align-items: center;
+}

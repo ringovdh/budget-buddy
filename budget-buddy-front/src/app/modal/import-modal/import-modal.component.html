@@ -1,0 +1,31 @@
+<form [formGroup]="uploadForm"
+      (ngSubmit)="submit()">
+  <div class="import-modal-header">
+    <div class="modal-header-left">
+      <h3>Importeer PDF bestand</h3>
+    </div>
+  </div>
+  <div class="import-modal-body">
+    <fieldset>
+      <div class="form-group">
+        <label for="upload">Selecteer een bestand (PDF)</label>
+        <input
+          (change)="selectedPDFFile($event)"
+          name="upload"
+          id = "upload"
+          type="file"
+          class="form-control"
+          accept=".pdf">
+      </div>
+    </fieldset>
+  </div>
+  <div class="import-modal-footer">
+    <button class="btn uploadButton"
+            type="submit">
+      <i class="fa fa-plus-circle"></i> Transacties opladen
+    </button>
+    <button class="btn btn-sm btn-secondary" type="button" (click)="close()">
+      <i class="fa fa-times-circle"></i> Annuleren
+    </button>
+  </div>
+</form>

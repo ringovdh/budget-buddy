@@ -1,0 +1,22 @@
+.graph-panel-heading {
+  background: #303e45;
+  color: #f5f7f8;
+  padding: 6px;
+  height: 45px;
+  align-items: center;
+}
+
+.chart-panel-heading {
+  background: #7d97a5;
+  color: #f5f7f8;
+  border-radius: 5px 5px 0 0;
+  padding: 6px;
+  height: 45px;
+  align-items: center;
+}
+
+.chart-container {
+  border: 1px solid #303e45;
+  border-radius: 6px;
+  margin: 5px;
+}

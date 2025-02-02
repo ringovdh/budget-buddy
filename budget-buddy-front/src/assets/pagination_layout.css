@@ -1,0 +1,26 @@
+.pagination-right ul {
+  float: right;
+}
+
+.pagination {
+  --bs-pagination-bg: #7d97a5 !important;
+  --bs-pagination-border-color: #3a4b53 !important;
+  --bs-pagination-color: #f5f7f8 !important;
+  --bs-pagination-hover-color: #3a4b53 !important;
+  --bs-pagination-hover-bg: #9eb1bb !important;
+  --bs-pagination-hover-border-color: #3a4b53 !important;
+  --bs-pagination-disabled-border-color: #3a4b53 !important;
+  --bs-pagination-disabled-bg: #7d97a5 !important;
+  --bs-pagination-active-bg: #9eb1bb !important;
+  --bs-pagination-active-border-color: #3a4b53 !important;
+  --bs-pagination-active-color: #3a4b53 !important;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.pointer {
+  cursor: pointer;
+}

@@ -1,0 +1,102 @@
+<form [formGroup]="createTransactionForm" (ngSubmit)="submit()">
+  <div class="modal-header">
+    <div class="modal-header-left">
+      <h3>Transactie toevoegen</h3>
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="number">Nummer:</label>
+      <input
+        formControlName="number"
+        id="number"
+        type="text"
+        class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="date">Datum:</label>
+        <input
+          formControlName="date"
+          id="date"
+          type="date"
+          data-date-format="dd/mm/yyyy"
+          class="input-group-text">
+    </div>
+    <div class="form-group">
+      <label for="amount">Bedrag:</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <select
+            formControlName="sign"
+            id="sign"
+            class="form-select">
+            <option value="+">+</option>
+            <option value="-">-</option>
+          </select>
+        </div>
+        <input
+          formControlName="amount"
+          id="amount"
+          type="number"
+          class="form-control">
+        <span class="input-group-text">€</span>
+      </div>
+      <div *ngIf="f['amount'].touched && f['amount'].invalid" class="alert alert-danger">
+        <div *ngIf="f['amount'].errors && f['amount'].errors['required']">Bedrag is verplicht.</div>
+      </div>
+    </div>
+    <div *ngIf="transaction && !transaction.comment" class="form-group">
+      <label for="comment">Omschrijving:</label>
+      <div>
+        {{ transaction.originalComment}}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="comment">Omschrijving:</label>
+      <input
+        formControlName="comment"
+        id="comment"
+        type="text"
+        class="form-control">
+      <div *ngIf="f['comment'].touched && f['comment'].invalid" class="alert alert-danger">
+        <div *ngIf="f['comment'].errors && f['comment'].errors['required']">Omschrijving is verplicht.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="category" class="form-label">Categorie</label>
+      <select
+        formControlName="category"
+        [compareWith]="compareCategory"
+        id="category"
+        class="form-select">
+        <option value="0">-</option>
+        <option *ngFor="let cat of categories"
+                [ngValue]="cat">{{ cat.label }}</option>
+      </select>
+      <div *ngIf="f['category'].touched && f['category'].invalid" class="alert alert-danger">
+        <div *ngIf="f['category'].errors && f['category'].errors['required']">Categorie is verplicht.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="project" class="form-label">Project</label>
+      <select
+        formControlName="project"
+        [compareWith]="compareProject"
+        id="project"
+        class="form-select">
+        <option>-</option>
+        <option *ngFor="let proj of projects"
+                [ngValue]="proj">{{ proj.projectname }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-budget-footer">
+    <button class="btn btn-sm btn-primary" type="submit" [disabled]="!createTransactionForm.valid">
+      <i class="fa fa-plus-circle"></i> Bewaar transactie
+    </button>
+    <button class="btn btn-sm btn-primary" type="button" (click)="close()">
+      <i class="fa fa-times-circle"></i> Annuleren
+    </button>
+  </div>
+</form>

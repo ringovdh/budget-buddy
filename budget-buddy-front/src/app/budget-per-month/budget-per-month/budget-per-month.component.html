@@ -1,0 +1,30 @@
+<div class="customPanel">
+  <div class="panel-heading">
+    <div class="row">
+      <div class="col-6">
+        <div class="card-title text-center">
+          <h3>Budget per maand</h3>
+        </div>
+      </div>
+      <div class="col-6">
+        <form [formGroup]="searchForm" (ngSubmit)="submit()" style="display: flex">
+          <div class="form-group col-5">
+            <select
+              class="form-select"
+              formControlName="month"
+              id="month">
+              <option value="" disabled selected>kies een maand</option>
+              <option *ngFor="let month of months"
+                      [ngValue]="month.value">{{ month.name }}</option>
+            </select>
+          </div>
+          <div class="col-5">
+            <app-select-year formControlName="year"> </app-select-year>
+          </div>
+          <button class="btn" type="submit">Zoeken</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-overview [monthlyBudgetOverview]="monthlyBudgetOverview"></app-overview>
+</div>

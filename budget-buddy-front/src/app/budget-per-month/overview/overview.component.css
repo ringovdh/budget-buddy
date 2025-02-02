@@ -1,0 +1,47 @@
+.no-budget-overview {
+  margin: 5px;
+}
+
+.budget-tab {
+  font-size: 18px;
+  color: #9eb1bb !important;
+  margin-left: 5px;
+  margin-top: 2px;
+}
+
+.nav-tabs {
+  background-color:  #f1f4f5;
+  border-radius: 5px 5px 0 0;
+}
+
+.nav-tabs .nav-link {
+  background-color: #7d97a5;
+  color: #303e45 !important;
+  border-color: #303e45;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #303e45;
+  border: none;
+  color: #f1f4f5 !important;
+}
+
+.nav-tabs .nav-link:hover {
+  color: #f1f4f5 !important;
+}
+
+.resume-badge-total {
+  font-size: 12px;
+  background-color: #738FD4;
+  float: right;
+  color: #f1f4f5;
+}
+
+.resume-badge {
+  font-size: 12px;
+  background-color: #738FD4;
+  float: right;
+  color: #f1f4f5;
+}

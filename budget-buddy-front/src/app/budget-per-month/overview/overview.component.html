@@ -1,0 +1,87 @@
+<ng-container *ngIf="!showOverview">
+  <div class="no-budget-overview">
+    Selecteer eerst een maand en jaartal.
+  </div>
+</ng-container>
+<ng-container *ngIf="showOverview">
+  <div class="budgetOverview-resume">
+    <div class="custom-child-panel">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-12">
+            <div class="card-title text-center">
+              <h3> Overzicht {{month}} </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-8">
+                <div class="card resume-card">
+                  <div class="card-body">
+                    <app-resume [resumeData]= monthResumeData>
+                    </app-resume>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <app-project-resume [projectsData] = projectsData></app-project-resume>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <app-overview-graph [graphData]="graphData" >
+            </app-overview-graph>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-container>
+      <div class="custom-child-panel">
+        <nav>
+          <div class="nav nav-tabs " id="nav-tab" role="tablist">
+            <button class="nav-link active budget-tab" id="nav-index-tab" data-bs-toggle="tab" data-bs-target="#nav-index" type="button" role="tab" aria-controls="nav-index" aria-selected="true">Transacties</button>
+            <button class="nav-link budget-tab" id="nav-graphs-tab" data-bs-toggle="tab" data-bs-target="#nav-graphs" type="button" role="tab" aria-controls="nav-graphs" aria-selected="false">Grafiek</button>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-index" role="tabpanel" aria-labelledby="nav-index-tab">
+            <app-index [incomingBudget]="incomingBudget"
+                       [outgoingBudget]="outgoingBudget"
+                       [fixedOutgoingBudget]="fixedOutgoingBudget"
+                       [savings]="savings"></app-index>
+          </div>
+          <div class="tab-pane fade" id="nav-graphs" role="tabpanel" aria-labelledby="nav-graphs-tab">
+            <ng-container>
+              <div class="graph-panel-heading">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="card-title text-center">
+                      <h3>Grafieken</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-6">
+                    <app-fixed-cost-graph [fixedOutgoingBudget]="fixedOutgoingBudget"></app-fixed-cost-graph>
+                  </div>
+                  <div class="col-6">
+                    <app-other-cost-graph [outgoingBudget]="outgoingBudget"></app-other-cost-graph>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

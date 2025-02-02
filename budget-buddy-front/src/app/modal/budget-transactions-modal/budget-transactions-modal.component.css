@@ -1,0 +1,105 @@
+.budget-modal-header {
+  color: #fff;
+  background: #7d97a5;
+  font-size: 14px;
+  line-height: 33px;
+  height: 70px;
+  padding-left: 15px;
+  border-radius: 5px 5px 0 0;
+}
+
+.budget-modal-body {
+  padding: 25px 15px 25px 15px;
+  border-left: 5px solid #7d97a5;
+  border-right: 5px solid #7d97a5;
+}
+
+.budget-modal-footer {
+  height: 55px;
+  color: #fff;
+  background: #7d97a5;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 0 0 5px 5px;
+}
+
+.budget-modal-footer .btn {
+  color: #ccc;
+  background-color: #3a4b53;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 15px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 10px;
+  transition: all 0.3s ease 0s;
+  float: right;
+}
+
+.budget-overview-card {
+  border-left: 8px solid #7d97a5;
+  background-color: #f1f4f5;
+  margin: 5px;
+}
+.budgetOverview-date {
+  background-color: #7d97a5;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  width: 80%;
+  padding: 5px;
+  border: solid 1px #3a4b53;
+}
+.budgetOverview-label {
+  text-align: end;
+  color: #303e45;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.budgetOverview-amount {
+  text-align: end;
+  font-size: 12px;
+  color: #555555;
+}
+
+#edit_menu {
+  width: 30px;
+  height: 25px;
+  background-color: #7d97a5;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: .3s ease;
+  padding-left: 8px;
+  border-radius:  0 5px 0 0;
+  color: #f1f4f5;
+  font-size: 16px;
+}
+
+#edit_menu:hover {
+  width: 60px;
+  height: 100%;
+  padding-left: 8px;
+  border-radius: 0 5px 5px 0;
+}
+
+.edit_menu_links {
+  visibility: hidden;
+
+}
+
+#edit_menu:hover .edit_menu_links {
+  visibility: visible;
+  padding-left: 30px;
+  padding-top: 6px;
+  transition: visibility 0.6s ease;
+}
+
+.edit_menu_links a {
+  cursor: pointer;
+}
+
+.project-icon {
+  text-align: right;
+}

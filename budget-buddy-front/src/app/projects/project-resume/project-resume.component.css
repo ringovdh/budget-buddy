@@ -1,0 +1,54 @@
+.project-data-card {
+  border-left: 4px solid #7d97a5;
+  border-right: 4px solid #7d97a5;
+  border-top: 1px solid #7d97a5;
+  border-bottom: 1px solid #7d97a5;
+  background-color: #f1f4f5;
+  margin: 5px;
+  cursor: pointer;
+  display: inline-block;
+  width:30%;
+}
+
+.project-data-card-header {
+  background-color: #7d97a5;
+  font-size: 16px;
+  font-weight: bold;
+  color: #f1f4f5;
+}
+
+.project-data-card-header-title {
+  text-align: center;
+  padding: 5px 0 5px 0;
+}
+
+.project-data-card-body {
+  display: flex;
+}
+
+.project-icon {
+  font-size: 20px;
+  padding-left: 5px;
+}
+
+.card-title-totaal-projecten {
+  float: right;
+}
+
+.no-projects-container {
+  padding: 5px;
+}
+
+.project-resume-amount-item {
+    color: #303e45;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: transparent;
+    padding: 3px;
+    text-align: right;
+}
+.project-resume-badge {
+  font-size: 12px;
+  background-color: #738FD4;
+  color: #f1f4f5;
+}

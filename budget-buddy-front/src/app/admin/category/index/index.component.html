@@ -1,0 +1,110 @@
+<ng-container *ngIf="(categoryState$ | async) as state" [ngSwitch]="state.appState">
+  <div class="card my-2">
+    <ng-container *ngSwitchCase="'APP_ERROR'">
+      <div class="errorPanel">
+        <div class="alert alert-danger " role="alert">
+          <span>{{ state.error|json }}</span>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="customPanel">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-6">
+            <div class="card-title text-center">
+              <h3>Overzicht categorieën</h3>
+            </div>
+          </div>
+          <div class="col-4">
+            <form #searchForm="ngForm" (ngSubmit)="goToPage(searchForm.value.label)" class="d-flex" role="search">
+              <input class="form-control me2" type="search" name="label" ngModel placeholder="label" aria-label="search/">
+              <button class="btn" type="submit">Zoeken</button>
+            </form>
+          </div>
+          <div class="col-2">
+            <div class ="card-button">
+              <a (click)="createCategory()" class="btn"><i class="fa fa-plus-circle"></i> Toevoegen</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngSwitchCase="'APP_LOADING'">
+        <div class="d-flex justify-content-center mt-4 mb-4">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading ...</span>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="'APP_LOADED'">
+        <div class="panel-body table-responsive">
+          <table class="customTable table-bordered table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>Icon</th>
+                <th>Label</th>
+                <th>Vaste Kost</th>
+                <th>Opnemen in details</th>
+                <th>Opnemen in monitoring</th>
+                <th>Inkomst</th>
+                <th>Limietbedrag</th>
+                <th><i class="fa fa-pencil"></i></th>
+                <th><i class="fa fa-trash"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cat of state.appData.data.page.content">
+                <td><i class="fa {{cat.icon}}" ></i></td>
+                <td>{{ cat.label }}</td>
+                <td>
+                  <i [ngClass]="{'fa fa-check':cat.fixedcost === true}"></i>
+                </td>
+                <td>
+                  <i [ngClass]="{'fa fa-check':cat.indetails === true}"></i>
+                </td>
+                <td>
+                  <i [ngClass]="{'fa fa-check':cat.inmonitor === true}"></i>
+                </td>
+                <td>
+                  <i [ngClass]="{'fa fa-check':cat.revenue === true}"></i>
+                </td>
+                <td>{{ cat.limitamount }}€</td>
+                <td>
+                  <a (click)="editCategory(cat)"><i class="fa fa-pencil"></i></a>
+                </td>
+                <td>
+                  <a (click)="deleteCategory(cat.id)"><i class="fa fa-trash"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row" id="pagination">
+            <div class="col-sm-6 pagination-left">
+              toon <b>10</b> van de <b>{{ state.appData.data.page.totalElements }}</b> items
+            </div>
+            <div class="col-sm-6 pagination-right">
+              <ul class="pagination">
+                <li class="page-item pointer" [ngClass]="0 == (currentPage$ | async) ? 'disabled' : '' ">
+                  <a (click)="goToNextOrPreviousPage('backward', searchForm.value.label)" class="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Vorige</span>
+                  </a>
+                </li>
+                <li *ngFor="let pageNumber of [].constructor(state.appData.data.page.totalPages) let i = index"
+                    class="page-item pointer" [ngClass]="i == (currentPage$ | async) ? 'active' : '' ">
+                  <a (click)="goToPage(searchForm.value.label, i)" class="page-link"> {{ i + 1 }}</a>
+                </li>
+                <li class="page-item pointer" [ngClass]="state.appData.data.page.totalPages - 1 == (currentPage$ | async) ? 'disabled' : '' ">
+                  <a (click)="goToNextOrPreviousPage('forward', searchForm.value.label)" class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Volgende</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

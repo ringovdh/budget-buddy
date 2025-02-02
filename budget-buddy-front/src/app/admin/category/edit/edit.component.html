@@ -1,0 +1,97 @@
+<form [formGroup]="editCategoryForm" (ngSubmit)="submit()">
+
+  <div class="modal-header">
+    <div class="modal-header-left">
+      <h3>Categorie bewerken</h3>
+      <p>{{ category.label }}</p>
+    </div>
+    <div class="modal-header-right">
+      <i class="fa {{category.icon}}" ></i>
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="icon">Icoon:</label>
+      <input
+        formControlName="icon"
+        id="icon"
+        type="text"
+        class="form-control">
+      <div *ngIf="f['icon'].touched && f['icon'].invalid" class="alert alert-danger">
+        <div *ngIf="f['icon'].errors && f['icon'].errors['required']">Icoon is verplicht.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="label">Label:</label>
+      <input
+        formControlName="label"
+        id="label"
+        type="text"
+        class="form-control">
+      <div *ngIf="f['label'].touched && f['label'].invalid" class="alert alert-danger">
+        <div *ngIf="f['label'].errors && f['label'].errors['required']">Label is verplicht.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="fixedcost">Vaste kost: </label>
+      <input
+        formControlName="fixedcost"
+        id="fixedcost"
+        type="checkbox"
+        class="form-check-input">
+    </div>
+
+    <div class="form-group">
+      <label for="indetails">Opnemen in details: </label>
+      <input
+        formControlName="indetails"
+        id="indetails"
+        type="checkbox"
+        class="form-check-input">
+    </div>
+
+    <div class="form-group">
+      <label for="inmonitor">Opnemen in monitoring: </label>
+      <input
+        formControlName="inmonitor"
+        id="inmonitor"
+        type="checkbox"
+        class="form-check-input">
+    </div>
+
+    <div class="form-group">
+      <label for="revenue">Is inkomst: </label>
+      <input
+        formControlName="revenue"
+        id="revenue"
+        type="checkbox"
+        class="form-check-input">
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="limitamount">Limietbedrag:</label>
+      <div class="input-group mb-3">
+        <input
+          formControlName="limitamount"
+          id="limitamount"
+          type="number"
+          class="form-control col-md-8">
+        <div class="input-group-append col-md-2">
+          <span class="form-control">€</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-budget-footer">
+    <button class="btn btn-sm btn-primary" type="submit" [disabled]="!editCategoryForm.valid">
+      <i class="fa fa-plus-circle"></i> Bewaar categorie
+    </button>
+    <button class="btn btn-sm btn-primary" type="button" (click)="close()">
+      <i class="fa fa-times-circle"></i> Annuleren
+    </button>
+  </div>
+</form>

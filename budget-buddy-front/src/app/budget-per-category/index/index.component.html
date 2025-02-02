@@ -1,0 +1,13 @@
+<div class="card budget-card" *ngFor="let overview of budgetOverview">
+  <a (click)="openTransactionsModal(overview)">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="budgetOverview-label">{{ overview.year }} ({{ overview.transactions.length }})</div>
+          <div class="budgetOverview-amount">{{ overview.total | number:'1.2-2':'be-BE' }} €</div>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+

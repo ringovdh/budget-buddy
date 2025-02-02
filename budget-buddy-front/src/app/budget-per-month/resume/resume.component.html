@@ -1,0 +1,23 @@
+<div class="row no-gutters align-items-center">
+  <div class="col-8">
+    <div class="resume-amount-item">Inkomsten:
+      <span class="badge resume-badge badge-pill">{{ resumeData.totalIncoming | number:'1.2-2':'be-BE' }} €</span>
+    </div>
+    <div class="resume-amount-item">Vaste kost:
+      <span class="badge resume-badge badge-pill">{{ resumeData.totalFixedOutgoing | number:'1.2-2':'be-BE' }} €</span>
+    </div>
+    <div class="resume-amount-item">Uitgaven:
+      <span class="badge resume-badge badge-pill">{{ resumeData.totalOutgoing | number:'1.2-2':'be-BE' }} €</span>
+    </div>
+    <div class="resume-amount-item total">Rest:
+      <span class="badge resume-badge badge-pill">{{ resumeData.rest | number:'1.2-2':'be-BE' }} €</span>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="resume-saving-icon"
+         [ngStyle]="{'color': (resumeData.totalSavings >= 0) ? '#5eb59b' : '#d473aa'}">
+      <i class="fa fa-piggy-bank"></i>
+    </div>
+    <span class="badge resume-badge resume-badge-saving badge-pill">{{ resumeData.totalSavings | number:'1.2-2':'be-BE' }} €</span>
+  </div>
+</div>

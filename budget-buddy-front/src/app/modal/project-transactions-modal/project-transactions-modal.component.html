@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <div class="modal-header-left">
+    <h3>Transacties </h3>
+  </div>
+</div>
+<div class="modal-body">
+  <div class="card overview-card" *ngFor="let tx of project.transactions">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col-3 mr-2">
+          <div class="budgetOverview-date">{{ tx.date | date: 'dd-MM yyyy' }}</div>
+        </div>
+        <div class="col-9 mr-2">
+          <div class="budgetOverview-number">{{ tx.number }}</div>
+          <div class="budgetOverview-label">{{ tx.comment }}</div>
+          <div class="budgetOverview-amount"> {{ tx.sign }} {{ tx.amount | number:'1.2-2':'be-BE'}} €</div>
+        </div>
+        <div *ngIf="tx.project" class="project-icon">
+          <i class="fa {{ tx.project.icon }}"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-budget-footer">
+  <button class="btn btn-sm" type="button" (click)="close()">
+    <i class="fa fa-times-circle"></i> Sluiten
+  </button>
+</div>

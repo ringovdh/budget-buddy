@@ -1,0 +1,35 @@
+<ng-container *ngIf="newTransactions.length > 0">
+  <div class="budgetOverview-new-transactions">
+    <div class="custom-child-panel">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-12">
+            <div class="card-title text-center">
+              <h3>{{totalTransactions}} nieuwe transacties</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="new-transactions-horizontal-list row flex-row flex-nowrap">
+          <div class="card budget-overview-card" *ngFor="let tx of newTransactions">
+            <a (click)="openTransactionsModal(tx)">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col-3 mr-2">
+                    <div class="budgetOverview-date">{{ tx.date | date: 'dd-MM yyyy' }}</div>
+                  </div>
+                  <div class="col-9 mr-2">
+                    <div class="budgetOverview-number">{{ tx.number }}</div>
+                    <div class="budgetOverview-label">{{ tx.comment }}</div>
+                    <div class="budgetOverview-amount"> {{ tx.sign }} {{ tx.amount }} €</div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

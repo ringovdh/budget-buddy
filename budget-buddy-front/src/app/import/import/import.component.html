@@ -1,0 +1,39 @@
+<ng-container>
+  <div class="card my-2">
+    <div class="customPanel">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-8">
+            <div class="card-title text-center">
+              <h3>Voer nieuwe transacties in</h3>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="card-button">
+              <a (click)="createTransaction()" class="btn"><i class="fa fa-plus-circle"></i> Nieuwe transactie</a>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="card-button">
+              <a (click)="uploadPDF()" class="btn"><i class="fa fa-plus-circle"></i> pdf opladen</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div *ngIf="newTransactions.length === 0" class="no-transaction-panel">
+          Er zijn nog geen transacties
+        </div>
+        <div *ngIf="newTransactions.length > 0" class="new-transaction-panel">
+          <app-import-index
+            [newTransactions]="newTransactions"
+            (savedTransaction)="loadBudgetOverview($event)">
+          </app-import-index>
+        </div>
+        <div class="transaction-panel">
+          <app-overview [monthlyBudgetOverview]="monthlyBudgetOverview"></app-overview>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

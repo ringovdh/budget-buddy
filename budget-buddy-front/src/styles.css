@@ -1,0 +1,72 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+body {
+  background-color: #f5f7f8;
+  font-family: 'system-ui',-apple-system, sans-serif;
+  font-size: 12px;
+}
+
+.navbar {
+  background-color: #f5f7f8;
+  color: #303e45;
+}
+
+.navbar-brand {
+  margin: 0 10px 0 10px;
+  font-size: 36px;
+}
+
+.navbar-links ul.nav li a i {
+  font-size: 28px;
+}
+
+.navbar-links ul.nav li a span {
+  display: inline-block;
+  width: 100%;
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.navbar-links ul.nav li {
+  margin: 0 2px 0 2px;
+}
+
+.navbar-links ul.nav li a {
+  border-radius: 5px;
+}
+
+.navbar-links ul.nav li a:hover {
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.3);
+}
+
+.navbar .nav-link {
+  color: #738FD4;
+  text-decoration: none;
+  font-size: 16px;
+  text-align: center;
+  padding: 5px;
+}
+
+.nav-item a:hover {
+  color: #f5f7f8;
+}
+
+h3 {
+  font-size: 18px !important;
+  font-weight: bold;
+}
+
+.form-control {
+  font-size: 14px !important;
+}
+
+.form-select {
+  font-size: 14px !important;
+}
+
+.page-link {
+  font-size: 14px !important;
+}

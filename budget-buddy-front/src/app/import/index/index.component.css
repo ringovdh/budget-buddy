@@ -1,0 +1,32 @@
+.new-transactions-horizontal-list{
+  margin: 5px;
+  overflow-x: auto;
+}
+
+.budget-overview-card {
+  border-left: 8px solid #7d97a5;
+  background-color: #f1f4f5;
+  margin: 5px;
+  width: 425px;
+}
+.budgetOverview-date {
+  background-color: #7d97a5;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  width: 80%;
+  padding: 5px;
+  border: solid 1px #3a4b53;
+}
+.budgetOverview-label {
+  text-align: end;
+  color: #303e45;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.budgetOverview-amount {
+  text-align: end;
+  font-size: 12px;
+  color: #555555;
+}

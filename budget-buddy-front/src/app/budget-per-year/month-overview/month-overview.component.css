@@ -1,0 +1,26 @@
+.budget-card {
+  border-left: 4px solid #7d97a5;
+  border-right: 4px solid #7d97a5;
+  border-top: 1px solid #7d97a5;
+  border-bottom: 1px solid #7d97a5;
+  background-color: #f1f4f5;
+  margin: 5px;
+  cursor: pointer;
+  display: inline-block;
+  width:30%;
+}
+
+.budget-card-header {
+  background-color: #7d97a5;
+  font-size: 16px;
+  font-weight: bold;
+  color: #f1f4f5;
+}
+
+.budget-card-header-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #f1f4f5;
+  padding: 5px 0 5px 0;
+}

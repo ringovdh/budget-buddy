@@ -1,0 +1,24 @@
+<div class="customPanel">
+  <div class="panel-heading">
+    <div class="row">
+      <div class="col-6">
+        <div class="card-title text-center">
+          <h3 > {{title}} </h3>
+        </div>
+      </div>
+      <div class="col-6">
+        <form [formGroup]="searchForm" (ngSubmit)="submit()" style="display: flex">
+          <div class="col-5">
+            <app-select-year formControlName="year"> </app-select-year>
+          </div>
+          <button class="btn" type="submit">Zoeken</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <app-year-overview [yearlyBudgetOverview] = yearlyBudgetOverview
+                       [year] = year >
+    </app-year-overview>
+  </div>
+</div>

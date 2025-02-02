@@ -1,0 +1,26 @@
+<div class="no-budget-overview" *ngIf="budgetOverview.length === 0">
+  Selecteer eerst een categorie en/of jaartal.
+</div>
+
+  <div class="budgetOverview-resume" *ngIf="budgetOverview.length > 0">
+    <div class="custom-child-panel">
+    </div>
+    <ng-container>
+      <div class="custom-child-panel">
+        <nav>
+          <div class="nav nav-tabs " id="nav-tab" role="tablist">
+            <button class="nav-link active budget-tab" id="nav-index-tab" data-bs-toggle="tab" data-bs-target="#nav-index" type="button" role="tab" aria-controls="nav-index" aria-selected="true">Transacties</button>
+            <button class="nav-link budget-tab" id="nav-graphs-tab" data-bs-toggle="tab" data-bs-target="#nav-graphs" type="button" role="tab" aria-controls="nav-graphs" aria-selected="false">Grafiek</button>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-index" role="tabpanel" aria-labelledby="nav-index-tab">
+            <app-index [budgetOverview] = budgetOverview></app-index>
+          </div>
+          <div class="tab-pane fade" id="nav-graphs" role="tabpanel" aria-labelledby="nav-graphs-tab">
+            <app-graphs [budgetOverview] = budgetOverview></app-graphs>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>

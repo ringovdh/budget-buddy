@@ -1,0 +1,29 @@
+<form [formGroup]="createProjectForm" (ngSubmit)="submit()">
+
+  <div class="modal-header">
+    <div class="modal-header-left">
+      <h3>Project toevoegen</h3>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="projectname">Projectnaam:</label>
+      <input
+        formControlName="projectname"
+        id="projectname"
+        type="text"
+        class="form-control">
+      <div *ngIf="f['projectname'].touched && f['projectname'].invalid" class="alert alert-danger">
+        <div *ngIf="f['projectname'].errors && f['projectname'].errors['required']">Projectnaam is verplicht.</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-budget-footer">
+    <button class="btn btn-sm btn-primary" type="submit" [disabled]="!createProjectForm.valid">
+      <i class="fa fa-plus-circle"></i> Bewaar project
+    </button>
+    <button class="btn btn-sm btn-primary" type="button" (click)="close()">
+      <i class="fa fa-times-circle"></i> Annuleren
+    </button>
+  </div>
+</form>

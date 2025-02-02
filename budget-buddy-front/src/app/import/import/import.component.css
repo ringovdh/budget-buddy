@@ -1,0 +1,14 @@
+.import-panel {
+  padding: 5px;
+}
+
+.import-panel label {
+  padding-bottom: 5px;
+}
+
+.import-panel .uploadButton {
+  margin-top: 10px;
+}
+.no-transaction-panel {
+  padding: 10px;
+}

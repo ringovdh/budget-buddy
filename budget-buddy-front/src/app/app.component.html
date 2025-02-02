@@ -1,0 +1,85 @@
+<nav class="navbar navbar-inverse navbar-fixed-top navbar-no-bg">
+  <div class="container">
+    <div class="navbar-header" style="width: 20%">
+      <a class="navbar-brand h1" href="http://localhost:4200">
+        <img src="assets/logo.png" style="width: 155%">
+      </a>
+    </div>
+    <div class="navbar-links">
+      <ul class="nav">
+        <li>
+          <a class="nav-link" routerLink="'/savings'">
+            <i class="fa fa-piggy-bank"></i>
+            <span>Spaarpot</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" routerLink="/projects/overview">
+            <i class="fa fa-hard-hat"></i>
+            <span>Projecten</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" id="BudgetDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-coins"></i>
+            <span>Budget</span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="configuratieDropdown">
+            <li>
+              <a class="dropdown-item d-flex" routerLink="/budget/budget">
+                <div class="dropdown-icon"><i class="fa fa-calendar-week"></i></div>
+                Maand overzicht
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex" routerLink="/transaction/category">
+                <div class="dropdown-icon"><i class="fa fa-layer-group"></i></div>
+                Categorie overzicht
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex" routerLink="/transaction/year">
+                <div class="dropdown-icon"><i class="fa fa-calendar-day"></i></div>
+                Jaar overzicht
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="nav-link" routerLink="/import/import">
+            <i class="fa fa-file-upload"></i>
+            <span>Invoer</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" id="configuratieDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-tools"></i>
+            <span>Configuratie</span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="configuratieDropdown">
+            <li>
+              <a class="dropdown-item d-flex" routerLink="/category/index">
+                <div class="dropdown-icon"><i class="fa fa-layer-group"></i></div>
+                Categorieën
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex" routerLink="/comment/index">
+                <div class="dropdown-icon"><i class="fa fa-comments"></i></div>
+                Commentaar
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex" routerLink="/project/index">
+                <div class="dropdown-icon"><i class="fa fa-hard-hat"></i></div>
+                Projecten
+              </a>
+            </li>
+          </ul>
+      </ul>
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>
+
+

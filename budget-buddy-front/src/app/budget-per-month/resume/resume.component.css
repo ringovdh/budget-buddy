@@ -1,0 +1,31 @@
+.resume-amount-item {
+  color: #303e45;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: transparent;
+  padding: 2px;
+  text-align: left;
+}
+
+.total {
+  border-top: 2px solid #303e45;
+}
+
+.resume-badge {
+  font-size: 12px;
+  background-color: #738FD4;
+  float: right;
+  color: #f1f4f5;
+}
+
+.resume-badge-saving {
+  float: none;
+  display: flex;
+}
+
+.resume-saving-icon {
+  text-align: center;
+  font-size: 20px;
+}
+
+
