@@ -10,6 +10,9 @@ budget-buddy-front/.angular
 npm-debug.log
 yarn-error.log
 
+# budget-buddy-back
+budget-buddy-back/target/
+
 # IDEs and editors
 .idea/
 .project
