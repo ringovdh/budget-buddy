@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/categories")
 public class CategoryControllerImpl implements CategoryController {
 
 	
@@ -32,19 +33,19 @@ public class CategoryControllerImpl implements CategoryController {
 
     
     @Override
-    @GetMapping("/categories/")
+    @GetMapping("/")
     public List<Category> getCategories() {
         return categoryService.getCategories();
     }
 
     @Override
-    @GetMapping("/categories/{category_id}")
+    @GetMapping("/{category_id}")
     public Optional<Category> getCategoryById(@PathVariable("category_id") long category_id) {
         return categoryService.getCategoryById(category_id);
     }
 
     @Override
-    @GetMapping(produces = "application/json", path="/categories/label")
+    @GetMapping(produces = "application/json", path="/label")
     public ResponseEntity<CustomResponse> getCategoryBySearchterm(@RequestParam Optional<String> label,
                                                                  @RequestParam Optional<Integer> page,
                                                                  @RequestParam Optional<Integer> size) {
@@ -60,7 +61,7 @@ public class CategoryControllerImpl implements CategoryController {
     }
 
     @Override
-    @PostMapping("/categories/")
+    @PostMapping("/")
     public ResponseEntity<Void> saveCategory(@RequestBody Category category) {
         Category new_category = categoryService.saveCategory(category);
 
@@ -68,13 +69,13 @@ public class CategoryControllerImpl implements CategoryController {
     }
 
     @Override
-    @PutMapping("/categories/{category_id}")
+    @PutMapping("/{category_id}")
     public Category updateCategory(@PathVariable("category_id")Long categoryId, @RequestBody Category category) {
         return categoryService.updateCategory(categoryId, category);
     }
     
     @Override
-    @DeleteMapping("categories/{category_id}")
+    @DeleteMapping("/{category_id}")
     public void deleteCategory(@PathVariable("category_id") long category_id) {
         categoryService.deleteCategory(category_id);
     }

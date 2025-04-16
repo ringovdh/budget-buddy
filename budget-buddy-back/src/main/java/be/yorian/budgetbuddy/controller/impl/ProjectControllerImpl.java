@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/projects")
 public class ProjectControllerImpl implements ProjectController {
 
     private final ProjectService projectService;
@@ -34,7 +36,7 @@ public class ProjectControllerImpl implements ProjectController {
     }
 
     @Override
-    @GetMapping("/projects/projectname")
+    @GetMapping("/projectname")
     public ResponseEntity<CustomResponse> getProjectByProjectname(@RequestParam Optional<String> projectname,
                                                                   @RequestParam Optional<Integer> page,
                                                                   @RequestParam Optional<Integer> size) {
@@ -50,32 +52,32 @@ public class ProjectControllerImpl implements ProjectController {
     }
 
     @Override
-    @GetMapping("/projects/")
+    @GetMapping("/")
     public List<Project> getProjects() {
         return projectService.getProjects();
     }
 
     @Override
-    @GetMapping("/projects/overview")
+    @GetMapping("/overview")
     public List<ProjectOverview> getProjectOverview() {
         return projectService.getProjectOverview();
     }
     
     @Override
-    @PostMapping("/projects/")
+    @PostMapping("/")
     public void createProject(@RequestBody Project project) {
         projectService.saveProject(project);
     }
 
     @Override
-    @PutMapping("/projects/{project_id}")
+    @PutMapping("/{project_id}")
     public void updateProject(@PathVariable("project_id")Long projectId,
                               @RequestBody Project project) {
         projectService.updateProject(projectId, project);
     }
 
     @Override
-    @DeleteMapping("/projects/{project_id}")
+    @DeleteMapping("/{project_id}")
     public void deleteProject(@PathVariable("project_id")Long projectId) {
         projectService.deleteProject(projectId);
     }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +24,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/comments")
 public class CommentControllerImpl implements CommentController {
 
     private final CommentService commentService;
@@ -33,13 +35,13 @@ public class CommentControllerImpl implements CommentController {
     }
 
     @Override
-    @GetMapping("/comments/")
+    @GetMapping("/")
     public List<Comment> getComments() {
         return commentService.getComments();
     }
 
     @Override
-    @GetMapping(produces = "application/json", path="/comments/searchterm")
+    @GetMapping(produces = "application/json", path="/searchterm")
     public ResponseEntity<CustomResponse> getCommentBySearchterm(@RequestParam Optional<String> searchterm,
                                                                  @RequestParam Optional<Integer> page,
                                                                  @RequestParam Optional<Integer> size) {
@@ -55,26 +57,26 @@ public class CommentControllerImpl implements CommentController {
     }
 
     @Override
-    @GetMapping("/comments/{comment_id}")
+    @GetMapping("/{comment_id}")
     public Optional<Comment> getCommentById(@PathVariable("comment_id") Long commentId) {
     	return commentService.getCommentById(commentId);
     }
 
     @Override
-    @PutMapping("/comments/{comment_id}")
+    @PutMapping("/{comment_id}")
     public void updateComment(@PathVariable("comment_id")Long commentId,
                               @RequestBody Comment comment) {
         commentService.updateComment(commentId, comment);
     }
 
     @Override
-    @PostMapping("/comments/")
+    @PostMapping("/")
     public void createComment(@RequestBody Comment comment) {
         commentService.saveComment(comment);
     }
     
     @Override
-    @DeleteMapping("/comments/{comment_id}")
+    @DeleteMapping("/{comment_id}")
 	public void deleteComment(@PathVariable("comment_id")Long commentId) {
         commentService.deleteComment(commentId);
 	}
