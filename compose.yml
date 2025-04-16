@@ -1,0 +1,42 @@
+services:
+  budgetbuddy_db:
+    image: mysql:8.0
+    container_name: budgetbuddy_db
+    restart: always
+    environment:
+      - MYSQL_DATABASE=myBudget
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./budget_data:/var/lib/mysql
+    networks:
+      - budgetbuddy
+
+  budgetbuddy_backend:
+    container_name: budgetbuddy_backend
+    build:
+      context: ./budget-buddy-back
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - budgetbuddy
+
+  budgetbuddy_frontend:
+    container_name: budgetbuddy_frontend
+    build:
+      context: ./budget-buddy-front
+      dockerfile: Dockerfile
+    ports:
+      - 4200:80
+    networks:
+      - budgetbuddy
+
+volumes:
+  pg:
+    driver: local
+networks:
+  budgetbuddy:
+    name: budgetbuddy_network

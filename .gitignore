@@ -13,8 +13,10 @@ yarn-error.log
 # budget-buddy-back
 budget-buddy-back/target/
 
+budget_data/*
+
 # IDEs and editors
-.idea/
+.idea
 .project
 .classpath
 .c9/
