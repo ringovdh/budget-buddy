@@ -18,22 +18,22 @@ import static org.springframework.data.domain.PageRequest.of;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-    
-    
+
+
     @Autowired
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
-    	this.categoryRepository = categoryRepository;
-	}
+        this.categoryRepository = categoryRepository;
+    }
 
     @Override
     public List<Category> getCategories() {
-		return categoryRepository.findAll(sortByLabel());
-	}
-    
+        return categoryRepository.findAll(sortByLabel());
+    }
+
     @Override
-	public Optional<Category> getCategoryById(long category_id) {
-		return categoryRepository.findById(category_id);
-	}
+    public Optional<Category> getCategoryById(long category_id) {
+        return categoryRepository.findById(category_id);
+    }
 
     @Override
     public Page<Category> getCategoriesByLabel(String label, int page, int size) {
@@ -41,35 +41,33 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-	public Category saveCategory(Category category) {
+    public Category saveCategory(Category category) {
         return categoryRepository.save(category);
-	}
-
-	@Override
-    public Category updateCategory(Long categoryId, Category category) {
-        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
-		if (optionalCategory.isEmpty()) {
-            throw new EntityNotFoundException("category_not_found");
-        } else {
-            Category existingCategory = optionalCategory.get();
-            existingCategory.setIcon(category.getIcon());
-            existingCategory.setLabel(category.getLabel());
-            existingCategory.setFixedcost(category.isFixedcost());
-            existingCategory.setIndetails(category.isIndetails());
-            existingCategory.setInmonitor(category.isInmonitor());
-            existingCategory.setLimitamount(category.getLimitamount());
-            existingCategory.setRevenue(category.isRevenue());
-            return categoryRepository.save(existingCategory);
-        }
     }
 
-	@Override
-	public void deleteCategory(long category_id) {
-		categoryRepository.deleteById(category_id);
-	}
+    @Override
+    public Category updateCategory(Long categoryId, Category updatedCategory) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new EntityNotFoundException("category_not_found"));
 
-	private Sort sortByLabel() {
+        category.setIcon(updatedCategory.getIcon());
+        category.setLabel(updatedCategory.getLabel());
+        category.setFixedcost(updatedCategory.isFixedcost());
+        category.setIndetails(updatedCategory.isIndetails());
+        category.setInmonitor(updatedCategory.isInmonitor());
+        category.setLimitamount(updatedCategory.getLimitamount());
+        category.setRevenue(updatedCategory.isRevenue());
+
+        return categoryRepository.save(category);
+    }
+
+    @Override
+    public void deleteCategory(long category_id) {
+        categoryRepository.deleteById(category_id);
+    }
+
+    private Sort sortByLabel() {
         return Sort.by("label").ascending();
-    }	
-	
+    }
+
 }

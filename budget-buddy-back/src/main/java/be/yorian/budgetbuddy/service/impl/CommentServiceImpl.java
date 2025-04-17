@@ -45,16 +45,14 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void updateComment(Long commentId, Comment updatedComment) {
-		Optional<Comment> optionalComment = commentRepository.findById(commentId);
-		if (optionalComment.isEmpty()) {
-			throw new EntityNotFoundException("comment_not_found");
-		} else {
-			Comment comment = optionalComment.get();
-			comment.setSearchterm(updatedComment.getSearchterm());
-			comment.setReplacement(updatedComment.getReplacement());
-			comment.setCategory(updatedComment.getCategory());
-			commentRepository.save(comment);
-		}
+		Comment comment = commentRepository.findById(commentId)
+				.orElseThrow(() -> new EntityNotFoundException("comment_not_found"));
+
+		comment.setSearchterm(updatedComment.getSearchterm());
+		comment.setReplacement(updatedComment.getReplacement());
+		comment.setCategory(updatedComment.getCategory());
+
+		commentRepository.save(comment);
 	}
 
 	@Override

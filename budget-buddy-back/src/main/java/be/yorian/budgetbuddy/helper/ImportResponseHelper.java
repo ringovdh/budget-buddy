@@ -6,6 +6,7 @@ import be.yorian.budgetbuddy.entity.Comment;
 import be.yorian.budgetbuddy.entity.Transaction;
 import be.yorian.budgetbuddy.repository.CommentRepository;
 import be.yorian.budgetbuddy.repository.TransactionRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -13,12 +14,13 @@ import java.util.List;
 
 import static java.util.stream.Collectors.groupingBy;
 
+@Component
 public class ImportResponseHelper {
 
     private final TransactionRepository transactionRepository;
     private final CommentRepository commentRepository;
     private final List<Comment> comments = new ArrayList<>();
-    private final List<Transaction> transactions;
+    private List<Transaction> transactions;
     private final ImportTransactionsResponse response;
     private final List<Transaction> newTransactions = new ArrayList<>();
     private final List<Transaction> existingTransactions = new ArrayList<>();
@@ -46,13 +48,11 @@ public class ImportResponseHelper {
     }
 
     private void filterNewTransactions() {
-        transactions.forEach(tx -> {
-            transactionRepository.findByDateAndNumber(tx.getDate(), tx.getNumber())
-                    .ifPresentOrElse(
-                            existingTransactions::add,
-                            () -> handleNewTransaction(tx)
-                    );
-        });
+        transactions.forEach(tx -> transactionRepository.findByDateAndNumber(tx.getDate(), tx.getNumber())
+                .ifPresentOrElse(
+                        existingTransactions::add,
+                        () -> handleNewTransaction(tx)
+                ));
 
         newTransactions.sort(Comparator.comparing(Transaction::getDate));
 
@@ -85,4 +85,7 @@ public class ImportResponseHelper {
         });
     }
 
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
 }

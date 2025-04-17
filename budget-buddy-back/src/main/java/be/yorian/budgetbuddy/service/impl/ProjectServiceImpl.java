@@ -55,6 +55,7 @@ public class ProjectServiceImpl implements ProjectService {
     public void updateProject(Long projectId, Project updatedProject) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new EntityNotFoundException("project_not_found"));
+
         project.setProjectname(updatedProject.getProjectname());
         project.setDescription(updatedProject.getDescription());
         project.setStartdate(updatedProject.getStartdate());
