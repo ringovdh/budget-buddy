@@ -14,10 +14,9 @@ import { ProjectOverview } from 'src/app/entity/ProjectOverview';
 })
 export class IndexComponent implements OnInit {
 
-  projects: ProjectOverview[] = []
-  size: number = 0
+  projects: ProjectOverview[] = [];
 
-  constructor(public projectService: ProjectService,
+  constructor(private projectService: ProjectService,
               private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -25,10 +24,10 @@ export class IndexComponent implements OnInit {
   }
 
   loadProjects() {
-    this.projectService.getProjectOverview().subscribe((data) => {
-      this.projects = data;
-      this.size = this.projects.length
-    });
+    this.projectService.getProjectOverview()
+        .subscribe((data) => {
+          this.projects = data;
+        });
   }
 
   openTransactionsModal(project: ProjectOverview) {

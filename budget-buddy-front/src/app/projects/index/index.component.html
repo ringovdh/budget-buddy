@@ -1,47 +1,48 @@
 <ng-container>
   <div>
-    <div class="card project-card" *ngFor="let project of projects">
-      <a (click)="openTransactionsModal(project)">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div class="row">
-                <div class="projectOverview-label">
-                  {{ project.project.projectname }}
+    @for (project of projects; track project) {
+      <div class="card project-card">
+        <a (click)="openTransactionsModal(project)">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="row">
+                  <div class="projectOverview-label">
+                    {{ project.project.projectname }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="projectOverview-description">
+                      {{ project.project.description }}
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="projectOverview-description">
+                      {{ project.project.startdate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="projectOverview-description">
+                      {{ project.transactions.length }} transacties
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="projectOverview-description">
+                      totaal {{ project.projectTotal | number:'1.2-2':'be-BE'}} €
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <div class="row">
-                <div class="col">
-                  <div class="projectOverview-description">
-                    {{ project.project.description }}
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="projectOverview-description">
-                    {{ project.project.startdate }}
-                  </div>
-                </div>
+              <div class="col-auto projectOverview-icon">
+                <i class="fa {{ project.project.icon }}"></i>
               </div>
-              <div class="row">
-                <div class="col">
-                  <div class="projectOverview-description">
-                    {{ project.transactions.length }} transacties
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="projectOverview-description">
-                    totaal {{ project.projectTotal | number:'1.2-2':'be-BE'}} €
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-auto projectOverview-icon">
-              <i class="fa {{ project.project.icon }}"></i>
             </div>
           </div>
-        </div>
         </a>
-    </div>
+      </div>
+    }
   </div>
 </ng-container>

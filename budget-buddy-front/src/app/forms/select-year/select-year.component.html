@@ -5,7 +5,9 @@
     id="year">
     <option value="" disabled selected>kies een jaar</option>
     <option value="" selected>Alle jaren</option>
-    <option *ngFor="let year of years"
-            [ngValue]="year.value">{{ year.year }}</option>
+    @for (year of years; track year) {
+      <option
+      [ngValue]="year.value">{{ year.year }}</option>
+    }
   </select>
 </div>

@@ -1,8 +1,11 @@
-<div class="no-budget-overview" *ngIf="budgetOverview.length === 0">
-  Selecteer eerst een categorie en/of jaartal.
-</div>
+@if (budgetOverview.length === 0) {
+  <div class="no-budget-overview">
+    Selecteer eerst een categorie en/of jaartal.
+  </div>
+}
 
-  <div class="budgetOverview-resume" *ngIf="budgetOverview.length > 0">
+@if (budgetOverview.length > 0) {
+  <div class="budgetOverview-resume">
     <div class="custom-child-panel">
     </div>
     <ng-container>
@@ -24,3 +27,4 @@
       </div>
     </ng-container>
   </div>
+}

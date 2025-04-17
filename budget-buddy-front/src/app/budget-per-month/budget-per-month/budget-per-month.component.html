@@ -14,8 +14,10 @@
               formControlName="month"
               id="month">
               <option value="" disabled selected>kies een maand</option>
-              <option *ngFor="let month of months"
-                      [ngValue]="month.value">{{ month.name }}</option>
+              @for (month of months; track month) {
+                <option
+                [ngValue]="month.value">{{ month.name }}</option>
+              }
             </select>
           </div>
           <div class="col-5">

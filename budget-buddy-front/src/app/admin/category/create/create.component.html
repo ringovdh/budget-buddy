@@ -1,6 +1,6 @@
 <form [formGroup]="createCategoryForm" (ngSubmit)="submit()">
 
-<div class="modal-header">
+  <div class="modal-header">
     <div class="modal-header-left">
       <h3>Categorie toevoegen</h3>
     </div>
@@ -14,9 +14,13 @@
         id="icon"
         type="text"
         class="form-control">
-      <div *ngIf="f['icon'].touched && f['icon'].invalid" class="alert alert-danger">
-        <div *ngIf="f['icon'].errors && f['icon'].errors['required']">Icoon is verplicht.</div>
-      </div>
+      @if (f['icon'].touched && f['icon'].invalid) {
+        <div class="alert alert-danger">
+          @if (f['icon'].errors && f['icon'].errors['required']) {
+            <div>Icoon is verplicht.</div>
+          }
+        </div>
+      }
     </div>
 
     <div class="form-group">
@@ -26,9 +30,13 @@
         id="label"
         type="text"
         class="form-control">
-      <div *ngIf="f['label'].touched && f['label'].invalid" class="alert alert-danger">
-        <div *ngIf="f['label'].errors && f['label'].errors['required']">Label is verplicht.</div>
-      </div>
+      @if (f['label'].touched && f['label'].invalid) {
+        <div class="alert alert-danger">
+          @if (f['label'].errors && f['label'].errors['required']) {
+            <div>Label is verplicht.</div>
+          }
+        </div>
+      }
     </div>
 
     <div class="form-group">

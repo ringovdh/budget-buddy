@@ -14,9 +14,13 @@
         id="projectname"
         type="text"
         class="form-control">
-      <div *ngIf="f['projectname'].touched && f['projectname'].invalid" class="alert alert-danger">
-        <div *ngIf="f['projectname'].errors && f['projectname'].errors['required']">Project naam is verplicht.</div>
-      </div>
+      @if (f['projectname'].touched && f['projectname'].invalid) {
+        <div class="alert alert-danger">
+          @if (f['projectname'].errors && f['projectname'].errors['required']) {
+            <div>Project naam is verplicht.</div>
+          }
+        </div>
+      }
     </div>
     <div class="form-group">
       <label for="projectname">Omschrijving:</label>
@@ -25,9 +29,13 @@
         id="description"
         type="text"
         class="form-control">
-      <div *ngIf="f['description'].touched && f['description'].invalid" class="alert alert-danger">
-        <div *ngIf="f['description'].errors && f['description'].errors['required']">Omschrijving is verplicht.</div>
-      </div>
+      @if (f['description'].touched && f['description'].invalid) {
+        <div class="alert alert-danger">
+          @if (f['description'].errors && f['description'].errors['required']) {
+            <div>Omschrijving is verplicht.</div>
+          }
+        </div>
+      }
     </div>
     <div class="form-group">
       <label for="startdate">Startdatum project:</label>
@@ -37,9 +45,13 @@
         type="date"
         data-date-format="dd/mm/yyyy"
         class="form-control">
-      <div *ngIf="f['startdate'].touched && f['startdate'].invalid" class="alert alert-danger">
-        <div *ngIf="f['startdate'].errors && f['startdate'].errors['required']">Startdatum is verplicht.</div>
-      </div>
+      @if (f['startdate'].touched && f['startdate'].invalid) {
+        <div class="alert alert-danger">
+          @if (f['startdate'].errors && f['startdate'].errors['required']) {
+            <div>Startdatum is verplicht.</div>
+          }
+        </div>
+      }
     </div>
     <div class="form-group">
       <label for="enddate">Einddatum project:</label>
@@ -57,9 +69,13 @@
         id="icon"
         type="text"
         class="form-control">
-      <div *ngIf="f['icon'].touched && f['icon'].invalid" class="alert alert-danger">
-        <div *ngIf="f['icon'].errors && f['icon'].errors['required']">Icoon is verplicht.</div>
-      </div>
+      @if (f['icon'].touched && f['icon'].invalid) {
+        <div class="alert alert-danger">
+          @if (f['icon'].errors && f['icon'].errors['required']) {
+            <div>Icoon is verplicht.</div>
+          }
+        </div>
+      }
     </div>
   </div>
 

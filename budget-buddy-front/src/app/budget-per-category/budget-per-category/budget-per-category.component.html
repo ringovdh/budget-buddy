@@ -14,8 +14,10 @@
               formControlName="category"
               id="category">
               <option value="" disabled selected>kies een categorie</option>
-              <option *ngFor="let cat of categories"
-                      [ngValue]="cat.id">{{ cat.label }}</option>
+              @for (cat of categories; track cat) {
+                <option
+                [ngValue]="cat.id">{{ cat.label }}</option>
+              }
             </select>
           </div>
           <div class="col-5">

@@ -13,9 +13,13 @@
         id="projectname"
         type="text"
         class="form-control">
-      <div *ngIf="f['projectname'].touched && f['projectname'].invalid" class="alert alert-danger">
-        <div *ngIf="f['projectname'].errors && f['projectname'].errors['required']">Projectnaam is verplicht.</div>
-      </div>
+      @if (f['projectname'].touched && f['projectname'].invalid) {
+        <div class="alert alert-danger">
+          @if (f['projectname'].errors && f['projectname'].errors['required']) {
+            <div>Projectnaam is verplicht.</div>
+          }
+        </div>
+      }
     </div>
   </div>
   <div class="modal-budget-footer">

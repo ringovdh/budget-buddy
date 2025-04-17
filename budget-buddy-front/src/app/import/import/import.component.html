@@ -21,15 +21,19 @@
         </div>
       </div>
       <div class="panel-body">
-        <div *ngIf="newTransactions.length === 0" class="no-transaction-panel">
-          Er zijn nog geen transacties
-        </div>
-        <div *ngIf="newTransactions.length > 0" class="new-transaction-panel">
-          <app-import-index
-            [newTransactions]="newTransactions"
-            (savedTransaction)="loadBudgetOverview($event)">
-          </app-import-index>
-        </div>
+        @if (newTransactions.length === 0) {
+          <div class="no-transaction-panel">
+            Er zijn nog geen transacties
+          </div>
+        }
+        @if (newTransactions.length > 0) {
+          <div class="new-transaction-panel">
+            <app-import-index
+              [newTransactions]="newTransactions"
+              (savedTransaction)="loadBudgetOverview($event)">
+            </app-import-index>
+          </div>
+        }
         <div class="transaction-panel">
           <app-overview [monthlyBudgetOverview]="monthlyBudgetOverview"></app-overview>
         </div>

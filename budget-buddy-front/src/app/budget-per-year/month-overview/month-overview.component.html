@@ -1,8 +1,10 @@
-<div class="card budget-card" *ngFor="let overview of monthOverviews">
+@for (overview of monthOverviews; track overview) {
+  <div class="card budget-card">
     <div class="budget-card-header">
       <div class="budget-card-header-title">{{ overview.month }}</div>
     </div>
     <div class="card-body">
       <app-resume [resumeData]= overview.resumeData></app-resume>
     </div>
-</div>
+  </div>
+}
