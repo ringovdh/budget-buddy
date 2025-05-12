@@ -1,9 +1,11 @@
-<ng-container *ngIf="(projectState$ | async) as state" [ngSwitch]="state.appState">
+@if ((projectState$ | async); as state) {
+
+<ng-container [ngSwitch]="state.appState">
   <div class="card my-2">
     <ng-container *ngSwitchCase="'APP_ERROR'">
       <div class="errorPanel">
         <div class="alert alert-danger " role="alert">
-          <span>{{ state.error|json }}</span>
+          <span>{{ state.error }}</span>
         </div>
       </div>
     </ng-container>
@@ -19,12 +21,12 @@
           <div class="col-4">
             <form #searchForm="ngForm" (ngSubmit)="goToPage(searchForm.value.searchterm)" class="d-flex" role="search">
               <input
-                class="form-control me2"
+                class="form-control me-2"
                 type="search"
                 name="searchterm"
                 ngModel
                 placeholder="zoekterm"
-                aria-label="search/">
+                aria-label="search" />
               <button class="btn" type="submit">Zoeken</button>
             </form>
           </div>
@@ -57,12 +59,22 @@
             <tr *ngFor="let project of state.appData.data.page.content">
               <td>{{ project.id }}</td>
               <td>{{ project.projectname }}</td>
-              <td>
-                <a (click)="editProject(project)"><i class="fa fa-pencil"></i></a>
-              </td>
-              <td>
-                <a (click)="deleteProject(project.id)"><i class="fa fa-trash"></i></a>
-              </td>
+                <td>
+                    <button type="button"
+                            class="btn btn-link p-0"
+                            (click)="editProject(project)"
+                            attr.aria-label="Edit project {{ project.projectname }}">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </button>
+                </td>
+                <td>
+                    <button type="button"
+                            class="btn btn-link p-0 text-danger"
+                            (click)="deleteProject(project.id)"
+                            attr.aria-label="Delete project {{ project.projectname }}">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                </td>
             </tr>
             </tbody>
           </table>
@@ -73,7 +85,7 @@
             </div>
             <div class="col-sm-6 pagination-right">
               <ul class="pagination">
-                <li class="page-item pointer" [ngClass]="0 == (currentPage$ | async) ? 'disabled' : '' ">
+                <li class="page-item pointer" [class.disabled]="0 === (currentPage$ | async)">">
                   <a (click)="goToNextOrPreviousPage('backward', searchForm.value.searchterm)" class="page-link" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Vorige</span>
@@ -97,3 +109,4 @@
     </div>
   </div>
 </ng-container>
+}

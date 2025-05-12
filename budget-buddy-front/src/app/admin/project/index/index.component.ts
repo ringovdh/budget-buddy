@@ -27,7 +27,6 @@ export class IndexComponent implements OnInit {
   currentPage$ = this.currentPageSubject.asObservable();
   projects: Project[] = [];
   p: number = 1;
-  totalProjects: number = 0;
 
   constructor(public projectService: ProjectService,
               private modalService: NgbModal) { }
