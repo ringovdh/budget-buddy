@@ -6,12 +6,14 @@ import be.yorian.budgetbuddy.entity.Comment;
 import be.yorian.budgetbuddy.entity.Transaction;
 import be.yorian.budgetbuddy.repository.CommentRepository;
 import be.yorian.budgetbuddy.repository.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
 
 @Component
@@ -20,25 +22,20 @@ public class ImportResponseHelper {
     private final TransactionRepository transactionRepository;
     private final CommentRepository commentRepository;
     private final List<Comment> comments = new ArrayList<>();
-    private List<Transaction> transactions;
-    private final ImportTransactionsResponse response;
-    private final List<Transaction> newTransactions = new ArrayList<>();
-    private final List<Transaction> existingTransactions = new ArrayList<>();
+    private final ImportTransactionsResponse response = new ImportTransactionsResponse();
 
+    @Autowired
     public ImportResponseHelper(TransactionRepository transactionRepository,
-                                CommentRepository commentRepository,
-                                List<Transaction> transactions)
+                                CommentRepository commentRepository)
     {
         this.transactionRepository = transactionRepository;
         this.commentRepository = commentRepository;
-        this.transactions = transactions;
-        this.response = new ImportTransactionsResponse();
     }
 
 
-    public ImportTransactionsResponse createImportResponse() {
+    public ImportTransactionsResponse createImportResponse(List<Transaction> transactions) {
         loadAllComments();
-        filterNewTransactions();
+        filterNewTransactions(transactions);
 
         return response;
     }
@@ -47,22 +44,24 @@ public class ImportResponseHelper {
         comments.addAll(commentRepository.findAll());
     }
 
-    private void filterNewTransactions() {
+    private void filterNewTransactions(List<Transaction> transactions) {
+        List<Transaction> newTransactions = new ArrayList<>();
+        List<Transaction> existingTransactions = new ArrayList<>();
         transactions.forEach(tx -> transactionRepository.findByDateAndNumber(tx.getDate(), tx.getNumber())
                 .ifPresentOrElse(
                         existingTransactions::add,
-                        () -> handleNewTransaction(tx)
+                        () -> newTransactions.add(handleNewTransaction(tx))
                 ));
-
-        newTransactions.sort(Comparator.comparing(Transaction::getDate));
+        Comparator<Transaction> categoryComparator = comparing(tx -> tx.getCategory() != null ? tx.getCategory().getLabel() : "");
+        newTransactions.sort(categoryComparator.reversed());
 
         this.response.setExistingTransactions(createBudgetOverview(existingTransactions));
         this.response.setNewTransactions(newTransactions);
     }
 
-    private void handleNewTransaction(Transaction transaction) {
+    private Transaction handleNewTransaction(Transaction transaction) {
         setPredefinedCommentAndCategory(transaction);
-        newTransactions.add(transaction);
+        return transaction;
     }
 
     private List<TransactionsPerCategory> createBudgetOverview(List<Transaction> existingTransactions) {
@@ -85,7 +84,4 @@ public class ImportResponseHelper {
         });
     }
 
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
-    }
 }

@@ -1,8 +1,6 @@
 # Compiled output
 /dist
 /tmp
-/out-tsc
-/bazel-out
 
 # budget-buddy-front
 budget-buddy-front/node_modules
@@ -13,17 +11,7 @@ yarn-error.log
 # budget-buddy-back
 budget-buddy-back/target/
 
-budget_data/*
+budget_data/
 
 # IDEs and editors
-.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# System files
-.DS_Store
-Thumbs.db
+.mysql-config

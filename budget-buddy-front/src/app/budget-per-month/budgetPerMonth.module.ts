@@ -13,6 +13,7 @@ import { FixedCostGraphComponent } from './graphs/fixed-cost-graph/fixed-cost-gr
 import { OtherCostGraphComponent } from './graphs/other-cost-graph/other-cost-graph.component';
 import { ResumeComponent } from './resume/resume.component'
 import {ProjectsModule} from "../projects/projects.module";
+import {BudgetOverviewColumnComponent} from "./budget-overview-column/budget-overview-column.component";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {ProjectsModule} from "../projects/projects.module";
         FormsModule,
         ReactiveFormsModule,
         SelectYearComponentModule,
-        ProjectsModule
+        ProjectsModule,
+        BudgetOverviewColumnComponent
     ]
 })
 export class BudgetPerMonthModule { }

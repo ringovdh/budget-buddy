@@ -1,32 +1,3 @@
-.budget-card {
-  border-left: 8px solid #7d97a5;
-  background-color: #f1f4f5;
-  margin: 5px;
-  cursor: pointer;
-}
-
-.budget-card:hover {
-  cursor: pointer;
-  background-color: #c3cfd5;
-  box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
-}
-
-.budgetOverview-label {
-  color: #303e45;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.budgetOverview-amount {
-  font-size: 12px;
-  color: #555555;
-}
-
-.budgetOverview-icon {
-  font-size: 25px;
-  color: #7d97a5;
-}
-
 .budget-column-header-row {
   width: 100%;
   display: flex;
@@ -43,24 +14,10 @@
   display: flex;
 }
 
-.budget-column-1 {
+.budget-column {
   padding: 10px;
+}
+
+.budget-column--right-border {
   border-right: 1px solid #303e45;
-}
-
-.budget-column-2 {
-  padding: 10px;
-  border-right: 1px solid #303e45;
-}
-
-.budget-column-3 {
-  padding: 10px;
-}
-
-.budgetOverview-resume {
-  padding: 0;
-}
-
-.budgetOverview-resume-bedrag {
-  text-align: right;
 }

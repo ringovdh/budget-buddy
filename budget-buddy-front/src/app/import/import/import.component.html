@@ -30,7 +30,7 @@
           <div class="new-transaction-panel">
             <app-import-index
               [newTransactions]="newTransactions"
-              (savedTransaction)="loadBudgetOverview($event)">
+              (savedTransaction)="loadBudgetOverview($event.date.getMonth()+1, $event.date.getFullYear())">
             </app-import-index>
           </div>
         }

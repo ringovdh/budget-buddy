@@ -1,6 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { BudgetOverviewPerMonth } from "../../entity/BudgetOverviewPerMonth";
-import { BudgetPerMonthService } from "../budgetPerMonth.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { BudgetTransactionsModalComponent } from "../../modal/budget-transactions-modal/budget-transactions-modal.component";
 

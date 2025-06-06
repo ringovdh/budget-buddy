@@ -1,0 +1,21 @@
+@for (overview of items; track overview) {
+    <div class="card budget-card">
+        <button type="button"
+                class="budget-card-button"
+                (click)="onCardClick(overview)">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="budgetOverview-label">{{ overview.category.label }}
+                            ({{ overview.transactions.length }})
+                        </div>
+                        <div class="budgetOverview-amount">{{ overview.total | number:'1.2-2':'be-BE' }} €</div>
+                    </div>
+                    <div class="col-auto budgetOverview-icon">
+                        <i class="fa {{ overview.category.icon }}"></i>
+                    </div>
+                </div>
+            </div>
+        </button>
+    </div>
+}

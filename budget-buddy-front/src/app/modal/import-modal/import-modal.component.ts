@@ -38,7 +38,7 @@ export class ImportModalComponent implements OnInit {
         this.currentFile = file;
         this.importService.uploadTransactions(this.currentFile).subscribe(data => {
           this.ngbActiveModal.close(data);
-          console.log('Transaction successfully loaded!');
+          console.log('Transaction successfully loaded!' , data);
         });
 
       }

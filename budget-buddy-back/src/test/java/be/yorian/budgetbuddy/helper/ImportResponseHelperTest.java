@@ -7,6 +7,7 @@ import be.yorian.budgetbuddy.repository.CommentRepository;
 import be.yorian.budgetbuddy.repository.TransactionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -27,17 +28,17 @@ class ImportResponseHelperTest {
     TransactionRepository transactionRepository;
     @Mock
     CommentRepository commentRepository;
+    @InjectMocks
+    ImportResponseHelper importResponseHelper;
 
 
     @Test
     void createImportResponseWithNewTransactions() {
         when(commentRepository.findAll()).thenReturn(List.of());
         when(transactionRepository.findByDateAndNumber(any(), any())).thenReturn(Optional.empty());
-        ImportResponseHelper importResponseHelper =
-                new ImportResponseHelper(transactionRepository,
-                        commentRepository,
-                        List.of(newTransaction()));
-        ImportTransactionsResponse response = importResponseHelper.createImportResponse();
+
+        ImportTransactionsResponse response = importResponseHelper.createImportResponse(List.of(newTransaction()));
+
         assertThat(response.getExistingTransactions()).isEmpty();
         assertThat(response.getNewTransactions().size()).isEqualTo(1);
         assertThat(response.getNewTransactions().getFirst().getOriginalComment()).isEqualTo("Transaction for testing");
@@ -48,11 +49,9 @@ class ImportResponseHelperTest {
     void createImportResponseWithNewTransactionsAndPredefinedComment() {
         when(commentRepository.findAll()).thenReturn(List.of(comment()));
         when(transactionRepository.findByDateAndNumber(any(), any())).thenReturn(Optional.empty());
-        ImportResponseHelper importResponseHelper =
-                new ImportResponseHelper(transactionRepository,
-                        commentRepository,
-                        List.of(newTransaction()));
-        ImportTransactionsResponse response = importResponseHelper.createImportResponse();
+
+        ImportTransactionsResponse response = importResponseHelper.createImportResponse(List.of(newTransaction()));
+
         assertThat(response.getExistingTransactions()).isEmpty();
         assertThat(response.getNewTransactions().size()).isEqualTo(1);
         assertThat(response.getNewTransactions().getFirst().getComment()).isEqualTo("Transaction for testing (replaced)");
@@ -65,11 +64,9 @@ class ImportResponseHelperTest {
         when(commentRepository.findAll()).thenReturn(List.of());
         when(transactionRepository.findByDateAndNumber(newTransaction.getDate(), newTransaction().getNumber())).thenReturn(Optional.empty());
         when(transactionRepository.findByDateAndNumber(existingTransaction.getDate(), existingTransaction.getNumber())).thenReturn(Optional.of(existingTransaction));
-        ImportResponseHelper importResponseHelper =
-                new ImportResponseHelper(transactionRepository,
-                        commentRepository,
-                        List.of(newTransaction, existingTransaction));
-        ImportTransactionsResponse response = importResponseHelper.createImportResponse();
+
+        ImportTransactionsResponse response = importResponseHelper.createImportResponse(List.of(newTransaction, existingTransaction));
+
         assertThat(response.getExistingTransactions().size()).isEqualTo(1);
         assertThat(response.getExistingTransactions().getFirst()).extracting(TransactionsPerCategory::getTotal)
                 .isEqualTo(-10.0);

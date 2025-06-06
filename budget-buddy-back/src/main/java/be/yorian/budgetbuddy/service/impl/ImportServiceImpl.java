@@ -86,7 +86,6 @@ public class ImportServiceImpl implements ImportService {
         List<Transaction> transactions = transactionDtos.stream()
                 .map(TransactionMapper::mapDtoToTransaction)
                 .toList();
-        importResponseHelper.setTransactions(transactions);
-        return importResponseHelper.createImportResponse();
+        return importResponseHelper.createImportResponse(transactions);
     }
 }

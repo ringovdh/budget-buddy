@@ -61,7 +61,7 @@
               <td>{{ project.projectname }}</td>
                 <td>
                     <button type="button"
-                            class="btn btn-link p-0"
+                            class="index-button"
                             (click)="editProject(project)"
                             attr.aria-label="Edit project {{ project.projectname }}">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -69,7 +69,7 @@
                 </td>
                 <td>
                     <button type="button"
-                            class="btn btn-link p-0 text-danger"
+                            class="index-button"
                             (click)="deleteProject(project.id)"
                             attr.aria-label="Delete project {{ project.projectname }}">
                         <i class="fa fa-trash" aria-hidden="true"></i>
@@ -85,7 +85,7 @@
             </div>
             <div class="col-sm-6 pagination-right">
               <ul class="pagination">
-                <li class="page-item pointer" [class.disabled]="0 === (currentPage$ | async)">">
+                <li class="page-item pointer" [class.disabled]="0 === (currentPage$ | async)">
                   <a (click)="goToNextOrPreviousPage('backward', searchForm.value.searchterm)" class="page-link" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Vorige</span>

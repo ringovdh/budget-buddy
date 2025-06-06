@@ -1,0 +1,36 @@
+.budget-card {
+   margin: 5px
+}
+
+.budget-card:hover {
+    cursor: pointer;
+    background-color: #c3cfd5;
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+}
+
+button.budget-card-button {
+    border-left: 8px solid #7d97a5;
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+    border-radius: 5px;
+    background-color: #f1f4f5;
+    text-align: left;
+    cursor: pointer;
+}
+
+.budgetOverview-label {
+    color: #303e45;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.budgetOverview-amount {
+    font-size: 12px;
+    color: #555555;
+}
+
+.budgetOverview-icon {
+    font-size: 25px;
+    color: #7d97a5;
+}

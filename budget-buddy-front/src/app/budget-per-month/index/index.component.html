@@ -1,90 +1,32 @@
-<ng-container>
-  <div class="budget-column-header-row">
+<div class="budget-column-header-row">
     <div class="col-3">Inkomsten</div>
     <div class="col-3">Vaste kosten</div>
     <div class="col-3">Uitgaven</div>
     <div class="col-3">Sparen</div>
-  </div>
+</div>
 
-  <div class="budget-column-body-row">
-    <div class="col-3 budget-column-1">
-      @for (overview of incomingBudget; track overview) {
-        <div class="card budget-card">
-          <a (click)="openTransactionsModal(overview)">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="budgetOverview-label">{{ overview.category.label }} ({{ overview.transactions.length }})</div>
-                  <div class="budgetOverview-amount">{{ overview.total | number:'1.2-2':'be-BE'}} €</div>
-                </div>
-                <div class="col-auto budgetOverview-icon">
-                  <i class="fa {{ overview.category.icon }}"></i>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      }
-    </div>
+<div class="budget-column-body-row">
+    <app-budget-overview-column
+            class="col-3 budget-column budget-column--right-border"
+            [items]=incomingBudget
+            (itemClick)="openTransactionsModal($event)">
+    </app-budget-overview-column>
 
-    <div class="col-3 budget-column-2">
-      @for (overview of fixedOutgoingBudget; track overview) {
-        <div class="card budget-card">
-          <a (click)="openTransactionsModal(overview)">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="budgetOverview-label">{{ overview.category.label }} ({{ overview.transactions.length }})</div>
-                  <div class="budgetOverview-amount">{{ overview.total | number:'1.2-2':'be-BE'}} €</div>
-                </div>
-                <div class="col-auto budgetOverview-icon">
-                  <i class="fa {{ overview.category.icon }}"></i>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      }
-    </div>
+    <app-budget-overview-column
+            class="col-3 budget-column budget-column--right-border"
+            [items]=fixedOutgoingBudget
+            (itemClick)="openTransactionsModal($event)">
+    </app-budget-overview-column>
 
-    <div class="col-3 budget-column-2">
-      @for (overview of outgoingBudget; track overview) {
-        <div class="card budget-card">
-          <a (click)="openTransactionsModal(overview)">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="budgetOverview-label">{{ overview.category.label }} ({{ overview.transactions.length }})</div>
-                  <div class="budgetOverview-amount">{{ overview.total | number:'1.2-2':'be-BE'}} €</div>
-                </div>
-                <div class="col-auto budgetOverview-icon">
-                  <i class="fa {{ overview.category.icon }}"></i>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      }
-    </div>
+    <app-budget-overview-column
+            class="col-3 budget-column budget-column--right-border"
+            [items]=outgoingBudget
+            (itemClick)="openTransactionsModal($event)">
+    </app-budget-overview-column>
 
-    <div class="col-3 budget-column-3">
-      @for (overview of savings; track overview) {
-        <div class="card budget-card">
-          <a (click)="openTransactionsModal(overview)">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="budgetOverview-label">{{ overview.category.label }} ({{ overview.transactions.length }})</div>
-                  <div class="budgetOverview-amount">{{ overview.total | number:'1.2-2':'be-BE' }} €</div>
-                </div>
-                <div class="col-auto budgetOverview-icon">
-                  <i class="fa {{ overview.category.icon }}"></i>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      }
-    </div>
-  </div>
-</ng-container>
+    <app-budget-overview-column
+            class="col-3 budget-column"
+            [items]=savings
+            (itemClick)="openTransactionsModal($event)">
+    </app-budget-overview-column>
+</div>
