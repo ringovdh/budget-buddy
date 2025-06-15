@@ -4,10 +4,12 @@ import be.yorian.budgetbuddy.entity.Category;
 import be.yorian.budgetbuddy.repository.CategoryRepository;
 import be.yorian.budgetbuddy.service.CategoryService;
 import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +17,7 @@ import java.util.Optional;
 import static org.springframework.data.domain.PageRequest.of;
 
 @Service
+@Transactional
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
@@ -26,16 +29,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Category> getCategories() {
         return categoryRepository.findAll(sortByLabel());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Category> getCategoryById(long category_id) {
         return categoryRepository.findById(category_id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Category> getCategoriesByLabel(String label, int page, int size) {
         return categoryRepository.findByLabelContaining(label, of(page, size));
     }

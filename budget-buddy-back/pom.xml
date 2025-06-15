@@ -10,7 +10,7 @@
     </parent>
     <groupId>be.yorian</groupId>
     <artifactId>budgetbuddy</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>budgetbuddy_back</name>
     <description>budgetbuddy_back</description>
     <properties>

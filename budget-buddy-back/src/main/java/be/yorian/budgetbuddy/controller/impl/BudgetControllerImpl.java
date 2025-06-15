@@ -30,7 +30,8 @@ public class BudgetControllerImpl implements BudgetController {
     @GetMapping(produces = "application/json", path="/period")
     public ResponseEntity<MonthlyBudgetOverview> getBudgetOverviewPerMonth(@RequestParam Optional<Integer>month,
                                                                            @RequestParam Optional<Integer>year) {
-        return ResponseEntity.ok().body(budgetService.getBudgetOverviewPerMonth(month.orElse(1), year.orElse(2022)));
+        MonthlyBudgetOverview budgetOverviewPerMonth = budgetService.getBudgetOverviewPerMonth(month.orElse(1), year.orElse(2025));
+        return ResponseEntity.ok().body(budgetOverviewPerMonth);
     }
 
     @Override
@@ -43,6 +44,6 @@ public class BudgetControllerImpl implements BudgetController {
     @Override
     @GetMapping(produces = "application/json", path="/year")
     public ResponseEntity<YearlyBudgetOverview> getBudgetOverviewPerYear(@RequestParam Optional<Integer>year) {
-        return ResponseEntity.ok().body(budgetService.getBudgetOverviewPerYear(year.orElse(2022)));
+        return ResponseEntity.ok().body(budgetService.getBudgetOverviewPerYear(year.orElse(2025)));
     }
 }
