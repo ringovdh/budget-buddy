@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Chart } from 'chart.js/auto';
-import { MonthlyBudgetOverview } from 'src/app/entity/MonthlyBudgetOverview';
 import {GraphData} from "../../../entity/GraphData";
 
 @Component({
@@ -11,41 +10,70 @@ import {GraphData} from "../../../entity/GraphData";
     '../../../../assets/graph_layout.css']
 })
 export class OverviewGraphComponent implements OnChanges {
-
+  POSITIVE = '+';
+  NEGATIVE = '-';
   overviewBudgetCharts: any;
+  fixedCosts: number[];
+  otherCosts: number[];
+  incomming: number[];
   @Input() graphData: GraphData;
 
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.createOverviewBudgetGraphs();
+    if (changes['graphData'] && this.graphData) {
+      this.prepareGraphData();
+      this.createOverviewBudgetGraphs();
+    }
+  }
+
+  prepareGraphData() {
+    this.fixedCosts = this.mapCosts(this.graphData.fixedCostAmounts, this.NEGATIVE);
+    this.otherCosts = this.mapCosts(this.graphData.otherCostAmounts, this.NEGATIVE);
+    this.incomming = this.mapCosts(this.graphData.incomingAmounts, this.POSITIVE);
+  }
+
+  private mapCosts(costs: Map<number, number>, originalSign: String) : number[] {
+    let mapedCosts: number[] = [];
+    for (let [index, value] of Object.entries(costs)) {
+      if (originalSign === this.NEGATIVE) {
+        mapedCosts.push(value * -1)
+      } else {
+        mapedCosts.push(value)
+      }
+    }
+    return mapedCosts;
   }
 
   createOverviewBudgetGraphs() {
     if (this.overviewBudgetCharts != null) {
       this.overviewBudgetCharts.destroy();
     }
+    const labels = this.graphData.labels.map(s => s.toString());
 
     this.overviewBudgetCharts = new Chart('chartsOverviewBudget', {
-      type: 'bar',
+
       data: {
+        labels: labels,
         datasets: [
           {
+            type: 'bar',
             label: 'Vaste kosten',
-            data: this.graphData.fixedCostAmounts,
+            data: this.fixedCosts,
             backgroundColor: '#b4d9ec',
             stack: 'combined'
           },
           {
+            type: 'bar',
             label: 'Algemene kosten',
-            data: this.graphData.otherCostAmounts,
+            data: this.otherCosts,
             backgroundColor: '#0d97dc',
             stack: 'combined'
           },
           {
             type: 'line',
             label: 'Inkomsten',
-            data: this.graphData.incomingAmounts,
+            data: this.incomming,
             borderColor: '#d473aa',
             tension: 0.2,
             order: 1
