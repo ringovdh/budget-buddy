@@ -16,9 +16,7 @@ services:
 
   budgetbuddy_backend:
     container_name: budgetbuddy_backend
-    build:
-      context: ./budget-buddy-back
-      dockerfile: Dockerfile
+    image: budgetbuddy:1.0
     ports:
       - 8080:8080
     depends_on:
