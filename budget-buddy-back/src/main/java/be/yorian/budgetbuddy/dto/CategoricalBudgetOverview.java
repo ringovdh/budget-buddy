@@ -1,7 +1,6 @@
 package be.yorian.budgetbuddy.dto;
 
 import be.yorian.budgetbuddy.entity.Category;
-import be.yorian.budgetbuddy.repository.CategoryRepository;
 
 import java.util.List;
 

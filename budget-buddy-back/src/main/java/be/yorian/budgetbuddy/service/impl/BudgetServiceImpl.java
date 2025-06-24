@@ -8,7 +8,6 @@ import be.yorian.budgetbuddy.dto.MonthlyBudgetOverview;
 import be.yorian.budgetbuddy.dto.ProjectData;
 import be.yorian.budgetbuddy.dto.SavingsData;
 import be.yorian.budgetbuddy.dto.YearlyBudgetOverview;
-import be.yorian.budgetbuddy.entity.Category;
 
 import be.yorian.budgetbuddy.entity.Transaction;
 import be.yorian.budgetbuddy.handler.OverviewPerCategoryHandler;
@@ -20,12 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Year;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;

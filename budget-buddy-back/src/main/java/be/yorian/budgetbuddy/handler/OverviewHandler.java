@@ -23,19 +23,7 @@ public class OverviewHandler {
         this.transactionRepository = transactionRepository;
     }
 
-    protected List<ProjectData> retrieveProjectData(List<Transaction> transactions) {
-        List<ProjectData> projectDataList = new ArrayList<>();
-        transactions.stream()
-                .filter(txs -> txs.getProject() != null)
-                .collect(groupingBy(Transaction::getProject))
-                .forEach((project, txs) -> {
-                    double total = txs.stream().mapToDouble(Transaction::getAmountWithSign).sum();
-                    projectDataList.add(new ProjectData(project, total));
-                });
-        return projectDataList;
-    }
-
-    protected List<ProjectData> retrieveProjectData2(Map<Category, List<Transaction>> groupedByCategory) {
+    protected List<ProjectData> retrieveProjectData(Map<Category, List<Transaction>> groupedByCategory) {
         List<ProjectData> projectDataList = new ArrayList<>();
         groupedByCategory.values().stream().flatMap(List::stream)
                 .filter(txs -> txs.getProject() != null)

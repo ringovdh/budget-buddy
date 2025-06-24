@@ -8,11 +8,9 @@ import be.yorian.budgetbuddy.entity.Transaction;
 import be.yorian.budgetbuddy.repository.TransactionRepository;
 
 import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
@@ -41,7 +39,7 @@ public class OverviewPerMonthHandler extends OverviewHandler {
                 formatMonth(year, month),
                 createBudgetPerCategoryList(groupedByCategory, year), // data per categorie verzamelen
                 retrieveMonthlyGraphData(groupedByCategory), // grafiekdata verzamelen
-                retrieveProjectData2(groupedByCategory) // projectdata verzamelen;
+                retrieveProjectData(groupedByCategory) // projectdata verzamelen;
         );
     }
 

@@ -64,8 +64,7 @@ public class OverviewPerCategoryHandler extends OverviewHandler {
         } else {
             transactions = transactionRepository.findByCategoryIdAndDateContainingYear(categoryId, year);
         }
-        Map<String, List<Transaction>> groupedByMonth = transactions.stream()
+        return transactions.stream()
                 .collect(groupingBy(t -> formatMonth(t.getDate().getYear(), t.getDate().getMonth().getValue())));
-        return groupedByMonth;
     }
 }
