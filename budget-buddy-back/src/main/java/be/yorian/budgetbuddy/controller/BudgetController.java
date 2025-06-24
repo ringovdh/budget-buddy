@@ -1,6 +1,7 @@
 package be.yorian.budgetbuddy.controller;
 
 import be.yorian.budgetbuddy.dto.BudgetOverviewPerCategory;
+import be.yorian.budgetbuddy.dto.CategoricalBudgetOverview;
 import be.yorian.budgetbuddy.dto.MonthlyBudgetOverview;
 import be.yorian.budgetbuddy.dto.YearlyBudgetOverview;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,9 @@ public interface BudgetController {
 
     ResponseEntity<List<BudgetOverviewPerCategory>> getBudgetOverviewPerCategory(Optional<Long> categoryId,
                                                                                  Optional<Integer> year);
+
+    ResponseEntity<CategoricalBudgetOverview> getBudgetOverviewByCategory(Optional<Long> categoryId,
+                                                                           Optional<Integer> year);
 
     ResponseEntity<YearlyBudgetOverview> getBudgetOverviewPerYear(Optional<Integer> year);
 

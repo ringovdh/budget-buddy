@@ -38,7 +38,7 @@ public class OverviewPerMonthHandler extends OverviewHandler {
         // alle transactie ophalen en groeperen
         Map<Category, List<Transaction>> groupedByCategory = groupTransactionsForMonth(month, year);
         return new MonthlyBudgetOverview(
-                formatMonth(),
+                formatMonth(year, month),
                 createBudgetPerCategoryList(groupedByCategory, year), // data per categorie verzamelen
                 retrieveMonthlyGraphData(groupedByCategory), // grafiekdata verzamelen
                 retrieveProjectData2(groupedByCategory) // projectdata verzamelen;
@@ -119,13 +119,6 @@ public class OverviewPerMonthHandler extends OverviewHandler {
         return transactions.stream()
                 .mapToDouble(Transaction::getAmountWithSign)
                 .sum();
-    }
-
-    private String formatMonth() {
-        return YearMonth.of(this.year, this.month).
-                format(DateTimeFormatter.ofPattern("MMMM yyyy")
-                        .withLocale(new Locale.Builder().setLanguage("nl").setRegion("NL").build())
-                );
     }
 
 }

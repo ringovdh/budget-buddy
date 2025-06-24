@@ -5,8 +5,11 @@ import be.yorian.budgetbuddy.entity.Category;
 import be.yorian.budgetbuddy.entity.Transaction;
 import be.yorian.budgetbuddy.repository.TransactionRepository;
 
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -42,5 +45,12 @@ public class OverviewHandler {
                     projectDataList.add(new ProjectData(project, total));
                 });
         return projectDataList;
+    }
+
+    protected String formatMonth(int year, int month) {
+        return YearMonth.of(year, month).
+                format(DateTimeFormatter.ofPattern("MMMM yyyy")
+                        .withLocale(new Locale.Builder().setLanguage("nl").setRegion("NL").build())
+                );
     }
 }

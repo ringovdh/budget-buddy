@@ -1,16 +1,19 @@
 package be.yorian.budgetbuddy.service.impl;
 
 import be.yorian.budgetbuddy.dto.BudgetOverviewPerCategory;
-import be.yorian.budgetbuddy.dto.BudgetPerCategory;
 import be.yorian.budgetbuddy.dto.BudgetPerMonth;
+import be.yorian.budgetbuddy.dto.CategoricalBudgetOverview;
 import be.yorian.budgetbuddy.dto.GraphData;
 import be.yorian.budgetbuddy.dto.MonthlyBudgetOverview;
 import be.yorian.budgetbuddy.dto.ProjectData;
 import be.yorian.budgetbuddy.dto.SavingsData;
 import be.yorian.budgetbuddy.dto.YearlyBudgetOverview;
 import be.yorian.budgetbuddy.entity.Category;
+
 import be.yorian.budgetbuddy.entity.Transaction;
+import be.yorian.budgetbuddy.handler.OverviewPerCategoryHandler;
 import be.yorian.budgetbuddy.handler.OverviewPerMonthHandler;
+import be.yorian.budgetbuddy.repository.CategoryRepository;
 import be.yorian.budgetbuddy.repository.TransactionRepository;
 import be.yorian.budgetbuddy.service.BudgetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +34,13 @@ import static java.util.stream.Collectors.groupingBy;
 public class BudgetServiceImpl implements BudgetService {
 
     private final TransactionRepository transactionRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public BudgetServiceImpl(TransactionRepository transactionRepository) {
+    public BudgetServiceImpl(TransactionRepository transactionRepository,
+                             CategoryRepository categoryRepository) {
         this.transactionRepository = transactionRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -47,6 +53,17 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
+    public CategoricalBudgetOverview getBudgetOverviewByCategory(Long categoryId, int year) {
+        OverviewPerCategoryHandler handler = new OverviewPerCategoryHandler(
+                transactionRepository,
+                categoryRepository,
+                categoryId,
+                year);
+        return handler.createBudgetOverviewPerCategory();
+    }
+
+    @Override
+    @Deprecated
     public List<BudgetOverviewPerCategory> getBudgetOverviewPerCategory(Long categoryId, int year) {
         List<BudgetOverviewPerCategory> dtos = new ArrayList<>();
         List<Transaction> transactions;
