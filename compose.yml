@@ -16,7 +16,7 @@ services:
 
   budgetbuddy_backend:
     container_name: budgetbuddy_backend
-    image: budgetbuddy:1.0
+    image: budgetbuddy:1.1
     ports:
       - 8080:8080
     depends_on:
