@@ -21,6 +21,21 @@ public class Category {
 
     public Category() {}
 
+    public Category(CategoryBuilder categoryBuilder) {
+        this.id = categoryBuilder.id;
+        this.label = categoryBuilder.label;
+        this.icon = categoryBuilder.icon;
+        this.fixedcost = categoryBuilder.fixedcost;
+        this.saving = categoryBuilder.saving;
+        this.revenue = categoryBuilder.revenue;
+        this.indetails = categoryBuilder.indetails;
+        this.inmonitor = categoryBuilder.inmonitor;
+        this.limitamount = categoryBuilder.limitamount;
+    }
+
+    public static CategoryBuilder builder() {
+        return new CategoryBuilder();
+    }
 
     public long getId() {
         return id;
@@ -90,5 +105,67 @@ public class Category {
 
     public boolean isOtherCost() {
         return !isFixedcost() && !isRevenue() && !isSaving();
+    }
+
+    public static class CategoryBuilder {
+        private long id;
+        private String label;
+        private String icon;
+        private boolean fixedcost;
+        private boolean saving;
+        private boolean revenue;
+        private boolean indetails;
+        private boolean inmonitor;
+        private long limitamount;
+
+        public CategoryBuilder id(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public CategoryBuilder label(String label) {
+            this.label = label;
+            return this;
+        }
+
+        public CategoryBuilder icon(String icon) {
+            this.icon = icon;
+            return this;
+        }
+
+        public CategoryBuilder fixedcost(boolean fixedcost) {
+            this.fixedcost = fixedcost;
+            return this;
+        }
+
+        public CategoryBuilder saving(boolean saving) {
+            this.saving = saving;
+            return this;
+        }
+
+        public CategoryBuilder revenue(boolean revenue) {
+            this.revenue = revenue;
+            return this;
+        }
+
+        public CategoryBuilder indetails(boolean indetails) {
+            this.indetails = indetails;
+            return this;
+        }
+
+        public CategoryBuilder inmonitor(boolean inmonitor) {
+            this.inmonitor = inmonitor;
+            return this;
+        }
+
+        public CategoryBuilder limitamount(long limitamount) {
+            this.limitamount = limitamount;
+            return this;
+        }
+
+        public Category build() {
+            return new Category(this);
+        }
+
     }
 }

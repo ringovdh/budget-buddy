@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static be.yorian.budgetbuddy.mother.CategoryMother.categoryGrocery;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
@@ -33,7 +34,7 @@ class OverviewPerCategoryHandlerTest {
 
     @BeforeEach
     void setUp() {
-        this.boodschappen = new Category();
+        this.boodschappen = categoryGrocery();
         this.handler = new OverviewPerCategoryHandler(transactionRepository,
                 categoryRepository, 1L, 2025);
         this.date = LocalDate.parse("2025-06-11");

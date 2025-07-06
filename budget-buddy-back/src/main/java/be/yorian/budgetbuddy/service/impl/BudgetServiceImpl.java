@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -86,7 +87,7 @@ public class BudgetServiceImpl implements BudgetService {
         Map<Integer, List<Transaction>> groupedByMonth = transactions.stream()
                 .collect(groupingBy(transaction -> transaction.getDate().getMonthValue()));
         List<BudgetPerMonth> budgetPerMonthList = createBudgetPerMonthList(groupedByMonth);
-        GraphData graphData = retrieveYearlyGraphData(budgetPerMonthList);
+        GraphData graphData = retrieveYearlyGraphData(budgetPerMonthList, year);
         List<ProjectData> projectData = retrieveProjectData(transactions);
         SavingsData savingsData = retrieveSavingsData(transactions, year);
         return new YearlyBudgetOverview(budgetPerMonthList, graphData, savingsData, projectData);
@@ -136,7 +137,7 @@ public class BudgetServiceImpl implements BudgetService {
                 .sum();
     }
 
-    private GraphData retrieveYearlyGraphData(List<BudgetPerMonth> budgetPerMonthList) {
+    private GraphData retrieveYearlyGraphData(List<BudgetPerMonth> budgetPerMonthList, int year) {
         return new GraphData(
                 fillMonths(),
                 mapIncommingAmountsToGraphData(budgetPerMonthList),
@@ -188,6 +189,7 @@ public class BudgetServiceImpl implements BudgetService {
 
     private Map<Integer, Double> mapOtherCostAmountsToGraphData(List<BudgetPerMonth> budgetList) {
         Map<Integer, Double> mappedBudget = new HashMap<>();
+        fillMonths().forEach(month -> mappedBudget.put(month, 0.0));
         budgetList.forEach(bpm -> mappedBudget.put(bpm.month(), -bpm.totalOutgoingBudget()));
         mergeAmountsWithPrevious(mappedBudget);
         return mappedBudget;
@@ -195,13 +197,15 @@ public class BudgetServiceImpl implements BudgetService {
 
     private Map<Integer, Double> mapFixedCostAmountsToGraphData(List<BudgetPerMonth> budgetList) {
         Map<Integer, Double> mappedBudget = new HashMap<>();
+        fillMonths().forEach(month -> mappedBudget.put(month, 0.0));
         budgetList.forEach(bpm -> mappedBudget.put(bpm.month(), -bpm.totalFixedOutgoingBudget()));
         mergeAmountsWithPrevious(mappedBudget);
         return mappedBudget;
     }
 
     private Map<Integer, Double> mapIncommingAmountsToGraphData(List<BudgetPerMonth> budgetList) {
-        Map<Integer, Double> mappedBudget = new HashMap<>();
+        Map<Integer, Double> mappedBudget = new TreeMap<>();
+        fillMonths().forEach(month -> mappedBudget.put(month, 0.0));
         budgetList.forEach(bpm -> mappedBudget.put(bpm.month(), bpm.totalIncomingBudget()));
         mergeAmountsWithPrevious(mappedBudget);
         return mappedBudget;

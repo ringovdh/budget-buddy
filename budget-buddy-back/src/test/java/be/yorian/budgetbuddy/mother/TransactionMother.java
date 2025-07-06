@@ -2,7 +2,7 @@ package be.yorian.budgetbuddy.mother;
 
 import be.yorian.budgetbuddy.entity.Transaction;
 
-import static be.yorian.budgetbuddy.mother.CategoryMother.category;
+import static be.yorian.budgetbuddy.mother.CategoryMother.categoryGrocery;
 import static java.time.LocalDate.now;
 
 public class TransactionMother {
@@ -24,7 +24,7 @@ public class TransactionMother {
         transaction.setAmount(Double.valueOf("10"));
         transaction.setSign("-");
         transaction.setDate(now());
-        transaction.setCategory(category());
+        transaction.setCategory(categoryGrocery());
         transaction.setComment("Transaction for testing");
         return transaction;
     }
