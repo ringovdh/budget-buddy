@@ -14,6 +14,8 @@ public interface BudgetService {
 
     CategoricalBudgetOverview getBudgetOverviewByCategory(Long categoryId, int year);
 
+    YearlyBudgetOverview getBudgetOverviewByYear(int year);
+
     YearlyBudgetOverview getBudgetOverviewPerYear(int year);
 
 }

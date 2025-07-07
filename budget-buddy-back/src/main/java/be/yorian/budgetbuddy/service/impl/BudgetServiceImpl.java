@@ -12,6 +12,7 @@ import be.yorian.budgetbuddy.dto.YearlyBudgetOverview;
 import be.yorian.budgetbuddy.entity.Transaction;
 import be.yorian.budgetbuddy.handler.OverviewPerCategoryHandler;
 import be.yorian.budgetbuddy.handler.OverviewPerMonthHandler;
+import be.yorian.budgetbuddy.handler.OverviewPerYearHandler;
 import be.yorian.budgetbuddy.repository.CategoryRepository;
 import be.yorian.budgetbuddy.repository.TransactionRepository;
 import be.yorian.budgetbuddy.service.BudgetService;
@@ -82,6 +83,15 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
+    public YearlyBudgetOverview getBudgetOverviewByYear(int year) {
+        OverviewPerYearHandler handler = new OverviewPerYearHandler(
+                transactionRepository,
+                year);
+        return handler.createYearlyBudgetOverview();
+    }
+
+    @Override
+    @Deprecated
     public YearlyBudgetOverview getBudgetOverviewPerYear(int year) {
         List<Transaction> transactions = transactionRepository.findByDateContainingYear(year);
         Map<Integer, List<Transaction>> groupedByMonth = transactions.stream()

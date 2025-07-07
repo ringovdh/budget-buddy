@@ -27,7 +27,6 @@ export class GraphsComponent implements OnChanges {
     let periods: string[] = [];
     let amounts: number[] = [];
     let myDataset = this.calculateRestBudgetByMonth();
-    console.log('ssss', myDataset);
     myDataset.forEach((value: number, key: string) => {
       periods.push(key);
       amounts.push(value);

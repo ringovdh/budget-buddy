@@ -29,14 +29,12 @@ export class OverviewComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const change = changes['yearlyBudgetOverview'];
     if (change && change.currentValue != undefined) {
-      console.log('sd2', change.currentValue)
       this.graphData = change.currentValue.graphData;
       this.savingsData = change.currentValue.savingsData;
       //this.savingsData.savingAmounts = new Map([...change.currentValue.savingsData.savingAmounts.entries()]);
       this.projectsData = change.currentValue.projectsData;
       this.yearResumeData = this.createResumeData(change.currentValue.budgetsPerMonth);
     }
-    console.log('sd', this.savingsData)
   }
 
   createResumeData(budgetsPerMonth: BudgetPerMonth[]) {

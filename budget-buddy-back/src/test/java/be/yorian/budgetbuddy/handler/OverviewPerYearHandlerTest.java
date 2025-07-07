@@ -1,16 +1,11 @@
-package be.yorian.budgetbuddy.service.impl;
+package be.yorian.budgetbuddy.handler;
 
 import be.yorian.budgetbuddy.dto.YearlyBudgetOverview;
 import be.yorian.budgetbuddy.entity.Category;
 import be.yorian.budgetbuddy.entity.Project;
 import be.yorian.budgetbuddy.entity.Transaction;
-import be.yorian.budgetbuddy.repository.TransactionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,34 +16,29 @@ import static be.yorian.budgetbuddy.mother.CategoryMother.categorySaving;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-class BudgetServiceImplTest {
+class OverviewPerYearHandlerTest extends OverviewHandlerTest {
 
-    private final int TEST_YEAR  = 2025;
-    private Category boodschappen;
     private Category sparen;
     private Category klussen;
-    @Mock
-    TransactionRepository transactionRepository;
-    @InjectMocks
-    BudgetServiceImpl budgetService;
+    private LocalDate dateInSeptember;
+    private OverviewPerYearHandler handler;
+
 
     @BeforeEach
     void setUp() {
-        this.boodschappen = categoryGrocery();
         this.sparen = categorySaving();
         this.klussen = categoryChore();
+        this.dateInSeptember = dateInJune.plusMonths(3);
+        this.handler = new OverviewPerYearHandler(transactionRepository, TEST_YEAR);
     }
+
 
     @Test
     void getBudgetOverviewPerYear_withMixedTransactions_returnsCompleteOverview() {
         Project project = new Project();
-        LocalDate dateInJune = LocalDate.of(TEST_YEAR, 6, 11);
-        LocalDate dateInAugust = dateInJune.plusMonths(2);
-        LocalDate dateInSeptember = dateInJune.plusMonths(3);
         Transaction t1 = new Transaction("t1", 50.25, "-", dateInJune, "Aankoop in Carrefour", boodschappen, null);
         Transaction t2 = new Transaction("t2", 24.50, "-", dateInAugust, "Aankoop in Albert Hein", boodschappen, null);
-        Transaction t3 = new Transaction("t3", 0.50, "+", dateInJune, "Automatisch sparen", sparen, null);
+        Transaction t3 = new Transaction("t3", 0.50, "-", dateInJune, "Automatisch sparen", sparen, null);
         Transaction t4 = new Transaction("t4", 75.25, "-",dateInSeptember,"Aankoop in Hubo", klussen, project);
         List<Transaction> transactions_1 = List.of(t1, t3);
         List<Transaction> transactions_2 = List.of(t2);
@@ -57,7 +47,7 @@ class BudgetServiceImplTest {
 
         when(transactionRepository.findByDateContainingYear(TEST_YEAR)).thenReturn(transactions);
 
-        YearlyBudgetOverview result = budgetService.getBudgetOverviewPerYear(TEST_YEAR);
+        YearlyBudgetOverview result = handler.createYearlyBudgetOverview();
 
         assertThat(result.budgetsPerMonth())
                 .hasSize(3)
@@ -81,10 +71,10 @@ class BudgetServiceImplTest {
         assertThat(result.graphData().otherCostAmounts())
                 .hasSize(12)
                 .containsEntry(5, 0.0)
-                .containsEntry(6, 50.25)
-                .containsEntry(7, 50.25)
-                .containsEntry(8, 74.75)
-                .containsEntry(12, 150.00);
+                .containsEntry(6, -50.25)
+                .containsEntry(7, -50.25)
+                .containsEntry(8, -74.75)
+                .containsEntry(12, -150.00);
 
         assertThat(result.projectsData())
                 .hasSize(1)
@@ -98,7 +88,9 @@ class BudgetServiceImplTest {
                 .satisfies(sd -> {
                     assertThat(sd.labels().size()).isEqualTo(365);
                     assertThat(sd.savingAmounts().size()).isEqualTo(365);
-                    assertThat(sd.savingAmounts().get(day)).isEqualTo(0.5);
+                    assertThat(sd.savingAmounts().get(day - 1)).isEqualTo(0.0);
+                    assertThat(sd.savingAmounts().get(day)).isEqualTo(-0.5);
+                    assertThat(sd.savingAmounts().get(day + 1)).isEqualTo(-0.5);
                 });
     }
 
@@ -107,12 +99,12 @@ class BudgetServiceImplTest {
 
         when(transactionRepository.findByDateContainingYear(TEST_YEAR)).thenReturn(List.of());
 
-        YearlyBudgetOverview result = budgetService.getBudgetOverviewPerYear(TEST_YEAR);
+        YearlyBudgetOverview result = handler.createYearlyBudgetOverview();
 
         assertThat(result).isNotNull();
         assertThat(result.budgetsPerMonth()).isEmpty();
         assertThat(result.projectsData()).isEmpty();
-        assertThat(result.savingsData().savingAmounts()).isEmpty();
+        assertThat(result.savingsData().savingAmounts()).size().isEqualTo(365);
         assertThat(result.graphData().otherCostAmounts().get(12)).isEqualTo(0.0);
     }
 }

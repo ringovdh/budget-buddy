@@ -3,6 +3,7 @@ package be.yorian.budgetbuddy.handler;
 import be.yorian.budgetbuddy.dto.BudgetPerCategory;
 import be.yorian.budgetbuddy.dto.GraphData;
 import be.yorian.budgetbuddy.dto.MonthlyBudgetOverview;
+import be.yorian.budgetbuddy.dto.ProjectData;
 import be.yorian.budgetbuddy.entity.Category;
 import be.yorian.budgetbuddy.entity.Transaction;
 import be.yorian.budgetbuddy.repository.TransactionRepository;
@@ -49,13 +50,24 @@ public class OverviewPerMonthHandler extends OverviewHandler {
     }
 
     private GraphData retrieveMonthlyGraphData(Map<Category, List<Transaction>> groupedByCategory) {
-
         return new GraphData(
                 days,
                 handleBudget(groupedByCategory, Category::isRevenue, Transaction::getAmountWithSign),
                 handleBudget(groupedByCategory, Category::isFixedcost, Transaction::getAmountWithSign),
                 handleBudget(groupedByCategory, Category::isOtherCost, Transaction::getAmountWithSign)
         );
+    }
+
+    private List<ProjectData> retrieveProjectData(Map<Category, List<Transaction>> groupedByCategory) {
+        List<ProjectData> projectDataList = new ArrayList<>();
+        groupedByCategory.values().stream().flatMap(List::stream)
+                .filter(txs -> txs.getProject() != null)
+                .collect(groupingBy(Transaction::getProject))
+                .forEach((project, txs) -> {
+                    double total = txs.stream().mapToDouble(Transaction::getAmountWithSign).sum();
+                    projectDataList.add(new ProjectData(project, total));
+                });
+        return projectDataList;
     }
 
     private Map<Integer, Double> handleBudget(Map<Category, List<Transaction>> groupedByCategory,
@@ -78,13 +90,11 @@ public class OverviewPerMonthHandler extends OverviewHandler {
 
     private Map<Integer, Double> calculateBudgetMap(Map<Integer, Double> budgetMap) {
         Map<Integer, Double> cumulativeBudgetMap = new TreeMap<>(budgetMap);
+        double total = 0.0;
 
-        List<Integer> sortedDays = new ArrayList<>(cumulativeBudgetMap.keySet());
-        for (int i = 1; i < sortedDays.size(); i++) {
-            int currentDay = sortedDays.get(i);
-            int previousDay = sortedDays.get(i - 1);
-            double previousCumulativeTotal = cumulativeBudgetMap.get(previousDay);
-            cumulativeBudgetMap.merge(currentDay, previousCumulativeTotal, Double::sum);
+        for (Map.Entry<Integer, Double> entry : cumulativeBudgetMap.entrySet()) {
+            total += entry.getValue();
+            entry.setValue(total);
         }
 
         return cumulativeBudgetMap;
