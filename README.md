@@ -1,1 +1,1 @@
-Budget-budy
+Budget-buddy
