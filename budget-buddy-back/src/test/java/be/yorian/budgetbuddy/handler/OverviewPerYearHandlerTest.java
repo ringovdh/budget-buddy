@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static be.yorian.budgetbuddy.mother.CategoryMother.categoryChore;
-import static be.yorian.budgetbuddy.mother.CategoryMother.categoryGrocery;
 import static be.yorian.budgetbuddy.mother.CategoryMother.categorySaving;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;

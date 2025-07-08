@@ -16,6 +16,4 @@ public interface BudgetService {
 
     YearlyBudgetOverview getBudgetOverviewByYear(int year);
 
-    YearlyBudgetOverview getBudgetOverviewPerYear(int year);
-
 }

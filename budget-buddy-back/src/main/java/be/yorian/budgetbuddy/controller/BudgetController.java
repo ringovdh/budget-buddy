@@ -20,6 +20,6 @@ public interface BudgetController {
     ResponseEntity<CategoricalBudgetOverview> getBudgetOverviewByCategory(Optional<Long> categoryId,
                                                                            Optional<Integer> year);
 
-    ResponseEntity<YearlyBudgetOverview> getBudgetOverviewPerYear(Optional<Integer> year);
+    ResponseEntity<YearlyBudgetOverview> getBudgetOverviewByYear(Optional<Integer> year);
 
 }

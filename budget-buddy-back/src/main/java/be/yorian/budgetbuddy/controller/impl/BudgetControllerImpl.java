@@ -52,7 +52,7 @@ public class BudgetControllerImpl implements BudgetController {
 
     @Override
     @GetMapping(produces = "application/json", path="/year")
-    public ResponseEntity<YearlyBudgetOverview> getBudgetOverviewPerYear(@RequestParam Optional<Integer>year) {
-        return ResponseEntity.ok().body(budgetService.getBudgetOverviewPerYear(year.orElse(2025)));
+    public ResponseEntity<YearlyBudgetOverview> getBudgetOverviewByYear(@RequestParam Optional<Integer>year) {
+        return ResponseEntity.ok().body(budgetService.getBudgetOverviewByYear(year.orElse(2025)));
     }
 }

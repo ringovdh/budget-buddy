@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Chart} from "chart.js/auto";
 import {YearlyBudgetOverview} from "../../../entity/YearlyBudgetOverview";
 import {GraphData} from "../../../entity/GraphData";
+import {BudgetPerMonthService} from "../../../budget-per-month/budgetPerMonth.service";
 
 @Component({
   selector: 'app-year-overview-graph',
@@ -12,59 +13,39 @@ import {GraphData} from "../../../entity/GraphData";
 })
 export class YearOverviewGraphComponent implements OnChanges {
 
+  labels: string[];
+  fixedCosts: number[];
+  otherCosts: number[];
+  incoming: number[];
   yearOverviewBudgetCharts: any;
   @Input() graphData: GraphData;
 
-  constructor() { }
+  constructor(public budgetService: BudgetPerMonthService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.createYearOverviewBudgetGraphs();
+    if (changes['graphData'] && this.graphData) {
+      this.prepareGraphData();
+      this.createYearOverviewBudgetGraphs();
+    }
+  }
+
+  prepareGraphData() {
+    this.labels = this.graphData.labels.map(s => s.toString());
+    this.fixedCosts = this.budgetService.mapCosts(this.graphData.fixedCostAmounts, '-');
+    this.otherCosts = this.budgetService.mapCosts(this.graphData.otherCostAmounts, '-');
+    this.incoming = this.budgetService.mapCosts(this.graphData.incomingAmounts, '+');
   }
 
   createYearOverviewBudgetGraphs() {
     if (this.yearOverviewBudgetCharts != null) {
       this.yearOverviewBudgetCharts.destroy();
     }
-
-    this.yearOverviewBudgetCharts = new Chart('chartsYearOverviewBudget', {
-      type: 'bar',
-      data: {
-        datasets: [
-          {
-            label: 'Vaste kosten',
-            data: this.graphData.fixedCostAmounts,
-            backgroundColor: '#b4d9ec',
-            stack: 'combined'
-          },
-          {
-            label: 'Algemene kosten',
-            data: this.graphData.otherCostAmounts,
-            backgroundColor: '#0d97dc',
-            stack: 'combined'
-          },
-          {
-            type: 'line',
-            label: 'Inkomsten',
-            data: this.graphData.incomingAmounts,
-            borderColor: '#d473aa',
-            tension: 0.2,
-            order: 1
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
-          }
-        },
-        scales: {
-          y: {
-            stacked: true
-          }
-        }
-      }
-    });
+    this.yearOverviewBudgetCharts = this.budgetService.createOverviewBudgetGraphs(
+        'chartsYearOverviewBudget',
+        this.labels,
+        this.fixedCosts,
+        this.otherCosts,
+        this.incoming
+    );
   }
 }

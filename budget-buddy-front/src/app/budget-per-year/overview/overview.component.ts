@@ -38,6 +38,8 @@ export class OverviewComponent implements OnChanges {
   }
 
   createResumeData(budgetsPerMonth: BudgetPerMonth[]) {
+
+    console.log('bpm:', budgetsPerMonth);
     const totalIncoming = budgetsPerMonth
       .map(o => o.totalIncomingBudget)
       .reduce((a, c) => {
@@ -63,7 +65,7 @@ export class OverviewComponent implements OnChanges {
       totalIncoming: totalIncoming,
       totalFixedOutgoing: totalFixedOutgoing,
       totalOutgoing: totalOutgoing,
-      totalSavings: totalSavings,
+      totalSavings: (totalSavings * -1), // als inverse tonen
       rest: totalIncoming + totalFixedOutgoing + totalOutgoing
     };
   }

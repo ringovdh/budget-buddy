@@ -30,7 +30,7 @@ export class MonthOverviewComponent implements OnChanges {
             totalIncoming: bpm.totalIncomingBudget,
             totalFixedOutgoing: bpm.totalFixedOutgoingBudget,
             totalOutgoing: bpm.totalOutgoingBudget,
-            totalSavings: bpm.totalSavings,
+            totalSavings: (bpm.totalSavings * -1), // als inverse tonen
             rest: bpm.totalIncomingBudget + bpm.totalFixedOutgoingBudget + bpm.totalOutgoingBudget
           } as ResumeData
         } as MonthOverview)
