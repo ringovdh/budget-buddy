@@ -4,6 +4,7 @@ import { Category } from '../../admin/category/category';
 import { CategoryService } from '../../admin/category/category.service';
 import { BudgetPerCategory } from '../../entity/BudgetPerCategory';
 import { BudgetPerCategoryService } from '../budgetPerCategory.service';
+import {CategoricalBudgetOverview} from "../../entity/CategoricalBudgetOverview";
 
 @Component({
   selector: 'app-transactions-per-category',
@@ -13,7 +14,7 @@ import { BudgetPerCategoryService } from '../budgetPerCategory.service';
 })
 export class BudgetPerCategoryComponent implements OnInit {
 
-  budgetOverview: BudgetPerCategory[] = [];
+  categoricalBudgetOverview: CategoricalBudgetOverview;
   categories: Category[] = [];
   searchForm!: FormGroup;
 
@@ -27,7 +28,8 @@ export class BudgetPerCategoryComponent implements OnInit {
 
   submit() {
     this.budgetPerCategoryService.getBudgetOverviewByCategory(this.searchForm.get("category").value, this.searchForm.get("year").value).subscribe(data => {
-      this.budgetOverview = data;
+      this.categoricalBudgetOverview = data;
+      console.log('cbo', this.categoricalBudgetOverview)
     });
   }
 

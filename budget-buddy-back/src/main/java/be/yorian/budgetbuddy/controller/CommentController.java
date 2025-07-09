@@ -13,8 +13,8 @@ public interface CommentController {
     ResponseEntity<CustomResponse> getCommentBySearchterm(Optional<String> searchterm,
                                                           Optional<Integer> page,
                                                           Optional<Integer> size);
-    Optional<Comment> getCommentById(Long comment_id);
-    void createComment(Comment comment);
+    Comment getCommentById(Long comment_id);
+    Comment createComment(Comment comment);
     void updateComment(Long comment_id,
                        Comment comment);
     void deleteComment(Long comment_id);

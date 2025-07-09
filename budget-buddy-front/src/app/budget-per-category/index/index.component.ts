@@ -1,7 +1,8 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BudgetPerCategory } from 'src/app/entity/BudgetPerCategory';
 import { BudgetTransactionsModalComponent } from 'src/app/modal/budget-transactions-modal/budget-transactions-modal.component';
+import {CategoricalBudgetOverview} from "../../entity/CategoricalBudgetOverview";
+import {BudgetPerMonthPerCategory} from "../../entity/BudgetPerMonthPerCategory";
 
 @Component({
   selector: 'app-index',
@@ -11,13 +12,13 @@ import { BudgetTransactionsModalComponent } from 'src/app/modal/budget-transacti
 })
 export class IndexComponent implements OnChanges {
 
-  @Input() budgetOverview: BudgetPerCategory[] = [];
+  @Input() categoricalBudgetOverview: CategoricalBudgetOverview;
 
   constructor(private modalService: NgbModal) { }
 
   ngOnChanges(changes: SimpleChanges) { }
 
-  openTransactionsModal(overview: BudgetPerCategory) {
+  openTransactionsModal(overview: BudgetPerMonthPerCategory) {
     const modalRef = this.modalService.open(BudgetTransactionsModalComponent);
     modalRef.componentInstance.overview = overview;
   }

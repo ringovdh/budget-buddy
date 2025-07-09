@@ -1,7 +1,6 @@
 package be.yorian.budgetbuddy.controller.impl;
 
 import be.yorian.budgetbuddy.controller.BudgetController;
-import be.yorian.budgetbuddy.dto.BudgetOverviewPerCategory;
 import be.yorian.budgetbuddy.dto.CategoricalBudgetOverview;
 import be.yorian.budgetbuddy.dto.MonthlyBudgetOverview;
 import be.yorian.budgetbuddy.dto.YearlyBudgetOverview;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,14 +31,6 @@ public class BudgetControllerImpl implements BudgetController {
                                                                            @RequestParam Optional<Integer>year) {
         MonthlyBudgetOverview budgetOverviewPerMonth = budgetService.getBudgetOverviewPerMonth(month.orElse(1), year.orElse(2025));
         return ResponseEntity.ok().body(budgetOverviewPerMonth);
-    }
-
-    @Override
-    @Deprecated
-    @GetMapping(produces = "application/json", path="/category")
-    public ResponseEntity<List<BudgetOverviewPerCategory>> getBudgetOverviewPerCategory(@RequestParam Optional<Long>categoryId,
-                                                                                        @RequestParam Optional<Integer>year) {
-        return ResponseEntity.ok().body(budgetService.getBudgetOverviewPerCategory(categoryId.orElse(0L), year.orElse(0)));
     }
 
     @Override

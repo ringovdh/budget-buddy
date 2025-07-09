@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Chart } from 'chart.js';
-import { BudgetPerCategory } from 'src/app/entity/BudgetPerCategory';
 import { getPeriodLabel } from 'src/app/common/utils/dateUtils'
+import {CategoricalBudgetOverview} from "../../entity/CategoricalBudgetOverview";
 
 @Component({
   selector: 'app-graphs',
@@ -14,13 +14,13 @@ export class GraphsComponent implements OnChanges {
   budgetPerCategorylineChart: any;
   txPerYearBarChart: any;
   amountPerYearBarChart: any;
-  @Input() budgetOverview: BudgetPerCategory[] = [];
+  @Input() categoricalBudgetOverview: CategoricalBudgetOverview;
   budgetOverwiewByMonth: { label: string, total: number }[] = [];
 
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.budgetOverview != null) {
+    if (this.categoricalBudgetOverview != null) {
       this.createTxPerYearBarChart();
       this.createAmountPerYearBarChart();
       this.createBudgetPerCategoryGraph();
@@ -59,10 +59,10 @@ export class GraphsComponent implements OnChanges {
   }
 
   private createAmountPerYearBarChart() {
-      let periods: number[] = [];
+      let periods: string[] = [];
       let amounts: number[] = [];
-      this.budgetOverview.forEach(value => {
-        periods.push(value.year);
+      this.categoricalBudgetOverview.budgetsPerMonth.forEach(value => {
+        periods.push(value.month);
         amounts.push(value.total)
       });
 
@@ -88,10 +88,10 @@ export class GraphsComponent implements OnChanges {
   }
 
   private createTxPerYearBarChart() {
-      let periods: number[] = [];
+      let periods: string[] = [];
       let numbers: number[] = [];
-      this.budgetOverview.forEach(value => {
-        periods.push(value.year);
+      this.categoricalBudgetOverview.budgetsPerMonth.forEach(value => {
+        periods.push(value.month);
         numbers.push(value.transactions.length)
       });
 
@@ -119,7 +119,7 @@ export class GraphsComponent implements OnChanges {
 
   private groupBudgetOverviewByMonth() {
     let groups: Map<string, number> = new Map<string, number>();
-    this.budgetOverview.forEach (
+    this.categoricalBudgetOverview.budgetsPerMonth.forEach (
       o => o.transactions.forEach (
         tx => {
           let _period = getPeriodLabel(tx.date);

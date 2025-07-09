@@ -1,10 +1,10 @@
-@if (budgetOverview.length === 0) {
+@if (categoricalBudgetOverview === null) {
   <div class="no-budget-overview">
-    Selecteer eerst een categorie en/of jaartal.
+    Selecteer eerst een categorie en/of jaartal.*
   </div>
 }
 
-@if (budgetOverview.length > 0) {
+@if (categoricalBudgetOverview != null) {
   <div class="budgetOverview-resume">
     <div class="custom-child-panel">
     </div>
@@ -18,10 +18,10 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active" id="nav-index" role="tabpanel" aria-labelledby="nav-index-tab">
-            <app-index [budgetOverview] = budgetOverview></app-index>
+            <app-index [categoricalBudgetOverview] = categoricalBudgetOverview></app-index>
           </div>
           <div class="tab-pane fade" id="nav-graphs" role="tabpanel" aria-labelledby="nav-graphs-tab">
-            <app-graphs [budgetOverview] = budgetOverview></app-graphs>
+            <app-graphs [categoricalBudgetOverview] = categoricalBudgetOverview></app-graphs>
           </div>
         </div>
       </div>

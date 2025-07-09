@@ -58,7 +58,7 @@ public class CommentControllerImpl implements CommentController {
 
     @Override
     @GetMapping("/{comment_id}")
-    public Optional<Comment> getCommentById(@PathVariable("comment_id") Long commentId) {
+    public Comment getCommentById(@PathVariable("comment_id") Long commentId) {
     	return commentService.getCommentById(commentId);
     }
 
@@ -71,8 +71,8 @@ public class CommentControllerImpl implements CommentController {
 
     @Override
     @PostMapping("/")
-    public void createComment(@RequestBody Comment comment) {
-        commentService.saveComment(comment);
+    public Comment createComment(@RequestBody Comment comment) {
+        return commentService.saveComment(comment);
     }
     
     @Override

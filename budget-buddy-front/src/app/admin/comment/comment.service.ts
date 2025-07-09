@@ -28,10 +28,6 @@ export class CommentService {
   comments$ = (searchterm: string = '', page: number = 0, size: number = 10): Observable<CustomHttpResponse<Page<Comment>>> =>
     this.httpClient.get<CustomHttpResponse<Page<Comment>>>(`${this.apiURL}searchterm?searchterm=${searchterm}&page=${page}&size=${size}`);
 
-  find(id: number): Observable<Comment> {
-    return this.httpClient.get<Comment>(this.apiURL+ id)
-  }
-
   delete(id: number) {
     return this.httpClient.delete<Comment>(this.apiURL + id, this.httpOptions)
   }

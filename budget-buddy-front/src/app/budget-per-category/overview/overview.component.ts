@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import { BudgetPerCategory } from 'src/app/entity/BudgetPerCategory';
+import {CategoricalBudgetOverview} from "../../entity/CategoricalBudgetOverview";
 
 @Component({
   selector: 'app-overview',
@@ -9,7 +9,7 @@ import { BudgetPerCategory } from 'src/app/entity/BudgetPerCategory';
 })
 export class OverviewComponent implements OnChanges {
 
-  @Input() budgetOverview: BudgetPerCategory[] = [];
+  @Input() categoricalBudgetOverview: CategoricalBudgetOverview;
 
   constructor() {
   }

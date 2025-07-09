@@ -6,10 +6,12 @@ import be.yorian.budgetbuddy.service.TransactionService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static be.yorian.budgetbuddy.mapper.TransactionMapper.mapTransaction;
 
 @Service
+@Transactional
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
@@ -22,9 +24,10 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction updateTransaction(Long id, Transaction updatedTransaction) {
-        Transaction transaction = transactionRepository.findById(id)
+        Transaction existingTransaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("transaction_not_found"));
-        return transactionRepository.save(mapTransaction(transaction, updatedTransaction));
+        mapTransaction(existingTransaction, updatedTransaction);
+        return existingTransaction;
     }
 
     @Override
@@ -34,6 +37,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void deleteTransaction(Long id) {
+        if (!transactionRepository.existsById(id)) {
+            throw new EntityNotFoundException("transaction_not_found");
+        }
         transactionRepository.deleteById(id);
     }
 
