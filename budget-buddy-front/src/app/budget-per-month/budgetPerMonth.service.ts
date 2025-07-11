@@ -9,7 +9,7 @@ import {Chart} from "chart.js";
 })
 export class BudgetPerMonthService {
 
-  private apiURL: String = 'http://localhost:8080/budgets/period';
+  private apiURL: String = 'http://localhost:8080/budgets/budget-by-month';
 
   constructor(private httpClient: HttpClient) { }
 

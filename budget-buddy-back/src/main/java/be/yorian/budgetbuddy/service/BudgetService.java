@@ -7,7 +7,9 @@ import be.yorian.budgetbuddy.dto.YearlyBudgetOverview;
 public interface BudgetService {
     MonthlyBudgetOverview getBudgetOverviewPerMonth(int month, int year);
 
-    CategoricalBudgetOverview getBudgetOverviewByCategory(Long categoryId, int year);
+    CategoricalBudgetOverview getBudgetOverviewByCategory(long categoryId);
+
+    CategoricalBudgetOverview getBudgetOverviewByCategoryAndYear(long categoryId, int year);
 
     YearlyBudgetOverview getBudgetOverviewByYear(int year);
 

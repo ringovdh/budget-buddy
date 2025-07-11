@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 
-public class OverviewHandler {
+public abstract class OverviewHandler {
 
     protected final TransactionRepository transactionRepository;
 
@@ -15,8 +15,8 @@ public class OverviewHandler {
         this.transactionRepository = transactionRepository;
     }
 
-    protected String formatMonth(int year, int month) {
-        return YearMonth.of(year, month).
+    protected String formatMonth(YearMonth yearMonth) {
+        return yearMonth.
                 format(DateTimeFormatter.ofPattern("MMMM yyyy")
                         .withLocale(new Locale.Builder().setLanguage("nl").setRegion("NL").build())
                 );

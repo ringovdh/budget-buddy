@@ -12,9 +12,9 @@ public interface BudgetController {
     ResponseEntity<MonthlyBudgetOverview> getBudgetOverviewPerMonth(Optional<Integer> month,
                                                                     Optional<Integer> year);
 
-    ResponseEntity<CategoricalBudgetOverview> getBudgetOverviewByCategory(Optional<Long> categoryId,
+    ResponseEntity<CategoricalBudgetOverview> getBudgetOverviewByCategory(long categoryId,
                                                                            Optional<Integer> year);
 
-    ResponseEntity<YearlyBudgetOverview> getBudgetOverviewByYear(Optional<Integer> year);
+    ResponseEntity<YearlyBudgetOverview> getBudgetOverviewByYear(int year);
 
 }

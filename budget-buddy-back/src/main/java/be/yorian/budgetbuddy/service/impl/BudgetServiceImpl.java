@@ -35,7 +35,17 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public CategoricalBudgetOverview getBudgetOverviewByCategory(Long categoryId, int year) {
+    public CategoricalBudgetOverview getBudgetOverviewByCategory(long categoryId) {
+        OverviewPerCategoryHandler handler = new OverviewPerCategoryHandler(
+                transactionRepository,
+                categoryRepository,
+                categoryId,
+                0);
+        return handler.createBudgetOverviewPerCategory();
+    }
+
+    @Override
+    public CategoricalBudgetOverview getBudgetOverviewByCategoryAndYear(long categoryId, int year) {
         OverviewPerCategoryHandler handler = new OverviewPerCategoryHandler(
                 transactionRepository,
                 categoryRepository,

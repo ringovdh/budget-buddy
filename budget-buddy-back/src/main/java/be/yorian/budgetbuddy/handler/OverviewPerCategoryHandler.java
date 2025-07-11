@@ -2,12 +2,13 @@ package be.yorian.budgetbuddy.handler;
 
 import be.yorian.budgetbuddy.dto.BudgetPerMonthPerCategory;
 import be.yorian.budgetbuddy.dto.CategoricalBudgetOverview;
+import be.yorian.budgetbuddy.entity.Category;
 import be.yorian.budgetbuddy.entity.Transaction;
 import be.yorian.budgetbuddy.repository.CategoryRepository;
 import be.yorian.budgetbuddy.repository.TransactionRepository;
 import jakarta.persistence.EntityNotFoundException;
 
-import java.util.ArrayList;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
 
@@ -30,25 +31,24 @@ public class OverviewPerCategoryHandler extends OverviewHandler {
 
 
     public CategoricalBudgetOverview createBudgetOverviewPerCategory() {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(EntityNotFoundException::new);
+
         // alle transactie ophalen en groeperen
-        Map<String, List<Transaction>> groupedByMonth = groupTransactionsForCategory();
+        Map<YearMonth, List<Transaction>> groupedByMonth = groupTransactionsForCategory();
         return new CategoricalBudgetOverview(
-                categoryRepository.findById(categoryId).orElseThrow(EntityNotFoundException::new),
+                category,
                 createBudgetPerMonthList(groupedByMonth) // data per maand verzamelen
         );
     }
 
-    private List<BudgetPerMonthPerCategory> createBudgetPerMonthList(Map<String, List<Transaction>> groupedByMonth) {
-        List<BudgetPerMonthPerCategory> budgetPerMonthList = new ArrayList<>();
-        groupedByMonth.forEach((month, transactions) -> {
-            BudgetPerMonthPerCategory bpmpc = new BudgetPerMonthPerCategory(
-                    month,
-                    calculateTotalBudget(transactions),
-                    transactions
-            );
-            budgetPerMonthList.add(bpmpc);
-        });
-        return budgetPerMonthList;
+    private List<BudgetPerMonthPerCategory> createBudgetPerMonthList(Map<YearMonth, List<Transaction>> groupedByMonth) {
+        return groupedByMonth.entrySet().stream()
+                .map(entry -> new BudgetPerMonthPerCategory(
+                    formatMonth(entry.getKey()),
+                    calculateTotalBudget(entry.getValue()),
+                    entry.getValue()
+            )).toList();
     }
 
     private double calculateTotalBudget(List<Transaction> transactions) {
@@ -57,7 +57,7 @@ public class OverviewPerCategoryHandler extends OverviewHandler {
                 .sum();
     }
 
-    private Map<String, List<Transaction>> groupTransactionsForCategory() {
+    private Map<YearMonth, List<Transaction>> groupTransactionsForCategory() {
         List<Transaction> transactions;
         if (year == 0) {
             transactions = transactionRepository.findByCategoryId(categoryId);
@@ -65,6 +65,6 @@ public class OverviewPerCategoryHandler extends OverviewHandler {
             transactions = transactionRepository.findByCategoryIdAndDateContainingYear(categoryId, year);
         }
         return transactions.stream()
-                .collect(groupingBy(t -> formatMonth(t.getDate().getYear(), t.getDate().getMonth().getValue())));
+                .collect(groupingBy(t -> YearMonth.of(t.getDate().getYear(), t.getDate().getMonth().getValue())));
     }
 }

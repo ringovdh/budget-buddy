@@ -8,11 +8,11 @@ import {YearlyBudgetOverview} from "../entity/YearlyBudgetOverview";
 })
 export class BudgetPerYearService {
 
-  private apiURL: String = 'http://localhost:8080/budgets/year';
+  private apiURL: String = 'http://localhost:8080/budgets/budget-by-year';
 
   constructor(private httpClient: HttpClient) { }
 
   getYearlyBudgetOverview(year: number): Observable<YearlyBudgetOverview> {
-    return this.httpClient.get<YearlyBudgetOverview>(`${this.apiURL}?year=${year}`);
+    return this.httpClient.get<YearlyBudgetOverview>(`${this.apiURL}/${year}`);
   }
 }

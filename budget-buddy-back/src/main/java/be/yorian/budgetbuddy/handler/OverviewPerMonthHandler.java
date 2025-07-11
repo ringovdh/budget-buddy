@@ -37,7 +37,7 @@ public class OverviewPerMonthHandler extends OverviewHandler {
         // alle transactie ophalen en groeperen
         Map<Category, List<Transaction>> groupedByCategory = groupTransactionsForMonth(month, year);
         return new MonthlyBudgetOverview(
-                formatMonth(year, month),
+                formatMonth(YearMonth.of(year, month)),
                 createBudgetPerCategoryList(groupedByCategory, year), // data per categorie verzamelen
                 retrieveMonthlyGraphData(groupedByCategory), // grafiekdata verzamelen
                 retrieveProjectData(groupedByCategory) // projectdata verzamelen;

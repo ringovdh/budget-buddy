@@ -8,12 +8,12 @@ import {CategoricalBudgetOverview} from "../entity/CategoricalBudgetOverview";
 })
 export class BudgetPerCategoryService {
 
-  private apiURL: String = 'http://localhost:8080/budgets/categories';
+  private apiURL: String = 'http://localhost:8080/budgets/budget-by-category';
 
   constructor(private httpClient: HttpClient) { }
 
   getBudgetOverviewByCategory(category: number, year: string): Observable<CategoricalBudgetOverview> {
-    return this.httpClient.get<CategoricalBudgetOverview>(`${this.apiURL}?categoryId=${category}&year=${year}`);
+    return this.httpClient.get<CategoricalBudgetOverview>(`${this.apiURL}/${category}?year=${year}`);
   }
 
 }
