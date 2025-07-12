@@ -38,7 +38,7 @@ public class BudgetControllerImpl implements BudgetController {
 
     @Override
     @GetMapping(produces = "application/json", path="/budget-by-category/{categoryId}")
-    public ResponseEntity<CategoricalBudgetOverview> getBudgetOverviewByCategory(@PathVariable long categoryId,
+        public ResponseEntity<CategoricalBudgetOverview> getBudgetOverviewByCategory(@PathVariable long categoryId,
                                                                                  @RequestParam Optional<Integer>year) {
         CategoricalBudgetOverview overview;
         if (year.isEmpty()) {
