@@ -1,19 +1,22 @@
 package be.yorian.budgetbuddy.service;
 
-import be.yorian.budgetbuddy.entity.Category;
+import be.yorian.budgetbuddy.dto.category.CategoryDTO;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CategoryService {
 	
-	List<Category> getCategories();
-	Optional<Category> getCategoryById(long category_id);
+	List<CategoryDTO> getCategories();
 
-	Page<Category> getCategoriesByLabel(String label, int page, int size);
-	Category saveCategory(Category category);
-	Category updateCategory(Long comment_id, Category category);
+	CategoryDTO getCategoryById(long category_id);
+
+	Page<CategoryDTO> getCategoriesByLabel(String label, int page, int size);
+
+	CategoryDTO createNewCategory(CategoryDTO categoryDto);
+
+	CategoryDTO updateCategory(Long comment_id, CategoryDTO categoryDto);
+
 	void deleteCategory(long category_id);
 	
 }

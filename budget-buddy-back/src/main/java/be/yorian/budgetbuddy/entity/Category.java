@@ -14,9 +14,6 @@ public class Category {
     public boolean fixedcost;
     public boolean saving;
     public boolean revenue;
-    public boolean indetails;
-    public boolean inmonitor;
-    public long limitamount;
 
 
     public Category() {}
@@ -28,9 +25,6 @@ public class Category {
         this.fixedcost = categoryBuilder.fixedcost;
         this.saving = categoryBuilder.saving;
         this.revenue = categoryBuilder.revenue;
-        this.indetails = categoryBuilder.indetails;
-        this.inmonitor = categoryBuilder.inmonitor;
-        this.limitamount = categoryBuilder.limitamount;
     }
 
     public static CategoryBuilder builder() {
@@ -71,30 +65,6 @@ public class Category {
 
     public void setSaving(boolean saving) { this.saving = saving; }
 
-    public boolean isIndetails() {
-        return indetails;
-    }
-
-    public void setIndetails(boolean indetails) {
-        this.indetails = indetails;
-    }
-
-    public boolean isInmonitor() {
-        return inmonitor;
-    }
-
-    public void setInmonitor(boolean inmonitor) {
-        this.inmonitor = inmonitor;
-    }
-
-    public long getLimitamount() {
-        return limitamount;
-    }
-
-    public void setLimitamount(long limitamount) {
-        this.limitamount = limitamount;
-    }
-
     public boolean isRevenue() {
         return revenue;
     }
@@ -114,9 +84,6 @@ public class Category {
         private boolean fixedcost;
         private boolean saving;
         private boolean revenue;
-        private boolean indetails;
-        private boolean inmonitor;
-        private long limitamount;
 
         public CategoryBuilder id(long id) {
             this.id = id;
@@ -145,21 +112,6 @@ public class Category {
 
         public CategoryBuilder revenue(boolean revenue) {
             this.revenue = revenue;
-            return this;
-        }
-
-        public CategoryBuilder indetails(boolean indetails) {
-            this.indetails = indetails;
-            return this;
-        }
-
-        public CategoryBuilder inmonitor(boolean inmonitor) {
-            this.inmonitor = inmonitor;
-            return this;
-        }
-
-        public CategoryBuilder limitamount(long limitamount) {
-            this.limitamount = limitamount;
             return this;
         }
 

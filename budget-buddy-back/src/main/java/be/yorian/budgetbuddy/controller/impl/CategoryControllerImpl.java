@@ -1,30 +1,32 @@
 package be.yorian.budgetbuddy.controller.impl;
 
 import be.yorian.budgetbuddy.controller.CategoryController;
-import be.yorian.budgetbuddy.entity.Category;
-import be.yorian.budgetbuddy.response.CustomResponse;
+import be.yorian.budgetbuddy.dto.category.CategoryDTO;
 import be.yorian.budgetbuddy.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/categories")
 public class CategoryControllerImpl implements CategoryController {
 
-	
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
-    public CategoryControllerImpl() {}
 
     @Autowired
     public CategoryControllerImpl(CategoryService categoryService) { 
@@ -33,59 +35,56 @@ public class CategoryControllerImpl implements CategoryController {
 
     
     @Override
-    @GetMapping("/")
-    public List<Category> getCategories() {
-        return categoryService.getCategories();
+    @GetMapping("/all")
+    public ResponseEntity<List<CategoryDTO>> getCategories() {
+        return ResponseEntity.ok(categoryService.getCategories());
     }
 
     @Override
-    @GetMapping("/{category_id}")
-    public Optional<Category> getCategoryById(@PathVariable("category_id") long category_id) {
-        return categoryService.getCategoryById(category_id);
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<CategoryDTO> getCategoryById(
+            @PathVariable long categoryId) {
+        return ResponseEntity.ok(categoryService.getCategoryById(categoryId));
     }
 
     @Override
-    @GetMapping(produces = "application/json", path="/label")
-    public ResponseEntity<CustomResponse> getCategoryBySearchterm(@RequestParam Optional<String> label,
-                                                                 @RequestParam Optional<Integer> page,
-                                                                 @RequestParam Optional<Integer> size) {
-        Page<Category> categories = categoryService.getCategoriesByLabel(label.orElse(""),
-                page.orElse(0), size.orElse(10));
-        CustomResponse response = new CustomResponse();
-        response.setStatus(HttpStatus.OK);
-        response.setStatusCode(HttpStatus.OK.value());
-        Map<String, Page> dataMap = new HashMap<>();
-        dataMap.put("page", categories);
-        response.setData(dataMap);
-        return ResponseEntity.ok().body(response);
+    @GetMapping
+    public ResponseEntity<Page<CategoryDTO>> getCategoriesByLabel(
+            @RequestParam Optional<String> label,
+            @RequestParam Optional<Integer> page,
+            @RequestParam Optional<Integer> size) {
+        Page<CategoryDTO> categories = categoryService.getCategoriesByLabel(
+                label.orElse(""),
+                page.orElse(0),
+                size.orElse(10));
+        return ResponseEntity.ok(categories);
     }
 
     @Override
-    @PostMapping("/")
-    public ResponseEntity<Void> saveCategory(@RequestBody Category category) {
-        Category new_category = categoryService.saveCategory(category);
-
-        return entityWithLocation(new_category.getId());
+    @PostMapping
+    public ResponseEntity<CategoryDTO> createNewCategory(@RequestBody CategoryDTO category) {
+        CategoryDTO newCategory = categoryService.createNewCategory(category);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newCategory.id())
+                .toUri();
+        return ResponseEntity.created(location).body(newCategory);
     }
 
     @Override
-    @PutMapping("/{category_id}")
-    public Category updateCategory(@PathVariable("category_id")Long categoryId, @RequestBody Category category) {
-        return categoryService.updateCategory(categoryId, category);
+    @PutMapping("/{categoryId}")
+    public ResponseEntity<CategoryDTO> updateCategory(
+            @PathVariable Long categoryId,
+            @RequestBody CategoryDTO category) {
+        return ResponseEntity.ok(categoryService.updateCategory(categoryId, category));
     }
     
     @Override
-    @DeleteMapping("/{category_id}")
-    public void deleteCategory(@PathVariable("category_id") long category_id) {
-        categoryService.deleteCategory(category_id);
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable long categoryId) {
+        categoryService.deleteCategory(categoryId);
+        return ResponseEntity.noContent().build();
     }
 
-    private ResponseEntity<Void> entityWithLocation(Object id) {
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{category_id}")
-                .buildAndExpand(id)
-                .toUri();
-        return ResponseEntity.created(location).build();
-    }
  }

@@ -18,7 +18,7 @@ class CategoryRepositoryTest extends BaseRepositoryTest {
     @Test
     @Sql("/test-category.sql")
     void findCategoriesByLabelContaining() {
-        Page<Category> categories = categoryRepository.findByLabelContaining("Test", PageRequest.of(0, 1));
+        Page<Category> categories = categoryRepository.findByLabelContainingIgnoreCase("Test", PageRequest.of(0, 1));
         assertEquals(1, categories.getTotalElements());
         assertThat(categories.getContent().getFirst())
                 .satisfies(c ->
