@@ -48,7 +48,7 @@ public class CategoryControllerImpl implements CategoryController {
     }
 
     @Override
-    @GetMapping
+    @GetMapping("/label")
     public ResponseEntity<Page<CategoryDTO>> getCategoriesByLabel(
             @RequestParam Optional<String> label,
             @RequestParam Optional<Integer> page,
@@ -61,7 +61,7 @@ public class CategoryControllerImpl implements CategoryController {
     }
 
     @Override
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<CategoryDTO> createNewCategory(@RequestBody CategoryDTO category) {
         CategoryDTO newCategory = categoryService.createNewCategory(category);
         URI location = ServletUriComponentsBuilder

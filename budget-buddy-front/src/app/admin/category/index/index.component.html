@@ -3,7 +3,7 @@
     <ng-container *ngSwitchCase="'APP_ERROR'">
       <div class="errorPanel">
         <div class="alert alert-danger " role="alert">
-          <span>{{ state.error|json }}</span>
+            <strong>Error:</strong> {{ state.error?.message || 'An unknown error occurred.' }}
         </div>
       </div>
     </ng-container>
@@ -44,57 +44,49 @@
                 <th>Icon</th>
                 <th>Label</th>
                 <th>Vaste Kost</th>
-                <th>Opnemen in details</th>
-                <th>Opnemen in monitoring</th>
                 <th>Inkomst</th>
-                <th>Limietbedrag</th>
                 <th><i class="fa fa-pencil"></i></th>
                 <th><i class="fa fa-trash"></i></th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let cat of state.appData.data.page.content">
+              <tr *ngFor="let cat of state.appData.content">
                 <td><i class="fa {{cat.icon}}" ></i></td>
                 <td>{{ cat.label }}</td>
                 <td>
                   <i [ngClass]="{'fa fa-check':cat.fixedcost === true}"></i>
                 </td>
-                <td>
-                  <i [ngClass]="{'fa fa-check':cat.indetails === true}"></i>
-                </td>
-                <td>
-                  <i [ngClass]="{'fa fa-check':cat.inmonitor === true}"></i>
-                </td>
+
                 <td>
                   <i [ngClass]="{'fa fa-check':cat.revenue === true}"></i>
                 </td>
-                <td>{{ cat.limitamount }}€</td>
+
                 <td>
                   <a (click)="editCategory(cat)"><i class="fa fa-pencil"></i></a>
                 </td>
                 <td>
-                  <a (click)="deleteCategory(cat.id)"><i class="fa fa-trash"></i></a>
+                  <a (click)="deleteCategory(cat)"><i class="fa fa-trash"></i></a>
                 </td>
               </tr>
             </tbody>
           </table>
           <div class="row" id="pagination">
             <div class="col-sm-6 pagination-left">
-              toon <b>10</b> van de <b>{{ state.appData.data.page.totalElements }}</b> items
+              toon <b>{{ state.appData.numberOfElements }}</b> van de <b>{{ state.appData.totalElements }}</b> items
             </div>
             <div class="col-sm-6 pagination-right">
               <ul class="pagination">
-                <li class="page-item pointer" [ngClass]="0 == (currentPage$ | async) ? 'disabled' : '' ">
+                <li class="page-item pointer" [ngClass]="state.appData.first ? 'disabled' : '' ">
                   <a (click)="goToNextOrPreviousPage('backward', searchForm.value.label)" class="page-link" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Vorige</span>
                   </a>
                 </li>
-                <li *ngFor="let pageNumber of [].constructor(state.appData.data.page.totalPages) let i = index"
-                    class="page-item pointer" [ngClass]="i == (currentPage$ | async) ? 'active' : '' ">
+                <li *ngFor="let pageNumber of [].constructor(state.appData.totalPages); let i = index"
+                    class="page-item pointer" [ngClass]="i === (currentPage$ | async) ? 'active' : ''">
                   <a (click)="goToPage(searchForm.value.label, i)" class="page-link"> {{ i + 1 }}</a>
                 </li>
-                <li class="page-item pointer" [ngClass]="state.appData.data.page.totalPages - 1 == (currentPage$ | async) ? 'disabled' : '' ">
+                <li class="page-item pointer" [ngClass]="state.appData.last ? 'disabled' : '' ">
                   <a (click)="goToNextOrPreviousPage('forward', searchForm.value.label)" class="page-link" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Volgende</span>

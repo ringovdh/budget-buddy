@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Category} from "./category";
-import {CustomHttpResponse} from "../../entity/customHttpResponse";
 import {Page} from "../../entity/page";
 
 @Injectable({
@@ -10,7 +9,7 @@ import {Page} from "../../entity/page";
 })
 export class CategoryService {
 
-  private apiURL = 'http://localhost:8080/categories/';
+  private readonly apiURL = 'http://localhost:8080/categories/';
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -25,11 +24,17 @@ export class CategoryService {
     return this.httpClient.get<Category[]>(this.apiURL)
   }
 
-  categories$ = (label: string = '', page: number = 0, size: number = 10): Observable<CustomHttpResponse<Page<Category>>> =>
-    this.httpClient.get<any>(`${this.apiURL}label?label=${label}&page=${page}&size=${size}`);
+  getCategoriesPage(label: string, page: number = 0, size: number = 10): Observable<Page<Category>> {
+    const params = new HttpParams()
+        .set('label', label)
+        .set('page', page)
+        .set('size', size);
 
-  delete(id: number) {
-    return this.httpClient.delete<Category>(this.apiURL + id, this.httpOptions)
+    return this.httpClient.get<Page<Category>>(this.apiURL + 'label', { params });
+  }
+
+  delete(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiURL}${id}`, this.httpOptions)
   }
 
   create(category: Category): Observable<Category> {
@@ -37,6 +42,6 @@ export class CategoryService {
   }
 
   update(id: number, category: Category): Observable<Category> {
-    return this.httpClient.put<Category>(this.apiURL + id, JSON.stringify(category), this.httpOptions)
+    return this.httpClient.put<Category>(`${this.apiURL}${id}`, JSON.stringify(category), this.httpOptions)
   }
 }

@@ -23,10 +23,7 @@ export class EditComponent implements OnInit {
       icon: new FormControl(this.category.icon, Validators.required),
       label: new FormControl(this.category.label, Validators.required),
       fixedcost: new FormControl(this.category.fixedcost),
-      indetails: new FormControl(this.category.indetails),
-      inmonitor: new FormControl(this.category.inmonitor),
-      revenue: new FormControl(this.category.revenue),
-      limitamount: new FormControl(this.category.limitamount)
+      revenue: new FormControl(this.category.revenue)
     });
   }
 

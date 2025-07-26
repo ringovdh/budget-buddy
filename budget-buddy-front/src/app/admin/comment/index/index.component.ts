@@ -9,6 +9,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {Page} from "../../../entity/page";
 import {CustomHttpResponse} from "../../../entity/customHttpResponse";
 import {ConfirmationModalComponent} from "../../../modal/confirmation-modal/confirmation-modal.component";
+import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 @Component({
   selector: 'app-index',
@@ -35,6 +36,7 @@ export class IndexComponent implements OnInit {
   ngOnInit(): void {
     this.commentsState$ = this.commentService.comments$().pipe(
       map((response: CustomHttpResponse<Page<Comment>>) => {
+        console.log('response', response)
         this.responseSubject.next(response);
         this.currentPageSubject.next(response.data.page.number);
         return { appState: 'APP_LOADED', appData: response }

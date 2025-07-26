@@ -21,10 +21,7 @@ export class CreateComponent implements OnInit {
       icon: new FormControl('', Validators.required),
       label: new FormControl('', Validators.required),
       fixedcost: new FormControl(false),
-      indetails: new FormControl(false),
-      inmonitor: new FormControl(false),
-      revenue: new FormControl(false),
-      limitamount: new FormControl(0)
+      revenue: new FormControl(false)
     });
   }
 

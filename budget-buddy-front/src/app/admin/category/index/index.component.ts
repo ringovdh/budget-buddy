@@ -4,10 +4,9 @@ import {Category} from "../category";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {EditComponent} from "../edit/edit.component";
 import {CreateComponent} from "../create/create.component";
-import {BehaviorSubject, catchError, map, Observable, of, startWith} from "rxjs";
-import {CustomHttpResponse} from "../../../entity/customHttpResponse";
+import {BehaviorSubject, catchError, map, Observable, of, startWith, switchMap} from "rxjs";
 import {Page} from "../../../entity/page";
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {ConfirmationModalComponent} from "../../../modal/confirmation-modal/confirmation-modal.component";
 
 @Component({
@@ -21,80 +20,75 @@ import {ConfirmationModalComponent} from "../../../modal/confirmation-modal/conf
 })
 export class IndexComponent implements OnInit {
 
-  categoryState$: Observable<{appState: string, appData?:CustomHttpResponse<Page<Category>>, error?:HttpErrorResponse}>;
-  responseSubject = new BehaviorSubject<CustomHttpResponse<Page<Category>>>(null);
+  categoryState$: Observable<{appState: string, appData?:Page<Category>, error?:HttpErrorResponse}>;
+  private pageRequestSubject = new BehaviorSubject<{ label: string, page: number }>({ label: '', page: 0 });
   private currentPageSubject = new BehaviorSubject<number>(0);
   currentPage$ = this.currentPageSubject.asObservable();
-  categories: Category[] = [];
-  totalCategories: number = 0;
 
-  constructor(public categoryService: CategoryService,
-              private modalService: NgbModal) { }
+  constructor(
+      private categoryService: CategoryService,
+      private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    this.categoryState$ = this.categoryService.categories$().pipe(
-      map((response: CustomHttpResponse<Page<Category>>) => {
-        this.responseSubject.next(response);
-        this.currentPageSubject.next(response.data.page.number);
-        return { appState: 'APP_LOADED', appData: response }
-      }),
-      startWith({appState: 'APP_LOADING'}),
-      catchError((error: HttpErrorResponse) => of({ appState: 'APP_ERROR', error })),
-    )
+    this.categoryState$ = this.pageRequestSubject.pipe(
+      switchMap(({ label, page }) => {
+        this.currentPageSubject.next(page);
+        return this.categoryService.getCategoriesPage(label, page).pipe(
+            map(response => ({appState: 'APP_LOADED', appData: response})),
+            startWith({appState: 'APP_LOADING'}),
+            catchError((error: HttpErrorResponse) => of({appState: 'APP_ERROR', error}))
+        );
+      })
+    );
   }
 
-  goToPage(label?: string, pageNumber?: number): void {
-    this.categoryState$ = this.categoryService.categories$(label, pageNumber).pipe(
-      map((response: CustomHttpResponse<Page<Category>>) => {
-        this.responseSubject.next(response);
-        this.currentPageSubject.next(pageNumber);
-        return { appState: 'APP_LOADED', appData: response }
-      }),
-      startWith({appState: 'APP_LOADED', appData: this.responseSubject.value}),
-      catchError((error: HttpErrorResponse) => of({ appState: 'APP_ERROR', error })),
-    )
+  goToPage(label: string = '', pageNumber: number = 0): void {
+    this.pageRequestSubject.next({ label, page: pageNumber });
   }
 
-  goToNextOrPreviousPage(direction?: string, label?: string): void {
-    this.goToPage(label, direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1);
+  goToNextOrPreviousPage(direction: 'forward' | 'backward', label: string = ''): void {
+    const newPage = direction === 'forward'
+        ? this.currentPageSubject.value + 1
+        : this.currentPageSubject.value - 1;
+    this.goToPage(label, newPage);
   }
 
-  deleteCategory(id:number) {
-    const modalRef = this.modalService.open(ConfirmationModalComponent);
+  createCategory(): void {
+    const modalRef = this.modalService.open(CreateComponent);
     modalRef.result.then((result) => {
-      if (result === 'confirmed') {
-        this.categoryService.delete(id).subscribe(() => {
-          this.categories = this.categories.filter(item => item.id !== id);
-          console.log('Category deleted successfully!');
-        })
+      if (result) {
+        this.goToPage();
       }
     });
   }
 
-  editCategory(category:Category) {
+  editCategory(category:Category): void {
     const modalRef = this.modalService.open(EditComponent);
     modalRef.componentInstance.category = category;
     modalRef.result.then((result) => {
       if (result) {
-        this.loadCategories();
+        this.refreshCurrentPage();
       }
     });
   }
 
-  createCategory() {
-    const modalRef = this.modalService.open(CreateComponent);
+  deleteCategory(category: Category): void {
+    const modalRef = this.modalService.open(ConfirmationModalComponent);
     modalRef.result.then((result) => {
-      if (result) {
-        this.loadCategories();
+      if (result === 'confirmed') {
+        this.categoryService.delete(category.id).subscribe({
+          next: () => {
+            console.log('Category deleted successfully!');
+            this.refreshCurrentPage();
+          },
+          error: (err) => console.error('Failed to delete category', err)
+        });
       }
     });
   }
 
-  loadCategories() {
-    this.categoryService.getAll().subscribe((data: Category[]) => {
-      this.categories = data;
-      this.totalCategories = this.categories.length;
-    });
+  private refreshCurrentPage(): void {
+    this.pageRequestSubject.next(this.pageRequestSubject.value);
   }
 
 }

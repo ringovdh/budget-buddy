@@ -49,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional(readOnly = true)
     public Page<CategoryDTO> getCategoriesByLabel(String label, int page, int size) {
-        return categoryRepository.findByLabelContainingIgnoreCase(label, of(page, size))
+        return categoryRepository.findByLabelContainingIgnoreCase(label, of(page, size, Sort.by("label")))
                 .map(CategoryMapper::mapCategoryToDTO);
     }
 
