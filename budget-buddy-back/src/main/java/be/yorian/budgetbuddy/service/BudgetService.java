@@ -1,6 +1,6 @@
 package be.yorian.budgetbuddy.service;
 
-import be.yorian.budgetbuddy.dto.CategoricalBudgetOverview;
+import be.yorian.budgetbuddy.dto.category.CategoricalBudgetOverview;
 import be.yorian.budgetbuddy.dto.MonthlyBudgetOverview;
 import be.yorian.budgetbuddy.dto.YearlyBudgetOverview;
 

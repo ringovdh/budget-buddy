@@ -1,6 +1,6 @@
 package be.yorian.budgetbuddy.handler;
 
-import be.yorian.budgetbuddy.dto.CategoricalBudgetOverview;
+import be.yorian.budgetbuddy.dto.category.CategoricalBudgetOverview;
 import be.yorian.budgetbuddy.entity.Transaction;
 import be.yorian.budgetbuddy.repository.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;

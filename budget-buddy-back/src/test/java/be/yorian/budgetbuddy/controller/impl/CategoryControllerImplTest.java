@@ -45,9 +45,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(CategoryControllerImpl.class)
 class CategoryControllerImplTest {
 
-    private static final String CATEGORIES_URL = "/categories";
-    private static final String GET_CATEGORIES_ALL_URL = CATEGORIES_URL + "/all";
-    private static final String GET_CATEGORY_URL = CATEGORIES_URL + "/{categoryId}";
+    private static final String CATEGORIES_URL = "/categories/";
+    private static final String GET_CATEGORIES_ALL_URL = CATEGORIES_URL + "all";
+    private static final String GET_CATEGORIES_LABEL_URL = CATEGORIES_URL + "label";
+    private static final String GET_CATEGORY_URL = CATEGORIES_URL + "{categoryId}";
     public static final String CATEGORY_NOT_FOUND = "Category not found";
 
 
@@ -116,7 +117,7 @@ class CategoryControllerImplTest {
         when(categoryService.getCategoriesByLabel(label, 0, 10))
                 .thenReturn(page);
 
-        mockMvc.perform(get(CATEGORIES_URL)
+        mockMvc.perform(get(GET_CATEGORIES_LABEL_URL)
                         .param("label", label)
                         .param("page", "0")
                         .param("size", "10")

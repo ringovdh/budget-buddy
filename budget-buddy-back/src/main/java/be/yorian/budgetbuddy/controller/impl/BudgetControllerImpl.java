@@ -1,7 +1,7 @@
 package be.yorian.budgetbuddy.controller.impl;
 
 import be.yorian.budgetbuddy.controller.BudgetController;
-import be.yorian.budgetbuddy.dto.CategoricalBudgetOverview;
+import be.yorian.budgetbuddy.dto.category.CategoricalBudgetOverview;
 import be.yorian.budgetbuddy.dto.MonthlyBudgetOverview;
 import be.yorian.budgetbuddy.dto.YearlyBudgetOverview;
 import be.yorian.budgetbuddy.service.BudgetService;

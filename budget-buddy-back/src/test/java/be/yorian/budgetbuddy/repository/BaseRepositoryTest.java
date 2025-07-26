@@ -14,10 +14,11 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class BaseRepositoryTest {
+public abstract class BaseRepositoryTest {
 
     @Container
     @ServiceConnection
-    static MySQLContainer container = new MySQLContainer<>("mysql:8.0");
+    static MySQLContainer container = new MySQLContainer<>("mysql:8.0")
+            .withReuse(true);
 
 }

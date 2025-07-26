@@ -1,6 +1,6 @@
 package be.yorian.budgetbuddy.handler;
 
-import be.yorian.budgetbuddy.dto.BudgetPerCategory;
+import be.yorian.budgetbuddy.dto.category.BudgetPerCategory;
 import be.yorian.budgetbuddy.dto.GraphData;
 import be.yorian.budgetbuddy.dto.MonthlyBudgetOverview;
 import be.yorian.budgetbuddy.dto.ProjectData;

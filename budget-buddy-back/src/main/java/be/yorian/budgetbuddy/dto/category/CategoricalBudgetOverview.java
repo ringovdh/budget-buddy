@@ -1,4 +1,4 @@
-package be.yorian.budgetbuddy.dto;
+package be.yorian.budgetbuddy.dto.category;
 
 import be.yorian.budgetbuddy.entity.Category;
 

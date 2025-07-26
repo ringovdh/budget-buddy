@@ -1,5 +1,6 @@
 package be.yorian.budgetbuddy.dto;
 
+import be.yorian.budgetbuddy.dto.category.TransactionsPerCategory;
 import be.yorian.budgetbuddy.entity.Transaction;
 
 import java.util.List;

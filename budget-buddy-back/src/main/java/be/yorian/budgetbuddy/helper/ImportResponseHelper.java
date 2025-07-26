@@ -1,7 +1,7 @@
 package be.yorian.budgetbuddy.helper;
 
 import be.yorian.budgetbuddy.dto.ImportTransactionsResponse;
-import be.yorian.budgetbuddy.dto.TransactionsPerCategory;
+import be.yorian.budgetbuddy.dto.category.TransactionsPerCategory;
 import be.yorian.budgetbuddy.entity.Comment;
 import be.yorian.budgetbuddy.entity.Transaction;
 import be.yorian.budgetbuddy.repository.CommentRepository;

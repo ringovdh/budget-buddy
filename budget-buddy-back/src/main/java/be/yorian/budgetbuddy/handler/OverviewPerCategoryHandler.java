@@ -1,7 +1,7 @@
 package be.yorian.budgetbuddy.handler;
 
-import be.yorian.budgetbuddy.dto.BudgetPerMonthPerCategory;
-import be.yorian.budgetbuddy.dto.CategoricalBudgetOverview;
+import be.yorian.budgetbuddy.dto.category.BudgetPerMonthPerCategory;
+import be.yorian.budgetbuddy.dto.category.CategoricalBudgetOverview;
 import be.yorian.budgetbuddy.entity.Category;
 import be.yorian.budgetbuddy.entity.Transaction;
 import be.yorian.budgetbuddy.repository.CategoryRepository;
