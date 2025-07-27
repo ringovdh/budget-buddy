@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Category } from '../../admin/category/category';
 import { CategoryService } from '../../admin/category/category.service';
-import { BudgetPerCategory } from '../../entity/BudgetPerCategory';
 import { BudgetPerCategoryService } from '../budgetPerCategory.service';
 import {CategoricalBudgetOverview} from "../../entity/CategoricalBudgetOverview";
 
@@ -29,7 +28,6 @@ export class BudgetPerCategoryComponent implements OnInit {
   submit() {
     this.budgetPerCategoryService.getBudgetOverviewByCategory(this.searchForm.get("category").value, this.searchForm.get("year").value).subscribe(data => {
       this.categoricalBudgetOverview = data;
-      console.log('cbo', this.categoricalBudgetOverview)
     });
   }
 

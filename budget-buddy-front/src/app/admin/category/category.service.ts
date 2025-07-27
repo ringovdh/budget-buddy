@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Category} from "./category";
 import {Page} from "../../entity/page";
@@ -21,7 +21,7 @@ export class CategoryService {
   constructor(private httpClient: HttpClient) { }
 
   getAll(): Observable<Category[]> {
-    return this.httpClient.get<Category[]>(this.apiURL)
+    return this.httpClient.get<Category[]>(this.apiURL + 'all')
   }
 
   getCategoriesPage(label: string, page: number = 0, size: number = 10): Observable<Page<Category>> {
