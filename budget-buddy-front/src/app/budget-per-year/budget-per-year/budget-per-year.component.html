@@ -8,9 +8,12 @@
       </div>
       <div class="col-6">
         <form [formGroup]="searchForm" (ngSubmit)="submit()" style="display: flex">
-          <div class="col-5">
-            <app-select-year formControlName="year"> </app-select-year>
-          </div>
+            <div class="col-5">
+                <app-select-year
+                        formControlName="year"
+                        id="year-selector">
+                </app-select-year>
+            </div>
           <button class="btn" type="submit">Zoeken</button>
         </form>
       </div>

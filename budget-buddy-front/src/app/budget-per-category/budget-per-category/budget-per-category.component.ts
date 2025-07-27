@@ -1,51 +1,52 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Category } from '../../admin/category/category';
-import { CategoryService } from '../../admin/category/category.service';
 import { BudgetPerCategoryService } from '../budgetPerCategory.service';
-import {CategoricalBudgetOverview} from "../../entity/CategoricalBudgetOverview";
+import { CategoricalBudgetOverview } from "../../entity/CategoricalBudgetOverview";
+import { Subject, takeUntil } from "rxjs";
 
 @Component({
   selector: 'app-transactions-per-category',
   templateUrl: './budget-per-category.component.html',
-  styleUrls: ['./budget-per-category.component.css',
-    '../../../assets/panel_layout.css']
+  styleUrls: ['../../../assets/panel_layout.css']
 })
-export class BudgetPerCategoryComponent implements OnInit {
+export class BudgetPerCategoryComponent implements OnInit, OnDestroy {
 
   categoricalBudgetOverview: CategoricalBudgetOverview;
   categories: Category[] = [];
   searchForm!: FormGroup;
+  private readonly destroy$ = new Subject<void>();
 
-  constructor(public budgetPerCategoryService: BudgetPerCategoryService,
-              public categoryService: CategoryService) { }
+  constructor(
+      private budgetPerCategoryService: BudgetPerCategoryService,
+      private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.prepareCategories();
     this.createSearchForm();
   }
 
-  submit() {
-    this.budgetPerCategoryService.getBudgetOverviewByCategory(this.searchForm.get("category").value, this.searchForm.get("year").value).subscribe(data => {
-      this.categoricalBudgetOverview = data;
-    });
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  submit(): void {
+    if (this.searchForm.invalid) {
+      return;
+    }
+    const { category, year } = this.searchForm.value;
+    this.budgetPerCategoryService.getBudgetOverviewByCategory(category, year)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
+          this.categoricalBudgetOverview = data;
+        });
   }
 
   private createSearchForm() {
-    this.searchForm = new FormGroup({
-      category: new FormControl('', Validators.required),
-      year: new FormControl('')
+    this.searchForm = this.formBuilder.group({
+      category: [null, Validators.required],
+      year: [null]
     })
-  }
-
-  get f(){
-    return this.searchForm.controls
-  }
-
-  private prepareCategories() {
-    this.categoryService.getAll().subscribe(data => {
-      this.categories = data;
-    });
   }
 
 }

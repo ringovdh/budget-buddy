@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { BudgetPerYearComponent } from "./budget-per-year/budget-per-year.component";
-import { SelectYearComponentModule } from '../forms/selectYearComponent.module'
+import { BudgetBuddySelectComponentModule } from '../forms/budgetBuddySelectComponent.module'
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BudgetPerYearRoutingModule } from "./budgetPerYear-routing.module";
 import { OverviewComponent } from './overview/overview.component';
@@ -25,7 +25,7 @@ import {SavingsModule} from "../savings/savings.module";
     BudgetPerYearRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SelectYearComponentModule,
+    BudgetBuddySelectComponentModule,
     BudgetPerMonthModule,
     ProjectsModule,
     SavingsModule

@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from '@angular/common';
 
 import { BudgetPerCategoryRoutingModule } from './budgetPerCategory-routing.module';
-import { SelectYearComponentModule } from '../forms/selectYearComponent.module'
+import { BudgetBuddySelectComponentModule } from '../forms/budgetBuddySelectComponent.module'
 import { BudgetPerCategoryComponent } from './budget-per-category/budget-per-category.component';
 import { OverviewComponent } from './overview/overview.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -22,7 +22,7 @@ import { GraphsComponent } from './graphs/graphs.component';
     BudgetPerCategoryRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SelectYearComponentModule
+    BudgetBuddySelectComponentModule
   ]
 })
 

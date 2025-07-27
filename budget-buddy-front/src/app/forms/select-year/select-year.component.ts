@@ -1,6 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, ControlValueAccessor, NG_VALUE_ACCESSOR, FormBuilder, SelectControlValueAccessor } from "@angular/forms";
-import { Subscription } from 'rxjs';
+import { Component, forwardRef, OnInit } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+
+interface YearOption {
+  value: number;
+  year: string;
+}
 
 @Component({
   selector: 'app-select-year',
@@ -9,64 +13,50 @@ import { Subscription } from 'rxjs';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: SelectYearComponent,
+      useExisting: forwardRef(() => SelectYearComponent),
       multi: true,
     },
-  ],
-  host: {
-    "[id]": "id",
-  },
+  ]
 })
-export class SelectYearComponent implements ControlValueAccessor {
+export class SelectYearComponent implements ControlValueAccessor, OnInit {
 
-  years: {value:number, year: string}[];
-  onChangeSubs: Subscription[] = [];
-  onTouched: Function = () => {};
-  touched = false;
-  disabled = false;
+  years: YearOption[];
+  value: number | null = null;
+  disabled: boolean = false;
 
+  onChange: (value: number | null) => void = () => {};
+  onTouched:  () => void = () => {};
 
-  constructor() {
-  }
-
-  searchYearForm = new FormGroup({
-    year: new FormControl('', Validators.required)
-  })
-
-  writeValue(value: any) {
-    if (value) {
-      this.searchYearForm.setValue(value, {emitEvent: false});
-    }
-  }
-
-  registerOnChange(onChange: any) {
-    const sub = this.searchYearForm.controls.year.valueChanges.subscribe(onChange);
-    this.onChangeSubs.push(sub);
-  }
-
-  registerOnTouched(onTouched: Function){
-    this.onTouched = onTouched;
-  }
-  setDisabledState(disabled: boolean) {
-    this.disabled = disabled;
-  }
+  constructor() { }
 
   ngOnInit(): void {
-    this.prepareYears();
+    this.years = this.prepareYears();
   }
 
-  private prepareYears() {
-    this.years = [
-      { value: 2016, year: '2016' },
-      { value: 2017, year: '2017' },
-      { value: 2018, year: '2018' },
-      { value: 2019, year: '2019' },
-      { value: 2020, year: '2020' },
-      { value: 2021, year: '2021' },
-      { value: 2022, year: '2022' },
-      { value: 2023, year: '2023' },
-      { value: 2024, year: '2024' },
-      { value: 2025, year: '2025' }
-    ];
+  writeValue(value: number | null ): void {
+    this.value = value;
+  }
+
+  registerOnChange(fn: (value: number | null) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void{
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+  }
+
+  private prepareYears(): YearOption[] {
+    const startYear: number = 2016;
+    const currentYear: number = new Date().getFullYear()
+    const years: YearOption[] = [];
+    for (let year = startYear; year <= currentYear + 1; year++) {
+      years.push({ value: year, year: year.toString() });
+    }
+    console.log('years filled: ', years);
+    return years;
   }
 }

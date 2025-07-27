@@ -27,7 +27,6 @@ export class BudgetPerYearComponent implements OnInit {
     this.title = "Overzicht transacties jaar " + this.year
     this.budgetService.getYearlyBudgetOverview(this.year).subscribe(data => {
       this.yearlyBudgetOverview = data;
-      console.log('ybo', this.yearlyBudgetOverview);
     });
   }
 

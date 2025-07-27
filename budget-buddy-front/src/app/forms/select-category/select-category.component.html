@@ -1,0 +1,12 @@
+<label for="category-selector" class="visually-hidden">Category</label>
+<select
+        class="form-select"
+        id="category-selector"
+        [ngModel]="categoryId"
+        (ngModelChange)="onChange($event)"
+        (blur)="onTouched()">
+    <option [ngValue]=null>Kies een categorie</option>
+    @for (cat of categories; track cat.id) {
+        <option [ngValue]="cat.id">{{ cat.label }}</option>
+    }
+</select>

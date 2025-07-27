@@ -7,7 +7,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BudgetPerMonthComponent } from './budget-per-month/budget-per-month.component';
 import { SelectYearComponent } from '../forms/select-year/select-year.component'
-import { SelectYearComponentModule } from '../forms/selectYearComponent.module';
+import { BudgetBuddySelectComponentModule } from '../forms/budgetBuddySelectComponent.module';
 import { OverviewGraphComponent } from './graphs/overview-graph/overview-graph.component';
 import { FixedCostGraphComponent } from './graphs/fixed-cost-graph/fixed-cost-graph.component';
 import { OtherCostGraphComponent } from './graphs/other-cost-graph/other-cost-graph.component';
@@ -34,7 +34,7 @@ import {BudgetOverviewColumnComponent} from "./budget-overview-column/budget-ove
         BudgetPerMonthRoutingModule,
         FormsModule,
         ReactiveFormsModule,
-        SelectYearComponentModule,
+        BudgetBuddySelectComponentModule,
         ProjectsModule,
         BudgetOverviewColumnComponent
     ]

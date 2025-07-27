@@ -38,8 +38,6 @@ export class OverviewComponent implements OnChanges {
   }
 
   createResumeData(budgetsPerMonth: BudgetPerMonth[]) {
-
-    console.log('bpm:', budgetsPerMonth);
     const totalIncoming = budgetsPerMonth
       .map(o => o.totalIncomingBudget)
       .reduce((a, c) => {

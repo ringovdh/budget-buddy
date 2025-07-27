@@ -1,34 +1,40 @@
 <div class="customPanel">
   <div class="panel-heading">
-    <div class="row">
-      <div class="col-6">
+    <div class="row align-items-center">
+      <div class="col-md-6">
         <div class="card-title text-center">
           <h3>Overzicht transacties per categorie</h3>
         </div>
       </div>
-      <div class="col-6">
-        <form [formGroup]="searchForm" (ngSubmit)="submit()" style="display: flex">
-          <div class="form-group col-5">
-            <select
-              class="form-select"
-              formControlName="category"
-              id="category">
-              <option value="" disabled selected>kies een categorie</option>
-              @for (cat of categories; track cat) {
-                <option
-                [ngValue]="cat.id">{{ cat.label }}</option>
-              }
-            </select>
+      <div class="col-md-6">
+        <form [formGroup]="searchForm"
+              (ngSubmit)="submit()"
+              class="row g-2 align-items-center justify-content-end">
+          <div class="col-auto">
+              <app-select-category
+                  formControlName="category">
+              </app-select-category>
           </div>
-          <div class="col-5">
-            <app-select-year formControlName="year"> </app-select-year>
+          <div class="col-auto">
+              <label for="year-selector" class="visually-hidden">Jaar</label>
+            <app-select-year
+                    formControlName="year">
+            </app-select-year>
           </div>
-          <button class="btn" type="submit">Zoeken</button>
+            <div class="col-auto">
+                <button class="btn btn-primary"
+                        type="submit"
+                        [disabled]="searchForm.invalid">
+                    Zoeken
+                </button>
+            </div>
         </form>
       </div>
     </div>
   </div>
   <div class="panel-body">
-    <app-overview [categoricalBudgetOverview] = categoricalBudgetOverview></app-overview>
+    <app-overview
+            [categoricalBudgetOverview]=categoricalBudgetOverview>
+    </app-overview>
   </div>
 </div>

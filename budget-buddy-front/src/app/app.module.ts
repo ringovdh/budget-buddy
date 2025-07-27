@@ -20,7 +20,7 @@ import { BudgetPerMonthModule } from "./budget-per-month/budgetPerMonth.module";
 import { BudgetTransactionsModalComponent } from './modal/budget-transactions-modal/budget-transactions-modal.component';
 import { BudgetPerCategoryModule } from './budget-per-category/budgetPerCategory.module';
 import { BudgetPerYearModule } from './budget-per-year/budgetPerYear.module';
-import { SelectYearComponentModule } from './forms/selectYearComponent.module';
+import { BudgetBuddySelectComponentModule } from './forms/budgetBuddySelectComponent.module';
 import { ProjectModule } from './admin/project/project.module';
 import { ProjectsModule } from './projects/projects.module';
 import { ProjectTransactionsModalComponent } from './modal/project-transactions-modal/project-transactions-modal.component';
@@ -46,7 +46,7 @@ import {SavingsModule} from "./savings/savings.module";
     BudgetPerMonthModule,
     BudgetPerCategoryModule,
     BudgetPerYearModule,
-    SelectYearComponentModule,
+    BudgetBuddySelectComponentModule,
     SavingsModule,
     HttpClientModule,
     RouterLink,

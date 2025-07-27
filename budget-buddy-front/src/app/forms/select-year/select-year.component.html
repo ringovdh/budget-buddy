@@ -1,13 +1,11 @@
-<div class="form-group" role="group" [formGroup]="searchYearForm">
-  <select
-    class="form-select"
-    formControlName="year"
-    id="year">
-    <option value="" disabled selected>kies een jaar</option>
-    <option value="" selected>Alle jaren</option>
-    @for (year of years; track year) {
-      <option
-      [ngValue]="year.value">{{ year.year }}</option>
+<select
+        class="form-select"
+        id="year-selector"
+        [ngModel]="value"
+        (ngModelChange)="onChange($event)"
+        (blur)="onTouched()">
+    <option [ngValue]=null>Alle jaren</option>
+    @for (year of years; track year.value) {
+        <option [ngValue]="year.value">{{ year.year }}</option>
     }
-  </select>
-</div>
+</select>
