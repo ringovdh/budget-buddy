@@ -6,14 +6,13 @@ import { IndexComponent } from "./index/index.component";
 import { OverviewComponent } from './overview/overview.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BudgetPerMonthComponent } from './budget-per-month/budget-per-month.component';
-import { SelectYearComponent } from '../forms/select-year/select-year.component'
 import { BudgetBuddySelectComponentModule } from '../forms/budgetBuddySelectComponent.module';
 import { OverviewGraphComponent } from './graphs/overview-graph/overview-graph.component';
 import { FixedCostGraphComponent } from './graphs/fixed-cost-graph/fixed-cost-graph.component';
 import { OtherCostGraphComponent } from './graphs/other-cost-graph/other-cost-graph.component';
 import { ResumeComponent } from './resume/resume.component'
-import {ProjectsModule} from "../projects/projects.module";
-import {BudgetOverviewColumnComponent} from "./budget-overview-column/budget-overview-column.component";
+import { ProjectsModule } from "../projects/projects.module";
+import { BudgetOverviewColumnComponent } from "./budget-overview-column/budget-overview-column.component";
 
 @NgModule({
   declarations: [

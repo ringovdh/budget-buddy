@@ -1,6 +1,5 @@
 import { Component, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import {Category} from "../../admin/category/category";
 import {CategoryService} from "../../admin/category/category.service";
 
 interface CategoryOption {

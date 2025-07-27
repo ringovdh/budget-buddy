@@ -45,7 +45,7 @@ export class BudgetPerCategoryComponent implements OnInit, OnDestroy {
   private createSearchForm() {
     this.searchForm = this.formBuilder.group({
       category: [null, Validators.required],
-      year: [null]
+      year: [0]
     })
   }
 
