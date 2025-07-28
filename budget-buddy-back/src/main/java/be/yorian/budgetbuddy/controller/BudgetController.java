@@ -13,7 +13,7 @@ public interface BudgetController {
                                                                     Optional<Integer> year);
 
     ResponseEntity<CategoricalBudgetOverview> getBudgetOverviewByCategory(long categoryId,
-                                                                           Optional<Integer> year);
+                                                                          Optional<Integer> year);
 
     ResponseEntity<YearlyBudgetOverview> getBudgetOverviewByYear(int year);
 

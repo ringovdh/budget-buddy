@@ -12,6 +12,8 @@ import be.yorian.budgetbuddy.service.BudgetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class BudgetServiceImpl implements BudgetService {
 
@@ -35,22 +37,12 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public CategoricalBudgetOverview getBudgetOverviewByCategory(long categoryId) {
+    public CategoricalBudgetOverview getBudgetOverviewByCategoryAndYear(long categoryId, Optional<Integer> year) {
         OverviewPerCategoryHandler handler = new OverviewPerCategoryHandler(
                 transactionRepository,
                 categoryRepository,
                 categoryId,
-                0);
-        return handler.createBudgetOverviewPerCategory();
-    }
-
-    @Override
-    public CategoricalBudgetOverview getBudgetOverviewByCategoryAndYear(long categoryId, int year) {
-        OverviewPerCategoryHandler handler = new OverviewPerCategoryHandler(
-                transactionRepository,
-                categoryRepository,
-                categoryId,
-                year);
+                year.orElse(0));
         return handler.createBudgetOverviewPerCategory();
     }
 

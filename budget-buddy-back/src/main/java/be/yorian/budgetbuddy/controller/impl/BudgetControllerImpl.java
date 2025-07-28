@@ -32,20 +32,18 @@ public class BudgetControllerImpl implements BudgetController {
     @GetMapping(produces = "application/json", path="/budget-by-month")
     public ResponseEntity<MonthlyBudgetOverview> getBudgetOverviewPerMonth(@RequestParam Optional<Integer>month,
                                                                            @RequestParam Optional<Integer>year) {
-        MonthlyBudgetOverview budgetOverviewPerMonth = budgetService.getBudgetOverviewPerMonth(month.orElse(now().getMonthValue()), year.orElse(now().getYear()));
+        MonthlyBudgetOverview budgetOverviewPerMonth = budgetService.getBudgetOverviewPerMonth(
+                month.orElse(now().getMonthValue()),
+                year.orElse(now().getYear()));
         return ResponseEntity.ok(budgetOverviewPerMonth);
     }
 
     @Override
     @GetMapping(produces = "application/json", path="/budget-by-category/{categoryId}")
         public ResponseEntity<CategoricalBudgetOverview> getBudgetOverviewByCategory(@PathVariable long categoryId,
-                                                                                 @RequestParam Optional<Integer>year) {
-        CategoricalBudgetOverview overview;
-        if (year.isEmpty()) {
-            overview = budgetService.getBudgetOverviewByCategory(categoryId);
-        } else {
-            overview = budgetService.getBudgetOverviewByCategoryAndYear(categoryId, year.get());
-        }
+                                                                                     @RequestParam Optional<Integer> year) {
+        CategoricalBudgetOverview overview = budgetService.getBudgetOverviewByCategoryAndYear(categoryId, year);
+
         return ResponseEntity.ok(overview);
     }
 

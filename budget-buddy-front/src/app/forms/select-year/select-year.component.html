@@ -4,7 +4,7 @@
         [ngModel]="value"
         (ngModelChange)="onChange($event)"
         (blur)="onTouched()">
-    <option [ngValue]=0>Alle jaren</option>
+    <option [ngValue]=null>Alle jaren</option>
     @for (year of years; track year.value) {
         <option [ngValue]="year.value">{{ year.year }}</option>
     }

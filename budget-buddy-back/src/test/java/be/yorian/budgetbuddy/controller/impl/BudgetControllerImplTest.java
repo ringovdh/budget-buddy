@@ -9,13 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static be.yorian.budgetbuddy.mother.BudgetOverviewMother.emptyCategoricalBudgetOverview;
 import static be.yorian.budgetbuddy.mother.BudgetOverviewMother.emptyMonthlyBudgetOverview;
 import static be.yorian.budgetbuddy.mother.BudgetOverviewMother.emptyYearlyBudgetOverview;
 import static be.yorian.budgetbuddy.mother.CategoryMother.categoryGrocery;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -62,7 +61,7 @@ class BudgetControllerImplTest {
         long categoryId = 1L;
         int year = 2025;
 
-        when(budgetService.getBudgetOverviewByCategoryAndYear(categoryId, year))
+        when(budgetService.getBudgetOverviewByCategoryAndYear(categoryId, Optional.of(year)))
                 .thenReturn(emptyCategoricalBudgetOverview(categoryGrocery()));
 
         mockMvc.perform(get(CATEGORY_OVERVIEW_URL, categoryId)
@@ -72,8 +71,7 @@ class BudgetControllerImplTest {
                 .andExpect(jsonPath("$.category.label").value("Boodschappen"))
                 .andExpect(jsonPath("$.budgetsPerMonth").isArray());
 
-        verify(budgetService, times(1)).getBudgetOverviewByCategoryAndYear(categoryId, year);
-        verify(budgetService, never()).getBudgetOverviewByCategory(categoryId);
+        verify(budgetService, times(1)).getBudgetOverviewByCategoryAndYear(categoryId, Optional.of(year));
     }
 
     @Test
@@ -81,7 +79,7 @@ class BudgetControllerImplTest {
     void getBudgetOverviewByCategory_withoutYear_shouldCallCorrectService() throws Exception {
         long categoryId = 1L;
 
-        when(budgetService.getBudgetOverviewByCategory(categoryId))
+        when(budgetService.getBudgetOverviewByCategoryAndYear(categoryId, Optional.empty()))
                 .thenReturn(emptyCategoricalBudgetOverview(categoryGrocery()));
 
         mockMvc.perform(get(CATEGORY_OVERVIEW_URL, categoryId)
@@ -90,8 +88,7 @@ class BudgetControllerImplTest {
                 .andExpect(jsonPath("$.category.label").value("Boodschappen"))
                 .andExpect(jsonPath("$.budgetsPerMonth").isArray());
 
-        verify(budgetService, never()).getBudgetOverviewByCategoryAndYear(categoryId, eq(anyInt()));
-        verify(budgetService, times(1)).getBudgetOverviewByCategory(categoryId);
+        verify(budgetService, times(1)).getBudgetOverviewByCategoryAndYear(categoryId, Optional.empty());
     }
 
     @Test
