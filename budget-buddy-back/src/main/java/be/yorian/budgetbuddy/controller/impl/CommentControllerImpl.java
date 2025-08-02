@@ -1,12 +1,10 @@
 package be.yorian.budgetbuddy.controller.impl;
 
 import be.yorian.budgetbuddy.controller.CommentController;
-import be.yorian.budgetbuddy.entity.Comment;
-import be.yorian.budgetbuddy.response.CustomResponse;
+import be.yorian.budgetbuddy.dto.comment.CommentDTO;
 import be.yorian.budgetbuddy.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.HashMap;
+import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -28,57 +26,66 @@ import java.util.Optional;
 public class CommentControllerImpl implements CommentController {
 
     private final CommentService commentService;
-    
+
+
     @Autowired
     public CommentControllerImpl(CommentService commentService) {
         this.commentService = commentService;
     }
 
+
     @Override
-    @GetMapping("/")
-    public List<Comment> getComments() {
-        return commentService.getComments();
+    @GetMapping("/all")
+    public ResponseEntity<List<CommentDTO>> getComments() {
+        List<CommentDTO> comments = commentService.getComments();
+        return ResponseEntity.ok(comments);
     }
 
     @Override
-    @GetMapping(produces = "application/json", path="/searchterm")
-    public ResponseEntity<CustomResponse> getCommentBySearchterm(@RequestParam Optional<String> searchterm,
-                                                                 @RequestParam Optional<Integer> page,
-                                                                 @RequestParam Optional<Integer> size) {
-        Page<Comment> comments = commentService.getCommentsBySearchterm(searchterm.orElse(""),
-                page.orElse(0), size.orElse(10));
-        CustomResponse response = new CustomResponse();
-        response.setStatus(HttpStatus.OK);
-        response.setStatusCode(HttpStatus.OK.value());
-        Map<String, Page> dataMap = new HashMap<>();
-        dataMap.put("page", comments);
-        response.setData(dataMap);
-        return ResponseEntity.ok().body(response);
+    @GetMapping("/{commentId}")
+    public ResponseEntity<CommentDTO> getCommentById(
+            @PathVariable Long commentId) {
+        return ResponseEntity.ok(commentService.getCommentById(commentId));
     }
 
     @Override
-    @GetMapping("/{comment_id}")
-    public Comment getCommentById(@PathVariable("comment_id") Long commentId) {
-    	return commentService.getCommentById(commentId);
-    }
-
-    @Override
-    @PutMapping("/{comment_id}")
-    public void updateComment(@PathVariable("comment_id")Long commentId,
-                              @RequestBody Comment comment) {
-        commentService.updateComment(commentId, comment);
+    @GetMapping("/searchterm")
+    public ResponseEntity<Page<CommentDTO>> getCommentsBySearchterm(
+            @RequestParam Optional<String> searchterm,
+            @RequestParam Optional<Integer> page,
+            @RequestParam Optional<Integer> size) {
+        Page<CommentDTO> comments = commentService.getCommentsBySearchterm(
+                searchterm.orElse(""),
+                page.orElse(0),
+                size.orElse(10));
+        return ResponseEntity.ok(comments);
     }
 
     @Override
     @PostMapping("/")
-    public Comment createComment(@RequestBody Comment comment) {
-        return commentService.saveComment(comment);
+    public ResponseEntity<CommentDTO> createComment(@RequestBody CommentDTO comment) {
+        CommentDTO newComment = commentService.createComment(comment);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newComment.id())
+                .toUri();
+        return ResponseEntity.created(location).body(newComment);
     }
-    
+
     @Override
-    @DeleteMapping("/{comment_id}")
-	public void deleteComment(@PathVariable("comment_id")Long commentId) {
+    @PutMapping("/{commentId}")
+    public ResponseEntity<CommentDTO> updateComment(
+            @PathVariable Long commentId,
+            @RequestBody CommentDTO comment) {
+        return ResponseEntity.ok(commentService.updateComment(commentId, comment));
+    }
+
+    @Override
+    @DeleteMapping("/{commentId}")
+	public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
         commentService.deleteComment(commentId);
+        return ResponseEntity.noContent().build();
 	}
 
 }

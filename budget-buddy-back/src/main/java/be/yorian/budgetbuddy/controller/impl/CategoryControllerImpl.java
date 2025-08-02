@@ -43,7 +43,7 @@ public class CategoryControllerImpl implements CategoryController {
     @Override
     @GetMapping("/{categoryId}")
     public ResponseEntity<CategoryDTO> getCategoryById(
-            @PathVariable long categoryId) {
+            @PathVariable Long categoryId) {
         return ResponseEntity.ok(categoryService.getCategoryById(categoryId));
     }
 
@@ -82,7 +82,7 @@ public class CategoryControllerImpl implements CategoryController {
     
     @Override
     @DeleteMapping("/{categoryId}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable long categoryId) {
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) {
         categoryService.deleteCategory(categoryId);
         return ResponseEntity.noContent().build();
     }

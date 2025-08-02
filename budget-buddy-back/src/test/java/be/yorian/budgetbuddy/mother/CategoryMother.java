@@ -26,7 +26,7 @@ public class CategoryMother {
                 false);
     }
 
-    public static CategoryDTO updatedGroceryCategoryDto() {
+    public static CategoryDTO updatedGroceryCategoryDTO() {
         return new CategoryDTO(
                 1L,
                 "Boodschappen aangepast",
@@ -67,7 +67,7 @@ public class CategoryMother {
                 .build();
     }
 
-    public static CategoryDTO newCategoryDto() {
+    public static CategoryDTO newCategoryDTO() {
         return new CategoryDTO(
                 0L,
                 "Nieuwe categorie",

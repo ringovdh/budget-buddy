@@ -3,11 +3,9 @@ package be.yorian.budgetbuddy.controller.impl;
 import be.yorian.budgetbuddy.service.BudgetService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
@@ -23,10 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(BudgetControllerImpl.class)
-class BudgetControllerImplTest {
+class BudgetControllerImplTest extends BaseControllerTest {
 
-    @Autowired
-    MockMvc mockMvc;
     @MockitoBean
     BudgetService budgetService;
 

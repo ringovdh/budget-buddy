@@ -1,6 +1,10 @@
 package be.yorian.budgetbuddy.service.impl;
 
+import be.yorian.budgetbuddy.dto.comment.CommentDTO;
+import be.yorian.budgetbuddy.entity.Category;
 import be.yorian.budgetbuddy.entity.Comment;
+import be.yorian.budgetbuddy.mapper.CommentMapper;
+import be.yorian.budgetbuddy.repository.CategoryRepository;
 import be.yorian.budgetbuddy.repository.CommentRepository;
 import be.yorian.budgetbuddy.service.CommentService;
 import jakarta.persistence.EntityNotFoundException;
@@ -10,59 +14,79 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
-import static be.yorian.budgetbuddy.mapper.CommentMapper.mapComment;
+import static be.yorian.budgetbuddy.mapper.CommentMapper.mapCommentToDTO;
+import static be.yorian.budgetbuddy.mapper.CommentMapper.mapToComment;
+import static be.yorian.budgetbuddy.mapper.CommentMapper.updateCommentFromDto;
 import static org.springframework.data.domain.PageRequest.of;
 
 @Service
 @Transactional
 public class CommentServiceImpl implements CommentService {
-	
+
+	private final String COMMENT_NOT_FOUND = "comment_not_found";
 	private final CommentRepository commentRepository;
+	private final CategoryRepository categoryRepository;
+
 
 	@Autowired
-	public CommentServiceImpl(CommentRepository commentRepository) {
+	public CommentServiceImpl(CommentRepository commentRepository,
+							  CategoryRepository categoryRepository) {
 		this.commentRepository = commentRepository;
+		this.categoryRepository = categoryRepository;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Comment> getComments() {
-		return commentRepository.findAll();
+	public List<CommentDTO> getComments() {
+		return commentRepository.findAll().stream()
+				.map(CommentMapper::mapCommentToDTO).toList();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Comment> getCommentsBySearchterm(String searchterm, int page, int size) {
-		return commentRepository.findBySearchtermContaining(searchterm, of(page, size));
+	public CommentDTO getCommentById(Long commentId) {
+		Comment comment = findCommentById(commentId);
+		return mapCommentToDTO(comment);
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
-	public Comment getCommentById(Long comment_id) {
-		return commentRepository.findById(comment_id)
-				.orElseThrow(() -> new EntityNotFoundException("comment_not_found"));
+	public Page<CommentDTO> getCommentsBySearchterm(String searchterm, int page, int size) {
+		return commentRepository.findBySearchtermContainingIgnoreCase(searchterm, of(page, size))
+				.map(CommentMapper::mapCommentToDTO);
 	}
 
 	@Override
-	public Comment saveComment(Comment comment) {
-		return commentRepository.save(comment);
+	public CommentDTO createComment(CommentDTO commentDto) {
+		Comment comment = mapToComment(commentDto);
+		comment.setCategory(handleCategory(commentDto.categoryId()));
+		Comment savedComment = commentRepository.save(comment);
+		return mapCommentToDTO(savedComment);
 	}
 
 	@Override
-	public void updateComment(Long commentId, Comment updatedComment) {
-		Comment existingComment = commentRepository.findById(commentId)
-				.orElseThrow(() -> new EntityNotFoundException("comment_not_found"));
-		mapComment(existingComment, updatedComment);
+	public CommentDTO updateComment(Long commentId, CommentDTO updatedComment) {
+		Comment comment = findCommentById(commentId);
+		updateCommentFromDto(comment, updatedComment);
+		comment.setCategory(handleCategory(updatedComment.categoryId()));
+		return mapCommentToDTO(comment);
 	}
 
 	@Override
-	public void deleteComment(Long comment_id) {
-		if (!commentRepository.existsById(comment_id)){
-			throw new EntityNotFoundException("comment_not_found");
-		}
-		commentRepository.deleteById(comment_id);
+	public void deleteComment(Long commentId) {
+		Comment commentToDelete = findCommentById(commentId);
+		commentRepository.delete(commentToDelete);
+	}
+
+	private Comment findCommentById(Long commentId) {
+		return commentRepository.findById(commentId)
+				.orElseThrow(() -> new EntityNotFoundException(COMMENT_NOT_FOUND));
+	}
+
+	private Category handleCategory(long categoryId) {
+		return categoryRepository.findById(categoryId).orElseThrow(() ->
+				new EntityNotFoundException("Category not found with id: " + categoryId));
 	}
 
 }

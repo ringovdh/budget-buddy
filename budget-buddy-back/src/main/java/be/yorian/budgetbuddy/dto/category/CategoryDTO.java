@@ -1,7 +1,7 @@
 package be.yorian.budgetbuddy.dto.category;
 
 public record CategoryDTO(
-        long id,
+        Long id,
         String label,
         String icon,
         boolean fixedcost,

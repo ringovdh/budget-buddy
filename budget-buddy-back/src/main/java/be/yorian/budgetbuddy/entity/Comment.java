@@ -28,7 +28,7 @@ public class Comment {
     }
 
     public String getSearchterm() {
-        return searchterm.toLowerCase();
+        return searchterm;
     }
 
     public void setSearchterm(String searchterm) {
@@ -51,4 +51,39 @@ public class Comment {
         this.category = category;
     }
 
+    public static class CommentBuilder {
+        private long id;
+        private String searchterm;
+        private String replacement;
+        private Category category;
+
+        public CommentBuilder id(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public CommentBuilder searchterm(String searchterm) {
+            this.searchterm = searchterm;
+            return this;
+        }
+
+        public CommentBuilder replacement(String replacement) {
+            this.replacement = replacement;
+            return this;
+        }
+
+        public CommentBuilder category(Category category) {
+            this.category = category;
+            return this;
+        }
+
+        public Comment build() {
+            Comment comment = new Comment();
+            comment.setId(this.id);
+            comment.setSearchterm(this.searchterm);
+            comment.setReplacement(this.replacement);
+            comment.setCategory(this.category);
+            return comment;
+        }
+    }
 }

@@ -19,7 +19,7 @@ class CommentRepositoryTest extends BaseRepositoryTest {
     @Test
     @Sql("/test-comment.sql")
     void findBySearchtermContaining() {
-        Page<Comment> comments = commentRepository.findBySearchtermContaining("Test", PageRequest.of(0, 1));
+        Page<Comment> comments = commentRepository.findBySearchtermContainingIgnoreCase("Test", PageRequest.of(0, 1));
         assertEquals(1, comments.getTotalElements());
         assertThat(comments.getContent().getFirst())
                 .satisfies(c ->

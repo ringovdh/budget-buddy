@@ -1,16 +1,16 @@
 package be.yorian.budgetbuddy.service;
 
-import be.yorian.budgetbuddy.entity.Comment;
+import be.yorian.budgetbuddy.dto.comment.CommentDTO;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface CommentService {
 	
-	List<Comment> getComments();
-	Page<Comment> getCommentsBySearchterm(String searchterm, int page, int size);
-	Comment getCommentById(Long comment_id);
-	Comment saveComment(Comment comment);
-	void deleteComment(Long comment_id);
-	void updateComment(Long commentId, Comment comment);
+	List<CommentDTO> getComments();
+	CommentDTO getCommentById(Long commentId);
+	Page<CommentDTO> getCommentsBySearchterm(String searchterm, int page, int size);
+	CommentDTO createComment(CommentDTO comment);
+	void deleteComment(Long commentId);
+	CommentDTO updateComment(Long commentId, CommentDTO comment);
 }

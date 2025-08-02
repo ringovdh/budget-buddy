@@ -1,10 +1,9 @@
 package be.yorian.budgetbuddy;
 
+import be.yorian.budgetbuddy.repository.BaseRepositoryTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class BudgetbuddyBackApplicationTests {
+class BudgetbuddyBackApplicationTests extends BaseRepositoryTest {
 
     @Test
     void contextLoads() {

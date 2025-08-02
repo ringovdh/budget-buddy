@@ -2,31 +2,27 @@ package be.yorian.budgetbuddy.controller.impl;
 
 import be.yorian.budgetbuddy.dto.category.CategoryDTO;
 import be.yorian.budgetbuddy.service.CategoryService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
 import static be.yorian.budgetbuddy.mother.CategoryMother.categoryDtoGrocery;
 import static be.yorian.budgetbuddy.mother.CategoryMother.categoryDtoSaving;
-import static be.yorian.budgetbuddy.mother.CategoryMother.newCategoryDto;
+import static be.yorian.budgetbuddy.mother.CategoryMother.newCategoryDTO;
 import static be.yorian.budgetbuddy.mother.CategoryMother.savedNewCategoryDTO;
 import static be.yorian.budgetbuddy.mother.CategoryMother.savedUpdatedCategoryDTO;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.hamcrest.Matchers.endsWith;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -43,77 +39,72 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest(CategoryControllerImpl.class)
-class CategoryControllerImplTest {
+class CategoryControllerImplTest extends BaseControllerTest {
 
     private static final String CATEGORIES_URL = "/categories/";
     private static final String GET_CATEGORIES_ALL_URL = CATEGORIES_URL + "all";
     private static final String GET_CATEGORIES_LABEL_URL = CATEGORIES_URL + "label";
     private static final String GET_CATEGORY_URL = CATEGORIES_URL + "{categoryId}";
-    public static final String CATEGORY_NOT_FOUND = "Category not found";
+    private static final String CATEGORY_NOT_FOUND = "Category not found";
 
 
-    @Autowired
-    MockMvc mockMvc;
     @MockitoBean
     private CategoryService categoryService;
-    @Autowired
-    private ObjectMapper objectMapper;
 
 
     @Test
     @DisplayName("Get categories should return all categories")
     void getCategories_returnsAllCategories() throws Exception {
         List<CategoryDTO> categories = List.of(categoryDtoGrocery(), categoryDtoSaving());
-
         when(categoryService.getCategories()).thenReturn(categories);
 
-        String response = mockMvc.perform(get(GET_CATEGORIES_ALL_URL)
+        mockMvc.perform(get(GET_CATEGORIES_ALL_URL)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id", is(categories.get(0).id().intValue())))
+                .andExpect(jsonPath("$[0].label", is(categories.get(0).label())))
+                .andExpect(jsonPath("$[1].id", is(categories.get(1).id().intValue())))
+                .andExpect(jsonPath("$[1].label", is(categories.get(1).label())));
 
-        List<CategoryDTO> responseDtos = objectMapper.readValue(response, new TypeReference<>() {});
-
-        assertThat(responseDtos).containsExactlyInAnyOrderElementsOf(categories);
+        verify(categoryService, times(1)).getCategories();
     }
 
     @Test
-    @DisplayName("Get category-by-id should return correct category when exists")
+    @DisplayName("Get category by id should return correct category when exists")
     void getCategoryById_whenExists_shouldReturnCategory() throws Exception {
         CategoryDTO category = categoryDtoGrocery();
-
         when(categoryService.getCategoryById(category.id())).thenReturn(category);
 
         mockMvc.perform(get(GET_CATEGORY_URL, category.id())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.label", is("Boodschappen")));
+                .andExpect(jsonPath("$.id", is(category.id().intValue())))
+                .andExpect(jsonPath("$.label", is(category.label())));
+
         verify(categoryService, times(1)).getCategoryById(category.id());
     }
 
     @Test
-    @DisplayName("Get category-by-id should return exception when not exists")
+    @DisplayName("Get category by id should return exception when not exists")
     void getCategoryById_whenNotExists_shouldReturnException() throws Exception {
         long unknownCategoryId = 99L;
-
         when(categoryService.getCategoryById(unknownCategoryId))
                 .thenThrow(new EntityNotFoundException(CATEGORY_NOT_FOUND));
 
         ResultActions resultActions = mockMvc.perform(get(GET_CATEGORY_URL, unknownCategoryId)
                         .accept(MediaType.APPLICATION_JSON));
-        expectNotFound(resultActions);
+
+        expectNotFound(resultActions, CATEGORY_NOT_FOUND);
         verify(categoryService, times(1)).getCategoryById(unknownCategoryId);
     }
 
     @Test
-    @DisplayName("Get category-by-label should return categories when label contains category")
+    @DisplayName("Get category by label should return categories when label contains category")
     void getCategoryByLabel_shouldReturnCategories_whenLabelContainsCategory() throws Exception {
         String label = "schap";
-        Page<CategoryDTO> page = new PageImpl<>(List.of(categoryDtoGrocery()));
-
+        CategoryDTO category = categoryDtoGrocery();
+        Page<CategoryDTO> page = new PageImpl<>(List.of(category));
         when(categoryService.getCategoriesByLabel(label, 0, 10))
                 .thenReturn(page);
 
@@ -124,28 +115,31 @@ class CategoryControllerImplTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content", hasSize(1)))
-                .andExpect(jsonPath("$.content[0].label", is("Boodschappen")));
+                .andExpect(jsonPath("$.content[0].label", is(category.label())));
+
+        verify(categoryService, times(1)).getCategoriesByLabel(label, 0, 10);
     }
 
     @Test
-    @DisplayName("Post category should return saved category and location")
+    @DisplayName("Create category should return saved category and location")
     void createNewCategory_shouldCreateCategory_andReturnCategory() throws Exception {
-        CategoryDTO newCategory = newCategoryDto();
+        CategoryDTO newCategory = newCategoryDTO();
         CategoryDTO savedCategory = savedNewCategoryDTO();
-
         when(categoryService.createNewCategory(any(CategoryDTO.class))).thenReturn(savedCategory);
 
         mockMvc.perform(post(CATEGORIES_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newCategory)))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "http://localhost/categories/5"))
-                .andExpect(jsonPath("$.id", is(5)))
-                .andExpect(jsonPath("$.label", is("Nieuwe categorie")));
+                .andExpect(header().string("Location", endsWith(CATEGORIES_URL + savedCategory.id())))
+                .andExpect(jsonPath("$.id", is(savedCategory.id().intValue())))
+                .andExpect(jsonPath("$.label", is(savedCategory.label())));
+
+        verify(categoryService, times(1)).createNewCategory(any(CategoryDTO.class));
     }
 
     @Test
-    @DisplayName("Put category should return updated category")
+    @DisplayName("Update category should return updated category")
     void updateCategory_shouldReturnUpdatedCategory() throws Exception {
         CategoryDTO updatedCategory = savedUpdatedCategoryDTO();
 
@@ -156,12 +150,15 @@ class CategoryControllerImplTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updatedCategory)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(5)))
-                .andExpect(jsonPath("$.label", is("Aangepaste categorie")));
+                .andExpect(jsonPath("$.id", is(updatedCategory.id().intValue())))
+                .andExpect(jsonPath("$.label", is(updatedCategory.label())));
+
+        verify(categoryService, times(1))
+                .updateCategory(eq(updatedCategory.id()), any(CategoryDTO.class));
     }
 
     @Test
-    @DisplayName("Put category should return exception when not exists")
+    @DisplayName("Update category should return exception when not exists")
     void updateCategory_shouldReturnException_whenCategoryNotExists() throws Exception {
         CategoryDTO updatedCategory = savedUpdatedCategoryDTO();
         long unknownCategoryId = 99L;
@@ -173,8 +170,9 @@ class CategoryControllerImplTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updatedCategory)));
 
-        expectNotFound(resultActions);
-        verify(categoryService, times(1)).updateCategory(eq(unknownCategoryId), any(CategoryDTO.class));
+        expectNotFound(resultActions, CATEGORY_NOT_FOUND);
+        verify(categoryService, times(1))
+                .updateCategory(eq(unknownCategoryId), any(CategoryDTO.class));
     }
 
     @Test
@@ -192,23 +190,16 @@ class CategoryControllerImplTest {
 
     @Test
     @DisplayName("Delete category should return exception when not exists")
-    void deleteCategory_shouldReturnExceptionWhenCategoryNotExists() throws Exception {
+    void deleteCategory_shouldReturnException_whenCategoryNotExists() throws Exception {
         long unknownCategoryId = 99L;
 
         doThrow(new EntityNotFoundException("Category not found"))
                 .when(categoryService).deleteCategory(unknownCategoryId);
 
-        ResultActions resultActions = mockMvc.perform(
-                delete(GET_CATEGORY_URL, unknownCategoryId));
+        ResultActions resultActions = mockMvc.perform(delete(GET_CATEGORY_URL, unknownCategoryId));
 
-        expectNotFound(resultActions);
+        expectNotFound(resultActions, CATEGORY_NOT_FOUND);
         verify(categoryService, times(1)).deleteCategory(unknownCategoryId);
-    }
-
-    private void expectNotFound(ResultActions resultActions) throws Exception {
-        resultActions.andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.errorCode", is(404)))
-                .andExpect(jsonPath("$.message", is(CATEGORY_NOT_FOUND)));
     }
 
 }

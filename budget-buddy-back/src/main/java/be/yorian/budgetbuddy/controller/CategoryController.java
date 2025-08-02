@@ -11,7 +11,7 @@ public interface CategoryController {
 
     ResponseEntity<List<CategoryDTO>> getCategories();
 
-    ResponseEntity<CategoryDTO> getCategoryById(long id);
+    ResponseEntity<CategoryDTO> getCategoryById(Long categoryId);
 
     ResponseEntity<Page<CategoryDTO>> getCategoriesByLabel(Optional<String> label,
                                                            Optional<Integer> page,
@@ -21,5 +21,5 @@ public interface CategoryController {
 
     ResponseEntity<CategoryDTO> updateCategory(Long categoryId, CategoryDTO category);
 
-    ResponseEntity<Void> deleteCategory(long category_id);
+    ResponseEntity<Void> deleteCategory(Long categoryId);
 }

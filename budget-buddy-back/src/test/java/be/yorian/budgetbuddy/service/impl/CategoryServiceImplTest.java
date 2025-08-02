@@ -23,8 +23,8 @@ import static be.yorian.budgetbuddy.mother.CategoryMother.categoryDtoGrocery;
 import static be.yorian.budgetbuddy.mother.CategoryMother.categoryGrocery;
 import static be.yorian.budgetbuddy.mother.CategoryMother.categorySaving;
 import static be.yorian.budgetbuddy.mother.CategoryMother.newCategory;
-import static be.yorian.budgetbuddy.mother.CategoryMother.newCategoryDto;
-import static be.yorian.budgetbuddy.mother.CategoryMother.updatedGroceryCategoryDto;
+import static be.yorian.budgetbuddy.mother.CategoryMother.newCategoryDTO;
+import static be.yorian.budgetbuddy.mother.CategoryMother.updatedGroceryCategoryDTO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -111,7 +111,7 @@ class CategoryServiceImplTest {
     @Test
     @DisplayName("Post category should return saved category and location")
     void createNewCategory_shouldCreateCategory_andReturnCategory() {
-        CategoryDTO newCategoryDto = newCategoryDto();
+        CategoryDTO newCategoryDto = newCategoryDTO();
         Category newCategory = newCategory();
 
         when(categoryRepository.save(any(Category.class))).thenReturn(newCategory);
@@ -125,7 +125,7 @@ class CategoryServiceImplTest {
     @Test
     @DisplayName("Put category should return updated category")
     void updateCategory_shouldReturnUpdatedCategory() {
-        CategoryDTO updatedCategoryDTO = updatedGroceryCategoryDto();
+        CategoryDTO updatedCategoryDTO = updatedGroceryCategoryDTO();
 
         when(categoryRepository.findById(grocery.getId())).thenReturn(Optional.of(grocery));
 
@@ -138,7 +138,7 @@ class CategoryServiceImplTest {
     @Test
     @DisplayName("Put category should throw exception when not exists")
     void updateCategory_shouldThrowException_whenCategoryNotExists() {
-        CategoryDTO updatedCategoryDTO = updatedGroceryCategoryDto();
+        CategoryDTO updatedCategoryDTO = updatedGroceryCategoryDTO();
         long unknownCategoryId = 99L;
 
         when(categoryRepository.findById(unknownCategoryId)).thenReturn(Optional.empty());
@@ -164,7 +164,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("Delete category should throw exception when not exists")
-    void deleteCategory_shouldReturnExceptionWhenCategoryNotExists() {
+    void deleteCategory_shouldReturnException_WhenNotExists() {
         long unknownCategoryId = 99L;
 
         when(categoryRepository.findById(unknownCategoryId)).thenReturn(Optional.empty());
