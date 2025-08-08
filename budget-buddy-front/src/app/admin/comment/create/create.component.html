@@ -14,9 +14,9 @@
         id="searchterm"
         type="text"
         class="form-control">
-      @if (f['searchterm'].touched && f['searchterm'].invalid) {
+      @if (formControls['searchterm'].touched && formControls['searchterm'].invalid) {
         <div class="alert alert-danger">
-          @if (f['searchterm'].errors && f['searchterm'].errors['required']) {
+          @if (formControls['searchterm'].hasError('required')) {
             <div>Zoekterm is verplicht.</div>
           }
         </div>
@@ -24,16 +24,15 @@
     </div>
 
     <div class="form-group">
-      <label for="body">Commentaar</label>
+      <label for="replacement">Commentaar</label>
       <textarea
         formControlName="replacement"
-        id="body"
-        type="text"
+        id="replacement"
         class="form-control">
       </textarea>
-      @if (f['replacement'].touched && f['replacement'].invalid) {
+      @if (formControls['replacement'].touched && formControls['replacement'].invalid) {
         <div class="alert alert-danger">
-          @if (f['replacement'].errors && f['replacement'].errors['required']) {
+          @if (formControls['replacement'].hasError('required')) {
             <div>Commentaar is verplicht.</div>
           }
         </div>
@@ -46,15 +45,14 @@
         formControlName="category"
         id="category"
         class="form-select">
-        <option value="0">-</option>
+        <option [ngValue]=null disabled>Selecteer een categorie</option>
         @for (cat of categories; track cat) {
-          <option
-          [ngValue]="cat">{{ cat.label }}</option>
+          <option [ngValue]="cat">{{ cat.label }}</option>
         }
       </select>
-      @if (f['category'].touched && f['category'].invalid) {
+      @if (formControls['category'].touched && formControls['category'].invalid) {
         <div class="alert alert-danger">
-          @if (f['category'].errors && f['category'].errors['required']) {
+          @if (formControls['category'].hasError('required')) {
             <div>Categorie is verplicht.</div>
           }
         </div>

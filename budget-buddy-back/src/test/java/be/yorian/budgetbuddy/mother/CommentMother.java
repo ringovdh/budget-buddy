@@ -1,6 +1,7 @@
 package be.yorian.budgetbuddy.mother;
 
 import be.yorian.budgetbuddy.dto.comment.CommentDTO;
+import be.yorian.budgetbuddy.entity.Category;
 import be.yorian.budgetbuddy.entity.Comment;
 
 import static be.yorian.budgetbuddy.mother.CategoryMother.categoryGrocery;
@@ -27,19 +28,23 @@ public class CommentMother {
     }
 
     public static CommentDTO commentDtoCarrefour() {
+        Category category = categoryGrocery();
         return new CommentDTO(
                 1L,
                 "Carrefour",
                 "Aankopen in Carrefour",
-                categoryGrocery().getId());
+                category.getId(),
+                category.getLabel());
     }
 
     public static CommentDTO updatedCommentDtoCarrefour() {
+        Category category = categoryGrocery();
         return new CommentDTO(
                 1L,
                 "Carrefour",
                 "Boodschappen in Carrefour",
-                categoryGrocery().getId());
+                category.getId(),
+                category.getLabel());
     }
 
     public static CommentDTO updatedCommentCarrefourUnknownCategoryDto() {
@@ -47,7 +52,8 @@ public class CommentMother {
                 1L,
                 "Carrefour",
                 "Boodschappen in Carrefour",
-                99L);
+                99L,
+                null);
     }
 
     public static Comment easySaveComment() {
@@ -60,38 +66,43 @@ public class CommentMother {
     }
 
     public static CommentDTO commentDtoEasySave() {
+        Category category = categoryGrocery();
         return new CommentDTO(
                 2L,
                 "EasySave",
                 "sparen via EasySave",
-                categorySaving().getId());
+                category.getId(),
+                category.getLabel());
     }
 
     public static CommentDTO newCommentDTO() {
+        Category category = categoryGrocery();
         return new CommentDTO(
                 0L,
                 "Nieuw",
                 "Nieuwe commentaar",
-                categoryGrocery().getId()
-        );
+                category.getId(),
+                null);
     }
 
     public static CommentDTO savedNewCommentDTO() {
+        Category category = categoryGrocery();
         return new CommentDTO(
                 10L,
                 "Nieuw",
                 "Nieuwe commentaar",
-                categoryGrocery().getId()
-        );
+                category.getId(),
+                category.getLabel());
     }
 
     public static CommentDTO savedUpdatedCommentDTO() {
+        Category category = categoryGrocery();
         return new CommentDTO(
                 10L,
                 "Nieuw",
                 "Aangepaste commentaar",
-                categoryGrocery().getId()
-        );
+                category.getId(),
+                category.getLabel());
     }
 
     public static Comment newComment() {

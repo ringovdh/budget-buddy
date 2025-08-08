@@ -3,12 +3,11 @@ package be.yorian.budgetbuddy.mapper;
 import be.yorian.budgetbuddy.dto.comment.CommentDTO;
 import be.yorian.budgetbuddy.entity.Comment;
 
-public class CommentMapper {
+public final class CommentMapper {
 
     public static Comment mapToComment(CommentDTO commentDto) {
         if (commentDto != null) {
             return new Comment.CommentBuilder()
-                    .id(commentDto.id())
                     .searchterm(commentDto.searchterm())
                     .replacement(commentDto.replacement())
                     .build();
@@ -18,12 +17,14 @@ public class CommentMapper {
 
     public static CommentDTO mapCommentToDTO(Comment comment) {
         if (comment != null) {
+            Long categoryId = comment.getCategory() == null ? null : comment.getCategory().getId();
+            String categoryLabel = comment.getCategory() == null ? null : comment.getCategory().getLabel();
             return new CommentDTO(
                     comment.getId(),
                     comment.getSearchterm(),
                     comment.getReplacement(),
-                    comment.getCategory().getId()
-            );
+                    categoryId,
+                    categoryLabel);
         }
         return null;
     }

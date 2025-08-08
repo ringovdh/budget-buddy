@@ -62,7 +62,7 @@ public class CommentControllerImpl implements CommentController {
     }
 
     @Override
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<CommentDTO> createComment(@RequestBody CommentDTO comment) {
         CommentDTO newComment = commentService.createComment(comment);
         URI location = ServletUriComponentsBuilder

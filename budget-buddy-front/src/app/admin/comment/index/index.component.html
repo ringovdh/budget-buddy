@@ -19,13 +19,13 @@
           <div class="col-4">
             <form #searchForm="ngForm" (ngSubmit)="goToPage(searchForm.value.searchterm)" class="d-flex" role="search">
               <input
-                class="form-control me2"
-                type="search"
-                name="searchterm"
-                ngModel
-                placeholder="zoekterm"
-                aria-label="search/">
-              <button class="btn" type="submit">Zoeken</button>
+                      class="form-control me2"
+                      type="search"
+                      name="searchterm"
+                      ngModel
+                      placeholder="zoekterm"
+                      aria-label="search/">
+                <button class="btn" type="submit">Zoeken</button>
             </form>
           </div>
           <div class="col-2">
@@ -56,16 +56,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let comment of state.appData.data.page.content">
+              <tr *ngFor="let comment of state.appData.content">
                 <td>{{ comment.id }}</td>
                 <td>{{ comment.searchterm }}</td>
                 <td>{{ comment.replacement }}</td>
-                <td>{{ comment.category.label }}</td>
+                <td>{{ comment.categoryLabel }}</td>
                 <td>
                   <a (click)="editComment(comment)"><i class="fa fa-pencil"></i></a>
                 </td>
                 <td>
-                  <a (click)="deleteComment(comment.id)"><i class="fa fa-trash"></i></a>
+                  <a (click)="deleteComment(comment)"><i class="fa fa-trash"></i></a>
                 </td>
               </tr>
             </tbody>
@@ -73,21 +73,21 @@
 
           <div class="row" id="pagination">
             <div class="col-sm-6 pagination-left">
-              toon <b>10</b> van de <b>{{ state.appData.data.page.totalElements }}</b> items
+              toon <b>{{ state.appData.numberOfElements }}</b> van de <b>{{ state.appData.totalElements }}</b> items
             </div>
             <div class="col-sm-6 pagination-right">
               <ul class="pagination">
-                <li class="page-item pointer" [ngClass]="0 == (currentPage$ | async) ? 'disabled' : '' ">
-                  <a (click)="goToNextOrPreviousPage('backward', searchForm.value.searchterm)" class="page-link" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Vorige</span>
-                  </a>
-                </li>
-                <li *ngFor="let pageNumber of [].constructor(state.appData.data.page.totalPages) let i = index"
+                  <li class="page-item pointer" [ngClass]="state.appData.first ? 'disabled' : '' ">
+                      <a (click)="goToNextOrPreviousPage('backward', searchForm.value.label)" class="page-link" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                          <span class="sr-only">Vorige</span>
+                      </a>
+                  </li>
+                <li *ngFor="let pageNumber of [].constructor(state.appData.totalPages) let i = index"
                     class="page-item pointer" [ngClass]="i == (currentPage$ | async) ? 'active' : '' ">
                   <a (click)="goToPage(searchForm.value.searchterm, i)" class="page-link"> {{ i + 1 }}</a>
                 </li>
-                <li class="page-item pointer" [ngClass]="state.appData.data.page.totalPages - 1 == (currentPage$ | async) ? 'disabled' : '' ">
+                <li class="page-item pointer" [ngClass]="state.appData.last ? 'disabled' : '' ">
                   <a (click)="goToNextOrPreviousPage('forward', searchForm.value.searchterm)" class="page-link" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Volgende</span>

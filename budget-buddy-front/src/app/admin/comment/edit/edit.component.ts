@@ -29,7 +29,7 @@ export class EditComponent implements OnInit {
     this.form = new FormGroup({
       searchterm: new FormControl(this.comment.searchterm, Validators.required),
       replacement: new FormControl(this.comment.replacement, Validators.required),
-      category: new FormControl(this.comment.category, Validators.required)
+      category: new FormControl(this.comment.categoryId, Validators.required)
     });
   }
 

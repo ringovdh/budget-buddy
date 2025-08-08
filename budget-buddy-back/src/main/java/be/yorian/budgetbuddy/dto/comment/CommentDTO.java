@@ -4,4 +4,5 @@ public record CommentDTO(
         Long id,
         String searchterm,
         String replacement,
-        Long categoryId) { }
+        Long categoryId,
+        String categoryLabel) { }

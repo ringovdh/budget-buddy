@@ -1,27 +1,21 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Category} from "./category";
-import {Page} from "../../entity/page";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { Category } from "./category";
+import { Page } from "../../entity/page";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  private readonly apiURL = 'http://localhost:8080/categories/';
+  private readonly apiURL = 'http://localhost:8080/categories';
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    })
-  }
 
   constructor(private httpClient: HttpClient) { }
 
   getAll(): Observable<Category[]> {
-    return this.httpClient.get<Category[]>(this.apiURL + 'all')
+    return this.httpClient.get<Category[]>(`${this.apiURL}/all`);
   }
 
   getCategoriesPage(label: string, page: number = 0, size: number = 10): Observable<Page<Category>> {
@@ -30,18 +24,18 @@ export class CategoryService {
         .set('page', page)
         .set('size', size);
 
-    return this.httpClient.get<Page<Category>>(this.apiURL + 'label', { params });
+    return this.httpClient.get<Page<Category>>(`${this.apiURL}/label`, { params });
   }
 
   delete(id: number): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiURL}${id}`, this.httpOptions)
+    return this.httpClient.delete<void>(`${this.apiURL}/${id}`)
   }
 
   create(category: Category): Observable<Category> {
-    return this.httpClient.post<Category>(this.apiURL, JSON.stringify(category), this.httpOptions)
+    return this.httpClient.post<Category>(this.apiURL, category)
   }
 
   update(id: number, category: Category): Observable<Category> {
-    return this.httpClient.put<Category>(`${this.apiURL}${id}`, JSON.stringify(category), this.httpOptions)
+    return this.httpClient.put<Category>(`${this.apiURL}/${id}`, category)
   }
 }

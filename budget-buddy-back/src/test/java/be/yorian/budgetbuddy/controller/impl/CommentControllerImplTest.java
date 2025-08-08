@@ -40,10 +40,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(CommentControllerImpl.class)
 class CommentControllerImplTest extends BaseControllerTest {
 
-    private static final String COMMENTS_URL = "/comments/";
-    private static final String GET_COMMENTS_ALL_URL = COMMENTS_URL + "all";
-    private static final String GET_COMMENT_URL = COMMENTS_URL + "{commentId}";
-    private static final String GET_COMMENTS_SEARCHTERM_URL = COMMENTS_URL + "searchterm";
+    private static final String COMMENTS_URL = "/comments";
+    private static final String GET_COMMENTS_ALL_URL = COMMENTS_URL + "/all";
+    private static final String GET_COMMENT_URL = COMMENTS_URL + "/{commentId}";
+    private static final String GET_COMMENTS_SEARCHTERM_URL = COMMENTS_URL + "/searchterm";
     private static final String COMMENT_NOT_FOUND = "Comment not found";
 
 
@@ -130,7 +130,7 @@ class CommentControllerImplTest extends BaseControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newComment)))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", endsWith(COMMENTS_URL + savedComment.id())))
+                .andExpect(header().string("Location", endsWith(COMMENTS_URL + "/" + savedComment.id())))
                 .andExpect(jsonPath("$.id", is(savedComment.id().intValue())))
                 .andExpect(jsonPath("$.searchterm", is(savedComment.searchterm())))
                 .andExpect(jsonPath("$.replacement", is(savedComment.replacement())))

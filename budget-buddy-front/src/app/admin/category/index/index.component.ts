@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {CategoryService} from "../category.service";
-import {Category} from "../category";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {EditComponent} from "../edit/edit.component";
-import {CreateComponent} from "../create/create.component";
-import {BehaviorSubject, catchError, map, Observable, of, startWith, switchMap} from "rxjs";
-import {Page} from "../../../entity/page";
-import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
-import {ConfirmationModalComponent} from "../../../modal/confirmation-modal/confirmation-modal.component";
+import { CategoryService } from "../category.service";
+import { Category } from "../category";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { EditComponent } from "../edit/edit.component";
+import { CreateComponent } from "../create/create.component";
+import { BehaviorSubject, catchError, map, Observable, of, startWith, switchMap } from "rxjs";
+import { Page } from "../../../entity/page";
+import { HttpErrorResponse } from "@angular/common/http";
+import { ConfirmationModalComponent } from "../../../modal/confirmation-modal/confirmation-modal.component";
 
 @Component({
   selector: 'app-index',
@@ -20,7 +20,7 @@ import {ConfirmationModalComponent} from "../../../modal/confirmation-modal/conf
 })
 export class IndexComponent implements OnInit {
 
-  categoryState$: Observable<{appState: string, appData?:Page<Category>, error?:HttpErrorResponse}>;
+  categoryState$: Observable<{ appState: string, appData?:Page<Category>, error?:HttpErrorResponse}>;
   private pageRequestSubject = new BehaviorSubject<{ label: string, page: number }>({ label: '', page: 0 });
   private currentPageSubject = new BehaviorSubject<number>(0);
   currentPage$ = this.currentPageSubject.asObservable();

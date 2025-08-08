@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { CommentService } from "../comment.service";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {Category} from "../../category/category";
-import {CategoryService} from "../../category/category.service";
+import { Category } from "../../category/category";
+import { CategoryService } from "../../category/category.service";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-create',
@@ -15,34 +16,68 @@ export class CreateComponent implements OnInit {
 
   createCommentForm!: FormGroup;
   categories!: Category[];
+  private readonly destroy$ = new Subject<void>();
+
 
   constructor(public commentService: CommentService,
               public categoryService: CategoryService,
-              public ngbActiveModal: NgbActiveModal) { }
+              public ngbActiveModal: NgbActiveModal,
+              private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.categoryService.getAll().subscribe(data => {
-      this.categories = data;
+    this.initForm();
+    this.loadCategories();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  get formControls(){
+    return this.createCommentForm.controls;
+  }
+
+  submit():void {
+    if (this.createCommentForm.invalid) {
+      this.createCommentForm.markAllAsTouched();
+      return;
+    }
+
+    const formValue = this.createCommentForm.value;
+    const payload = {
+      ...formValue,
+      categoryId: formValue.category.id
+    }
+    this.commentService.create(payload)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({next: (createdComment) => {
+            console.log('Comment created successfully!');
+            this.ngbActiveModal.close(createdComment);
+          }, error: (err) => {
+            console.error('Failed to create comment', err);
+          }
     });
-    this.createCommentForm = new FormGroup({
+  }
+
+  private initForm(): void {
+    this.createCommentForm = this.fb.group({
       searchterm: new FormControl('', Validators.required),
       replacement: new FormControl('', Validators.required),
       category: new FormControl('',Validators.required)
     });
   }
 
-  get f(){
-    return this.createCommentForm.controls;
-  }
-
-  submit(){
-    this.commentService.create(this.createCommentForm.value).subscribe((res:any) => {
-      this.ngbActiveModal.close('closed');
-      console.log('Comment created successfully!');
-    });
+  private loadCategories() {
+    this.categoryService.getAll()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
+          this.categories = data;
+        });
   }
 
   close() {
     this.ngbActiveModal.close('closed');
+    this.ngbActiveModal.dismiss('Modal closed by user');
   }
 }
